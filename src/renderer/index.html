@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PoE League Starter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="overlay-container">
+    <!-- Header (draggable) -->
+    <div class="header" id="header">
+      <div class="title">
+        <span id="act-title">Act 1</span>
+        <span class="separator">•</span>
+        <span id="zone-title">Loading...</span>
+      </div>
+      <div class="controls">
+        <button class="control-btn" id="settings-btn" title="Settings">⚙</button>
+        <button class="control-btn" id="minimize-btn" title="Minimize">_</button>
+        <button class="control-btn close-btn" id="close-btn" title="Close">×</button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <!-- Objectives Section -->
+      <div class="section objectives-section" id="objectives-section">
+        <div class="section-header">Objectives</div>
+        <div class="objectives-list" id="objectives-list">
+          <div class="no-data">Waiting for zone detection...</div>
+        </div>
+      </div>
+
+      <!-- Tips Section -->
+      <div class="section tips-section" id="tips-section" style="display: none;">
+        <div class="section-header">Tips</div>
+        <div class="tips-content" id="tips-content"></div>
+      </div>
+
+      <!-- Passive Tree Section -->
+      <div class="section passive-section" id="passive-section" style="display: none;">
+        <div class="section-header">
+          <span>Passives</span>
+          <span class="level-indicator" id="level-indicator">Lv 1</span>
+        </div>
+        <div class="passive-content" id="passive-content"></div>
+      </div>
+
+      <!-- Quest Reminder -->
+      <div class="section quest-section" id="quest-section" style="display: none;">
+        <div class="section-header">Quest Reward</div>
+        <div class="quest-content" id="quest-content"></div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <button class="footer-btn" id="prev-zone-btn" title="Previous Zone">◄</button>
+      <button class="footer-btn" id="reset-btn" title="Reset Progress">Reset</button>
+      <button class="footer-btn" id="next-zone-btn" title="Next Zone">►</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

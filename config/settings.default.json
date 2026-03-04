@@ -1,0 +1,16 @@
+{
+  "clientTxtPath": "",
+  "opacity": 0.95,
+  "windowPosition": {
+    "x": 100,
+    "y": 100
+  },
+  "autoDetect": true,
+  "theme": "dark",
+  "currentProgress": {
+    "act": 1,
+    "zone": null,
+    "completedObjectives": [],
+    "currentLevel": 1
+  }
+}

@@ -1,0 +1,563 @@
+{
+  "acts": [
+    {
+      "act": 1,
+      "name": "The Awakening",
+      "zones": [
+        {
+          "name": "The Twilight Strand",
+          "order": 1,
+          "objectives": [
+            "Pick up your starting skill gem",
+            "Kill Hillock",
+            "Enter Lioneye's Watch"
+          ],
+          "tips": "Skip all monsters except Hillock. Don't loot anything except the skill gem.",
+          "waypoint": false
+        },
+        {
+          "name": "Lioneye's Watch",
+          "order": 2,
+          "objectives": [
+            "Talk to Nessa for support gem",
+            "Take Quicksilver Flask from Nessa",
+            "Head to The Coast"
+          ],
+          "tips": "Don't talk to other NPCs unless necessary. Grab your support gem and go.",
+          "waypoint": false
+        },
+        {
+          "name": "The Coast",
+          "order": 3,
+          "objectives": [
+            "Find waypoint (usually top-left area)",
+            "Continue to Mud Flats"
+          ],
+          "tips": "Skip monsters, run straight for waypoint. Coast waypoint is usually in the top-left quadrant.",
+          "waypoint": true
+        },
+        {
+          "name": "The Mud Flats",
+          "order": 4,
+          "objectives": [
+            "Collect 3 Glyphs from Rhoa nests",
+            "Return to Coast via waypoint",
+            "Go to Submerged Passage"
+          ],
+          "tips": "Kill only Rhoas near nests if needed. Nests are scattered across the zone.",
+          "waypoint": false
+        },
+        {
+          "name": "The Submerged Passage",
+          "order": 5,
+          "objectives": [
+            "Find waypoint",
+            "Continue to Ledge"
+          ],
+          "tips": "Waypoint is usually in the middle section. Skip side areas.",
+          "waypoint": true
+        },
+        {
+          "name": "The Ledge",
+          "order": 6,
+          "objectives": [
+            "Run through to The Climb",
+            "Skip all monsters"
+          ],
+          "tips": "Long linear zone. Keep moving, don't fight.",
+          "waypoint": false
+        },
+        {
+          "name": "The Climb",
+          "order": 7,
+          "objectives": [
+            "Navigate to Lower Prison",
+            "Find waypoint near zone entrance"
+          ],
+          "tips": "Waypoint is very close to entrance. Grab it immediately.",
+          "waypoint": true
+        },
+        {
+          "name": "Lower Prison",
+          "order": 8,
+          "objectives": [
+            "Find stairs to Upper Prison",
+            "Skip side rooms"
+          ],
+          "tips": "Stairs are usually on the opposite side from entrance.",
+          "waypoint": false
+        },
+        {
+          "name": "Upper Prison",
+          "order": 9,
+          "objectives": [
+            "Kill Brutus",
+            "Continue to Prisoner's Gate"
+          ],
+          "tips": "Brutus is the first major boss. Keep moving during his hook attack.",
+          "waypoint": false
+        },
+        {
+          "name": "Prisoner's Gate",
+          "order": 10,
+          "objectives": [
+            "Find waypoint",
+            "Continue to The Ship Graveyard"
+          ],
+          "tips": "Waypoint is near the middle. Linear zone.",
+          "waypoint": true
+        },
+        {
+          "name": "The Ship Graveyard",
+          "order": 11,
+          "objectives": [
+            "Navigate to Ship Graveyard Cave",
+            "Skip Fairgraves (optional quest)"
+          ],
+          "tips": "Cave entrance is usually in the upper area.",
+          "waypoint": false
+        },
+        {
+          "name": "The Ship Graveyard Cave",
+          "order": 12,
+          "objectives": [
+            "Navigate to Cavern of Wrath"
+          ],
+          "tips": "Linear cave. Keep moving.",
+          "waypoint": false
+        },
+        {
+          "name": "The Cavern of Wrath",
+          "order": 13,
+          "objectives": [
+            "Kill Merveil",
+            "Take the exit to Act 2"
+          ],
+          "tips": "Merveil has two phases. Stay mobile and avoid her projectiles.",
+          "waypoint": false
+        }
+      ],
+      "quests": [
+        {
+          "name": "Enemy at the Gate",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Hillock"
+        },
+        {
+          "name": "The Siren's Cadence",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Merveil"
+        },
+        {
+          "name": "The Caged Brute",
+          "reward": "Skill Gem",
+          "required": false,
+          "location": "Free Brutus"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 2,
+          "nodes": ["Life nodes near starting area"]
+        },
+        {
+          "level": 4,
+          "nodes": ["Continue towards first notable"]
+        },
+        {
+          "level": 8,
+          "nodes": ["Pick up damage or defense notable"]
+        },
+        {
+          "level": 12,
+          "nodes": ["Path towards next major cluster"]
+        }
+      ]
+    },
+    {
+      "act": 2,
+      "name": "The Bandit Lords",
+      "zones": [
+        {
+          "name": "The Southern Forest",
+          "order": 1,
+          "objectives": [
+            "Find waypoint",
+            "Continue to The Forest Encampment"
+          ],
+          "tips": "First zone of Act 2. Waypoint is usually on the left side.",
+          "waypoint": true
+        },
+        {
+          "name": "The Forest Encampment",
+          "order": 2,
+          "objectives": [
+            "Talk to Bestel for quest",
+            "Continue to The Riverways"
+          ],
+          "tips": "Town area. Stock up on flasks if needed.",
+          "waypoint": false
+        },
+        {
+          "name": "The Riverways",
+          "order": 3,
+          "objectives": [
+            "Find waypoint",
+            "Go to Western Forest"
+          ],
+          "tips": "Large zone. Waypoint can be anywhere in the middle area.",
+          "waypoint": true
+        },
+        {
+          "name": "The Western Forest",
+          "order": 4,
+          "objectives": [
+            "Find waypoint",
+            "Enter The Weaver's Chambers",
+            "Kill the Weaver"
+          ],
+          "tips": "Weaver's Chambers entrance is usually in top area. Skip Alira for speedrun.",
+          "waypoint": true
+        },
+        {
+          "name": "The Weaver's Chambers",
+          "order": 5,
+          "objectives": [
+            "Navigate through webs",
+            "Kill the Weaver",
+            "Return to Western Forest"
+          ],
+          "tips": "Linear dungeon. The Weaver can be dangerous - kite if needed.",
+          "waypoint": false
+        },
+        {
+          "name": "The Wetlands",
+          "order": 6,
+          "objectives": [
+            "Find waypoint",
+            "Optional: Get Oak's amulet for passive point"
+          ],
+          "tips": "Accessed from Riverways. Has optional bandit quest.",
+          "waypoint": true
+        },
+        {
+          "name": "The Vaal Ruins",
+          "order": 7,
+          "objectives": [
+            "Navigate to Northern Forest"
+          ],
+          "tips": "Connect Wetlands to Northern Forest. Skip if going around.",
+          "waypoint": false
+        },
+        {
+          "name": "The Northern Forest",
+          "order": 8,
+          "objectives": [
+            "Find waypoint",
+            "Go to The Caverns"
+          ],
+          "tips": "Large zone connecting multiple areas.",
+          "waypoint": true
+        },
+        {
+          "name": "The Caverns",
+          "order": 9,
+          "objectives": [
+            "Navigate to Ancient Pyramid"
+          ],
+          "tips": "Dark cave zone. Keep moving forward.",
+          "waypoint": false
+        },
+        {
+          "name": "The Ancient Pyramid",
+          "order": 10,
+          "objectives": [
+            "Kill Vaal Oversoul",
+            "Take the exit to Act 3"
+          ],
+          "tips": "Vaal Oversoul slams. Stay away from glowing circles on ground.",
+          "waypoint": false
+        }
+      ],
+      "quests": [
+        {
+          "name": "Through Sacred Ground",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Vaal Oversoul"
+        },
+        {
+          "name": "Deal with the Bandits",
+          "reward": "1 Passive Skill Point or Bandit Reward",
+          "required": true,
+          "location": "Kill all bandits or help one"
+        },
+        {
+          "name": "Sharp and Cruel",
+          "reward": "Skill Gem",
+          "required": false,
+          "location": "Kill Weaver"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 15,
+          "nodes": ["Continue damage scaling path"]
+        },
+        {
+          "level": 18,
+          "nodes": ["Add life and defense nodes"]
+        },
+        {
+          "level": 22,
+          "nodes": ["Path towards keystone or major cluster"]
+        }
+      ]
+    },
+    {
+      "act": 3,
+      "name": "The City of Sarn",
+      "zones": [
+        {
+          "name": "The City of Sarn",
+          "order": 1,
+          "objectives": [
+            "Enter Sarn Encampment",
+            "Talk to Clarissa"
+          ],
+          "tips": "Town entrance. First zone of Act 3.",
+          "waypoint": false
+        },
+        {
+          "name": "The Sarn Encampment",
+          "order": 2,
+          "objectives": [
+            "Get quest from Clarissa",
+            "Go to The Slums"
+          ],
+          "tips": "Act 3 town. Multiple vendors available.",
+          "waypoint": false
+        },
+        {
+          "name": "The Slums",
+          "order": 3,
+          "objectives": [
+            "Find waypoint",
+            "Go to Crematorium (Trial of Ascendancy)",
+            "Continue to Sewers"
+          ],
+          "tips": "Crematorium has Trial. Get it for Lab access later.",
+          "waypoint": true
+        },
+        {
+          "name": "The Crematorium",
+          "order": 4,
+          "objectives": [
+            "Complete Trial of Ascendancy",
+            "Return to Slums"
+          ],
+          "tips": "First trial of Act 3. Complete for Lab access.",
+          "waypoint": false
+        },
+        {
+          "name": "The Sewers",
+          "order": 5,
+          "objectives": [
+            "Navigate through sewers",
+            "Continue to Marketplace"
+          ],
+          "tips": "Linear sewer section. Keep moving.",
+          "waypoint": false
+        },
+        {
+          "name": "The Marketplace",
+          "order": 6,
+          "objectives": [
+            "Find waypoint",
+            "Go to Catacombs (Trial)",
+            "Continue to Battlefront"
+          ],
+          "tips": "Another Trial location. Waypoint is central.",
+          "waypoint": true
+        },
+        {
+          "name": "The Catacombs",
+          "order": 7,
+          "objectives": [
+            "Complete Trial of Ascendancy",
+            "Return to Marketplace"
+          ],
+          "tips": "Second trial of Act 3. Complete for Lab.",
+          "waypoint": false
+        },
+        {
+          "name": "The Battlefront",
+          "order": 8,
+          "objectives": [
+            "Find waypoint",
+            "Continue to The Docks"
+          ],
+          "tips": "Large outdoor zone. Waypoint usually in middle.",
+          "waypoint": true
+        },
+        {
+          "name": "The Docks",
+          "order": 9,
+          "objectives": [
+            "Find waypoint",
+            "Go to Solaris Temple"
+          ],
+          "tips": "Connects to multiple zones. Important waypoint.",
+          "waypoint": true
+        },
+        {
+          "name": "The Solaris Temple Level 1",
+          "order": 10,
+          "objectives": [
+            "Navigate to Solaris Temple Level 2"
+          ],
+          "tips": "Indoor temple. Keep moving upward.",
+          "waypoint": false
+        },
+        {
+          "name": "The Solaris Temple Level 2",
+          "order": 11,
+          "objectives": [
+            "Navigate to The Ebony Barracks",
+            "Find waypoint"
+          ],
+          "tips": "Waypoint is at the exit to Ebony Barracks.",
+          "waypoint": true
+        },
+        {
+          "name": "The Ebony Barracks",
+          "order": 12,
+          "objectives": [
+            "Find waypoint",
+            "Continue to Lunaris Temple"
+          ],
+          "tips": "Major waypoint hub for Act 3.",
+          "waypoint": true
+        },
+        {
+          "name": "The Lunaris Temple Level 1",
+          "order": 13,
+          "objectives": [
+            "Navigate to Lunaris Temple Level 2"
+          ],
+          "tips": "Mirror of Solaris Temple.",
+          "waypoint": false
+        },
+        {
+          "name": "The Lunaris Temple Level 2",
+          "order": 14,
+          "objectives": [
+            "Find waypoint",
+            "Kill Piety",
+            "Continue to Imperial Gardens"
+          ],
+          "tips": "Piety fight. Watch out for lightning arrows phase.",
+          "waypoint": true
+        },
+        {
+          "name": "The Imperial Gardens",
+          "order": 15,
+          "objectives": [
+            "Find waypoint",
+            "Continue to Sceptre of God"
+          ],
+          "tips": "Outdoor zone. Waypoint is central.",
+          "waypoint": true
+        },
+        {
+          "name": "The Sceptre of God",
+          "order": 16,
+          "objectives": [
+            "Navigate upward through floors",
+            "Kill Dominus",
+            "Take the exit to Act 4"
+          ],
+          "tips": "Multi-floor tower. Dominus has two phases - dodge his blood rain.",
+          "waypoint": false
+        }
+      ],
+      "quests": [
+        {
+          "name": "Sever the Right Hand",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Dominus"
+        },
+        {
+          "name": "Victario's Secrets",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Find busts in Sewers"
+        },
+        {
+          "name": "A Fixture of Fate",
+          "reward": "Skill Gem",
+          "required": false,
+          "location": "Free Tolman"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 25,
+          "nodes": ["Continue main damage path"]
+        },
+        {
+          "level": 28,
+          "nodes": ["Get key defensive nodes"]
+        },
+        {
+          "level": 31,
+          "nodes": ["Path to next major notable or keystone"]
+        }
+      ]
+    },
+    {
+      "act": 4,
+      "name": "The Fall of Oriath - Part 1",
+      "zones": [
+        {
+          "name": "Highgate",
+          "order": 1,
+          "objectives": [
+            "Talk to Petarus and Vanja",
+            "Head to The Dried Lake"
+          ],
+          "tips": "Act 4 town hub.",
+          "waypoint": false
+        },
+        {
+          "name": "The Dried Lake",
+          "order": 2,
+          "objectives": [
+            "Find waypoint",
+            "Kill Voll for Deshret's Banner",
+            "Continue to The Mines"
+          ],
+          "tips": "Good farming zone. Voll drops quest item.",
+          "waypoint": true
+        }
+      ],
+      "quests": [
+        {
+          "name": "The Eternal Nightmare",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Malachai"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 33,
+          "nodes": ["Continue build progression"]
+        }
+      ]
+    }
+  ]
+}

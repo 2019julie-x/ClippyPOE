@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - PoE League Starter</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="settings-container">
+    <h2>Settings</h2>
+    
+    <div class="setting-group">
+      <label for="client-txt-path">Path of Exile Client.txt Location:</label>
+      <div class="path-input-group">
+        <input type="text" id="client-txt-path" placeholder="Select Client.txt file..." readonly>
+        <button id="browse-btn">Browse</button>
+      </div>
+      <div class="hint">
+        Usually located at:<br>
+        • <code>C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt</code><br>
+        • <code>Steam\steamapps\common\Path of Exile\logs\Client.txt</code>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <label for="opacity-slider">Overlay Opacity:</label>
+      <div class="slider-group">
+        <input type="range" id="opacity-slider" min="50" max="100" value="95">
+        <span id="opacity-value">95%</span>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <label>
+        <input type="checkbox" id="auto-detect-checkbox" checked>
+        Auto-detect zone changes
+      </label>
+    </div>
+
+    <div class="button-group">
+      <button id="save-btn" class="primary-btn">Save</button>
+      <button id="cancel-btn" class="secondary-btn">Cancel</button>
+    </div>
+
+    <div class="status-message" id="status-message"></div>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
