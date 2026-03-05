@@ -129,17 +129,44 @@ ipcMain.on('get-settings', (event) => {
 });
 
 ipcMain.on('save-settings', (event, settings) => {
+  // Validate clientTxtPath before trusting it in fs calls or LogParser.
+  // Must be a non-empty string that resolves to an absolute path ending in .txt.
+  const rawPath = settings && settings.clientTxtPath;
+  if (rawPath !== undefined && rawPath !== '') {
+    if (
+      typeof rawPath !== 'string' ||
+      !path.isAbsolute(rawPath) ||
+      path.extname(rawPath).toLowerCase() !== '.txt' ||
+      rawPath.length > 512
+    ) {
+      console.error('save-settings: rejected invalid clientTxtPath:', rawPath);
+      event.returnValue = false;
+      return;
+    }
+  }
+
   settingsManager.saveSettings(settings);
-  
+
   // Restart log parser with new path
   if (logParser) {
     logParser.stop();
   }
-  if (settings.clientTxtPath && fs.existsSync(settings.clientTxtPath)) {
-    initLogParser(settings.clientTxtPath);
+  if (rawPath && fs.existsSync(rawPath)) {
+    initLogParser(rawPath);
   }
-  
+
   event.returnValue = true;
+});
+
+ipcMain.handle('load-guide-data', async () => {
+  try {
+    const guidePath = path.join(__dirname, '../../data/guides/campaign.json');
+    const data = fs.readFileSync(guidePath, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Failed to load guide data:', err);
+    return null;
+  }
 });
 
 ipcMain.handle('browse-client-txt', async (event) => {

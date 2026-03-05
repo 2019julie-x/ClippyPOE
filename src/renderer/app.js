@@ -6,16 +6,16 @@ let currentLevel = 1;
 let completedObjectives = [];
 
 // Load guide data
-function loadGuideData() {
-  currentGuideData = window.api.loadGuideData();
+async function loadGuideData() {
+  currentGuideData = await window.api.invoke('load-guide-data');
   if (currentGuideData) {
     console.log('Guide data loaded successfully');
   }
 }
 
 // Initialize
-function init() {
-  loadGuideData();
+async function init() {
+  await loadGuideData();
   loadProgress();
   updateUI();
   attachEventListeners();

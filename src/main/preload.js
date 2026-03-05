@@ -1,6 +1,4 @@
 const { contextBridge, ipcRenderer } = require('electron');
-const fs = require('fs');
-const path = require('path');
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
@@ -21,7 +19,7 @@ contextBridge.exposeInMainWorld(
       }
     },
     invoke: (channel, data) => {
-      let validChannels = ['browse-client-txt'];
+      let validChannels = ['browse-client-txt', 'load-guide-data'];
       if (validChannels.includes(channel)) {
         return ipcRenderer.invoke(channel, data);
       }
@@ -29,21 +27,12 @@ contextBridge.exposeInMainWorld(
     receive: (channel, func) => {
       let validChannels = ['zone-changed', 'level-changed', 'progress-reset'];
       if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender` 
+        // Remove any previously registered listeners on this channel before
+        // adding a new one, so that reloads cannot stack duplicate handlers.
+        ipcRenderer.removeAllListeners(channel);
+        // Deliberately strip event as it includes `sender`
         ipcRenderer.on(channel, (event, ...args) => func(...args));
       }
     },
-    // We expose limited fs/path functionality to the renderer for loading guide data
-    // so we don't need to refactor the entire app.js
-    loadGuideData: () => {
-      try {
-        const guidePath = path.join(__dirname, '../../data/guides/campaign.json');
-        const data = fs.readFileSync(guidePath, 'utf8');
-        return JSON.parse(data);
-      } catch (err) {
-        console.error('Error loading guide data:', err);
-        return null;
-      }
-    }
   }
 );
