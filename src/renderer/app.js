@@ -1,143 +1,165 @@
+// =========================================================================
+// PoE League Starter – Renderer
+// =========================================================================
+
+// ---------------------------------------------------------------------------
 // State
+// ---------------------------------------------------------------------------
 let currentGuideData = null;
+let gemData = null;
+let cheatsheetData = null;
 let currentZoneIndex = 0;
 let currentAct = 1;
 let currentLevel = 1;
 let completedObjectives = [];
+let activeTab = 'guide';
+let activeCheatsheet = null;
+let overlayInteractive = true;
 
-// Load guide data
+// ---------------------------------------------------------------------------
+// Data loading
+// ---------------------------------------------------------------------------
+
 async function loadGuideData() {
   currentGuideData = await window.api.invoke('load-guide-data');
-  if (currentGuideData) {
-    console.log('Guide data loaded successfully');
-  }
+  if (currentGuideData) console.log('Guide data loaded');
 }
 
-// Initialize
+async function loadGemData() {
+  gemData = await window.api.invoke('load-gem-data');
+  if (gemData) console.log('Gem data loaded');
+}
+
+async function loadCheatsheetData() {
+  cheatsheetData = await window.api.invoke('load-cheatsheet-data');
+  if (cheatsheetData) console.log('Cheatsheet data loaded');
+}
+
+// ---------------------------------------------------------------------------
+// Initialization
+// ---------------------------------------------------------------------------
+
 async function init() {
-  await loadGuideData();
+  await Promise.all([loadGuideData(), loadGemData(), loadCheatsheetData()]);
   loadProgress();
   updateUI();
+  updateGemUI();
+  initCheatsheets();
+  initTimer();
   attachEventListeners();
+  attachIPCListeners();
 }
 
-// Load progress from settings
+// ---------------------------------------------------------------------------
+// Progress
+// ---------------------------------------------------------------------------
+
 function loadProgress() {
   const progress = window.api.sendSync('get-progress');
   if (progress) {
     currentAct = progress.act || 1;
     currentLevel = progress.currentLevel || 1;
     completedObjectives = progress.completedObjectives || [];
-    
+
     if (progress.zone && currentGuideData) {
-      // Find zone index
       const zones = getAllZones();
-      const index = zones.findIndex(z => z.name === progress.zone);
-      if (index !== -1) {
-        currentZoneIndex = index;
-      }
+      const index = zones.findIndex((z) => z.name === progress.zone);
+      if (index !== -1) currentZoneIndex = index;
     }
   }
 }
 
-// Save progress
 function saveProgress() {
   const zones = getAllZones();
   const currentZone = zones[currentZoneIndex];
-  
-  window.api.sendSync('save-progress', {
+  window.api.send('save-progress', {
     act: currentAct,
     zone: currentZone ? currentZone.name : null,
-    completedObjectives: completedObjectives,
-    currentLevel: currentLevel
+    completedObjectives,
+    currentLevel,
   });
 }
 
-// Get all zones from guide data
+// ---------------------------------------------------------------------------
+// Zone helpers
+// ---------------------------------------------------------------------------
+
 function getAllZones() {
-  if (!currentGuideData || !currentGuideData.acts) {
-    return [];
-  }
-  
+  if (!currentGuideData || !currentGuideData.acts) return [];
   const zones = [];
   for (const act of currentGuideData.acts) {
     for (const zone of act.zones) {
-      zones.push({
-        ...zone,
-        act: act.act
-      });
+      zones.push({ ...zone, act: act.act });
     }
   }
   return zones;
 }
 
-// Find zone by name
 function findZoneByName(zoneName) {
   const zones = getAllZones();
-  return zones.findIndex(z => {
-    // Exact match
-    if (z.name === zoneName) return true;
-    // Partial match (for variations)
-    if (z.name.toLowerCase().includes(zoneName.toLowerCase())) return true;
-    if (zoneName.toLowerCase().includes(z.name.toLowerCase())) return true;
-    return false;
-  });
+  // Prefer exact match, then partial
+  let idx = zones.findIndex((z) => z.name === zoneName);
+  if (idx !== -1) return idx;
+  idx = zones.findIndex(
+    (z) =>
+      z.name.toLowerCase().includes(zoneName.toLowerCase()) ||
+      zoneName.toLowerCase().includes(z.name.toLowerCase())
+  );
+  return idx;
 }
 
-// Update UI
+// ---------------------------------------------------------------------------
+// UI: Guide tab
+// ---------------------------------------------------------------------------
+
 function updateUI() {
   const zones = getAllZones();
   if (!zones.length) {
     document.getElementById('zone-title').textContent = 'No guide data';
-    document.getElementById('objectives-list').innerHTML = '<div class="no-data">Guide data not loaded</div>';
+    document.getElementById('objectives-list').innerHTML =
+      '<div class="no-data">Guide data not loaded</div>';
     return;
   }
 
   const currentZone = zones[currentZoneIndex];
-  if (!currentZone) {
-    return;
-  }
+  if (!currentZone) return;
 
-  // Update header
+  // Header
   document.getElementById('act-title').textContent = `Act ${currentZone.act}`;
   document.getElementById('zone-title').textContent = currentZone.name;
   document.getElementById('level-indicator').textContent = `Lv ${currentLevel}`;
 
-  // Update objectives
+  // Objectives
   const objectivesList = document.getElementById('objectives-list');
   objectivesList.innerHTML = '';
-  
+
   if (currentZone.objectives && currentZone.objectives.length > 0) {
     currentZone.objectives.forEach((objective, index) => {
       const objectiveId = `${currentZone.act}-${currentZoneIndex}-${index}`;
       const isCompleted = completedObjectives.includes(objectiveId);
-      
+
       const item = document.createElement('div');
       item.className = `objective-item${isCompleted ? ' completed' : ''}`;
-      item.dataset.objectiveId = objectiveId;
-      
+
       const checkbox = document.createElement('div');
       checkbox.className = 'objective-checkbox';
-      checkbox.textContent = isCompleted ? '✓' : '';
-      
+      checkbox.textContent = isCompleted ? '\u2713' : '';
+
       const text = document.createElement('div');
       text.className = 'objective-text';
       text.textContent = objective;
-      
+
       item.appendChild(checkbox);
       item.appendChild(text);
       objectivesList.appendChild(item);
-      
-      // Click to toggle
-      item.addEventListener('click', () => {
-        toggleObjective(objectiveId);
-      });
+
+      item.addEventListener('click', () => toggleObjective(objectiveId));
     });
   } else {
     objectivesList.innerHTML = '<div class="no-data">No objectives for this zone</div>';
   }
 
-  // Update tips
+  // Tips
   const tipsSection = document.getElementById('tips-section');
   const tipsContent = document.getElementById('tips-content');
   if (currentZone.tips) {
@@ -147,100 +169,369 @@ function updateUI() {
     tipsSection.style.display = 'none';
   }
 
-  // Update waypoint indicator in zone title
+  // Waypoint indicator
   if (currentZone.waypoint) {
-    const waypointIndicator = document.createElement('span');
-    waypointIndicator.className = 'waypoint-indicator';
-    waypointIndicator.title = 'Waypoint in this zone';
-    document.getElementById('zone-title').appendChild(waypointIndicator);
+    const wp = document.createElement('span');
+    wp.className = 'waypoint-indicator';
+    wp.title = 'Waypoint in this zone';
+    document.getElementById('zone-title').appendChild(wp);
   }
 
-  // Update passive tree recommendations
   updatePassiveRecommendations();
-
-  // Update quest information
   updateQuestInfo(currentZone.act);
 }
 
-// Update passive tree recommendations
 function updatePassiveRecommendations() {
-  if (!currentGuideData || !currentGuideData.acts) {
-    return;
-  }
+  if (!currentGuideData || !currentGuideData.acts) return;
 
-  const passiveSection = document.getElementById('passive-section');
-  const passiveContent = document.getElementById('passive-content');
-  
-  // Find current act data
-  const actData = currentGuideData.acts.find(a => a.act === currentAct);
+  const section = document.getElementById('passive-section');
+  const content = document.getElementById('passive-content');
+
+  const actData = currentGuideData.acts.find((a) => a.act === currentAct);
   if (!actData || !actData.passiveCheckpoints) {
-    passiveSection.style.display = 'none';
+    section.style.display = 'none';
     return;
   }
 
-  // Find relevant checkpoint for current level
-  const checkpoint = actData.passiveCheckpoints.find(cp => cp.level === currentLevel);
+  const checkpoint = actData.passiveCheckpoints.find(
+    (cp) => cp.level === currentLevel
+  );
   if (checkpoint && checkpoint.nodes && checkpoint.nodes.length > 0) {
-    passiveSection.style.display = 'block';
-    passiveContent.innerHTML = '';
-    
-    checkpoint.nodes.forEach(node => {
+    section.style.display = 'block';
+    content.innerHTML = '';
+    checkpoint.nodes.forEach((node) => {
       const item = document.createElement('div');
       item.className = 'passive-item';
       item.textContent = node;
-      passiveContent.appendChild(item);
+      content.appendChild(item);
     });
   } else {
-    passiveSection.style.display = 'none';
+    section.style.display = 'none';
   }
 }
 
-// Update quest information
 function updateQuestInfo(act) {
-  if (!currentGuideData || !currentGuideData.acts) {
-    return;
-  }
+  if (!currentGuideData || !currentGuideData.acts) return;
 
-  const questSection = document.getElementById('quest-section');
-  const questContent = document.getElementById('quest-content');
-  
-  const actData = currentGuideData.acts.find(a => a.act === act);
+  const section = document.getElementById('quest-section');
+  const content = document.getElementById('quest-content');
+
+  const actData = currentGuideData.acts.find((a) => a.act === act);
   if (!actData || !actData.quests || actData.quests.length === 0) {
-    questSection.style.display = 'none';
+    section.style.display = 'none';
     return;
   }
 
-  // Show next incomplete quest with reward
-  const nextQuest = actData.quests.find(q => q.reward && q.required);
+  const nextQuest = actData.quests.find((q) => q.reward && q.required);
   if (nextQuest) {
-    questSection.style.display = 'block';
-    
-    // Clear previous content
-    questContent.innerHTML = '';
-    
-    // Create elements safely (no innerHTML to prevent XSS)
-    const questNameRow = document.createElement('div');
-    const questStar = document.createElement('span');
-    questStar.className = 'quest-required';
-    questStar.textContent = '★ ';
-    questNameRow.appendChild(questStar);
-    questNameRow.appendChild(document.createTextNode(nextQuest.name));
-    
+    section.style.display = 'block';
+    content.innerHTML = '';
+
+    const nameRow = document.createElement('div');
+    const star = document.createElement('span');
+    star.className = 'quest-required';
+    star.textContent = '\u2605 ';
+    nameRow.appendChild(star);
+    nameRow.appendChild(document.createTextNode(nextQuest.name));
+
     const rewardRow = document.createElement('div');
     rewardRow.textContent = 'Reward: ';
     const rewardSpan = document.createElement('span');
     rewardSpan.className = 'quest-reward';
     rewardSpan.textContent = nextQuest.reward;
     rewardRow.appendChild(rewardSpan);
-    
-    questContent.appendChild(questNameRow);
-    questContent.appendChild(rewardRow);
+
+    content.appendChild(nameRow);
+    content.appendChild(rewardRow);
   } else {
-    questSection.style.display = 'none';
+    section.style.display = 'none';
   }
 }
 
-// Toggle objective completion
+// ---------------------------------------------------------------------------
+// UI: Gem tab
+// ---------------------------------------------------------------------------
+
+function updateGemUI() {
+  const container = document.getElementById('gem-rewards-content');
+  if (!gemData || !gemData.questRewards) {
+    container.innerHTML = '<div class="no-data">No gem data available</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+
+  // Show gems relevant to current act (and one act ahead)
+  const relevantRewards = gemData.questRewards.filter(
+    (r) => r.act >= currentAct - 1 && r.act <= currentAct + 1
+  );
+
+  if (relevantRewards.length === 0) {
+    container.innerHTML = '<div class="no-data">No gem rewards for current acts</div>';
+    return;
+  }
+
+  relevantRewards.forEach((reward) => {
+    const group = document.createElement('div');
+    group.className = 'gem-quest-group';
+
+    const title = document.createElement('div');
+    title.className = 'gem-quest-title';
+    title.textContent = `Act ${reward.act} – ${reward.quest} (Lv ${reward.level})`;
+    group.appendChild(title);
+
+    if (reward.gems) {
+      reward.gems.forEach((gem) => {
+        const item = document.createElement('div');
+        item.className = 'gem-item';
+
+        const name = document.createElement('span');
+        name.className = 'gem-name';
+        name.textContent = gem.name;
+
+        const classes = document.createElement('span');
+        classes.className = 'gem-classes';
+        const classText = Array.isArray(gem.classes)
+          ? gem.classes.join(', ')
+          : 'all';
+        classes.textContent = classText;
+
+        item.appendChild(name);
+        item.appendChild(classes);
+        group.appendChild(item);
+      });
+    }
+
+    container.appendChild(group);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// UI: Cheatsheet tab
+// ---------------------------------------------------------------------------
+
+function initCheatsheets() {
+  const nav = document.getElementById('cheatsheet-nav');
+  if (!cheatsheetData || !cheatsheetData.cheatsheets) {
+    nav.innerHTML = '';
+    document.getElementById('cheatsheet-content').innerHTML =
+      '<div class="no-data">No cheatsheet data available</div>';
+    return;
+  }
+
+  nav.innerHTML = '';
+  cheatsheetData.cheatsheets.forEach((cs, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'cheatsheet-nav-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = cs.title;
+    btn.dataset.csId = cs.id;
+    btn.addEventListener('click', () => selectCheatsheet(cs.id));
+    nav.appendChild(btn);
+  });
+
+  // Show the first one
+  if (cheatsheetData.cheatsheets.length > 0) {
+    selectCheatsheet(cheatsheetData.cheatsheets[0].id);
+  }
+}
+
+function selectCheatsheet(id) {
+  activeCheatsheet = id;
+
+  // Update nav buttons
+  document.querySelectorAll('.cheatsheet-nav-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.csId === id);
+  });
+
+  const container = document.getElementById('cheatsheet-content');
+  const cs = cheatsheetData.cheatsheets.find((c) => c.id === id);
+  if (!cs) {
+    container.innerHTML = '<div class="no-data">Cheatsheet not found</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+
+  // Render based on structure
+  if (Array.isArray(cs.items)) {
+    cs.items.forEach((item) => {
+      if (typeof item === 'string') {
+        // Simple tip string
+        const row = document.createElement('div');
+        row.className = 'cs-tip';
+        row.textContent = '\u2022 ' + item;
+        container.appendChild(row);
+      } else if (item.recipe && item.result) {
+        // Vendor recipe
+        const row = document.createElement('div');
+        row.className = 'cs-row';
+        const label = document.createElement('span');
+        label.className = 'cs-label';
+        label.textContent = item.recipe;
+        const value = document.createElement('span');
+        value.className = 'cs-value';
+        value.textContent = '\u2192 ' + item.result;
+        row.appendChild(label);
+        row.appendChild(value);
+        container.appendChild(row);
+      } else if (item.stage && item.penalty) {
+        // Resistance penalty
+        const row = document.createElement('div');
+        row.className = 'cs-row';
+        const label = document.createElement('span');
+        label.className = 'cs-label';
+        label.textContent = item.stage;
+        const value = document.createElement('span');
+        value.className = 'cs-value';
+        value.textContent = item.penalty;
+        row.appendChild(label);
+        row.appendChild(value);
+        container.appendChild(row);
+      } else if (item.act && item.location) {
+        // Trial location
+        const row = document.createElement('div');
+        row.className = 'cs-row';
+        const label = document.createElement('span');
+        label.className = 'cs-label';
+        label.textContent = `Act ${item.act}`;
+        const value = document.createElement('span');
+        value.className = 'cs-value';
+        value.textContent = item.location;
+        row.appendChild(label);
+        row.appendChild(value);
+        container.appendChild(row);
+      } else if (item.choice && item.reward) {
+        // Bandit choice
+        const row = document.createElement('div');
+        row.className = 'cs-row';
+        const label = document.createElement('span');
+        label.className = 'cs-label';
+        label.textContent = item.choice;
+        const value = document.createElement('span');
+        value.className = 'cs-value';
+        value.textContent = item.reward;
+        row.appendChild(label);
+        row.appendChild(value);
+        container.appendChild(row);
+      } else if (item.tip) {
+        const row = document.createElement('div');
+        row.className = 'cs-tip';
+        row.textContent = '\u2022 ' + item.tip;
+        container.appendChild(row);
+      } else {
+        // Generic key-value
+        const row = document.createElement('div');
+        row.className = 'cs-row';
+        const keys = Object.keys(item);
+        if (keys.length >= 2) {
+          const label = document.createElement('span');
+          label.className = 'cs-label';
+          label.textContent = String(item[keys[0]]);
+          const value = document.createElement('span');
+          value.className = 'cs-value';
+          value.textContent = String(item[keys[1]]);
+          row.appendChild(label);
+          row.appendChild(value);
+        }
+        container.appendChild(row);
+      }
+    });
+  } else if (cs.items && typeof cs.items === 'object') {
+    // Nested structure (e.g. pantheon with major/minor)
+    Object.entries(cs.items).forEach(([groupName, groupItems]) => {
+      const groupTitle = document.createElement('div');
+      groupTitle.className = 'gem-quest-title';
+      groupTitle.textContent = groupName.charAt(0).toUpperCase() + groupName.slice(1);
+      container.appendChild(groupTitle);
+
+      if (Array.isArray(groupItems)) {
+        groupItems.forEach((item) => {
+          const row = document.createElement('div');
+          row.className = 'cs-row';
+          const keys = Object.keys(item);
+          if (keys.length >= 2) {
+            const label = document.createElement('span');
+            label.className = 'cs-label';
+            label.textContent = String(item[keys[0]]);
+            const value = document.createElement('span');
+            value.className = 'cs-value';
+            value.textContent = String(item[keys[1]]);
+            row.appendChild(label);
+            row.appendChild(value);
+          }
+          container.appendChild(row);
+        });
+      }
+    });
+  }
+}
+
+// ---------------------------------------------------------------------------
+// UI: Timer tab
+// ---------------------------------------------------------------------------
+
+function initTimer() {
+  const state = window.api.sendSync('timer-get');
+  if (state) {
+    updateTimerDisplay(state.elapsed);
+    updateSplitsList(state.splits || []);
+    document.getElementById('timer-toggle-btn').textContent = state.running
+      ? 'Pause'
+      : 'Start';
+  }
+}
+
+function formatTime(ms) {
+  const totalSec = Math.floor(ms / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return (
+    String(h).padStart(2, '0') +
+    ':' +
+    String(m).padStart(2, '0') +
+    ':' +
+    String(s).padStart(2, '0')
+  );
+}
+
+function updateTimerDisplay(ms) {
+  document.getElementById('timer-display').textContent = formatTime(ms);
+}
+
+function updateSplitsList(splits) {
+  const container = document.getElementById('splits-list');
+  if (!splits || splits.length === 0) {
+    container.innerHTML = '<div class="no-data">No splits yet</div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  splits.forEach((split, i) => {
+    const item = document.createElement('div');
+    item.className = 'split-item';
+
+    const label = document.createElement('span');
+    label.className = 'split-label';
+    label.textContent = `${i + 1}. ${split.label}`;
+
+    const time = document.createElement('span');
+    time.className = 'split-time';
+    time.textContent = formatTime(split.time);
+
+    item.appendChild(label);
+    item.appendChild(time);
+    container.appendChild(item);
+  });
+
+  // Auto-scroll to bottom
+  container.scrollTop = container.scrollHeight;
+}
+
+// ---------------------------------------------------------------------------
+// Actions
+// ---------------------------------------------------------------------------
+
 function toggleObjective(objectiveId) {
   const index = completedObjectives.indexOf(objectiveId);
   if (index > -1) {
@@ -248,12 +539,10 @@ function toggleObjective(objectiveId) {
   } else {
     completedObjectives.push(objectiveId);
   }
-  
-  window.api.sendSync('toggle-objective', objectiveId);
+  window.api.send('toggle-objective', objectiveId);
   updateUI();
 }
 
-// Navigate to next zone
 function nextZone() {
   const zones = getAllZones();
   if (currentZoneIndex < zones.length - 1) {
@@ -262,10 +551,10 @@ function nextZone() {
     currentAct = newZone.act;
     saveProgress();
     updateUI();
+    updateGemUI();
   }
 }
 
-// Navigate to previous zone
 function prevZone() {
   if (currentZoneIndex > 0) {
     currentZoneIndex--;
@@ -274,22 +563,50 @@ function prevZone() {
     currentAct = newZone.act;
     saveProgress();
     updateUI();
+    updateGemUI();
   }
 }
 
-// Reset progress
 function resetProgress() {
   if (confirm('Reset all progress? This will start from Act 1.')) {
     completedObjectives = [];
     currentZoneIndex = 0;
     currentAct = 1;
     currentLevel = 1;
-    window.api.sendSync('reset-progress');
+    window.api.send('reset-progress');
     updateUI();
+    updateGemUI();
   }
 }
 
-// Attach event listeners
+function switchTab(tabName) {
+  activeTab = tabName;
+
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.tab === tabName);
+  });
+
+  document.querySelectorAll('.tab-content').forEach((content) => {
+    content.classList.toggle('active', content.id === `tab-${tabName}`);
+  });
+}
+
+function showModeIndicator(text) {
+  const indicator = document.getElementById('mode-indicator');
+  const textEl = document.getElementById('mode-text');
+  textEl.textContent = text;
+  indicator.className = 'mode-indicator show';
+  indicator.style.display = 'block';
+  setTimeout(() => {
+    indicator.style.display = 'none';
+    indicator.className = 'mode-indicator';
+  }, 1200);
+}
+
+// ---------------------------------------------------------------------------
+// Event listeners
+// ---------------------------------------------------------------------------
+
 function attachEventListeners() {
   // Window controls
   document.getElementById('close-btn').addEventListener('click', () => {
@@ -304,40 +621,128 @@ function attachEventListeners() {
     window.api.send('open-settings');
   });
 
+  // Lock/unlock overlay
+  document.getElementById('lock-btn').addEventListener('click', () => {
+    window.api.send('overlay-toggle');
+  });
+
   // Navigation
   document.getElementById('next-zone-btn').addEventListener('click', nextZone);
   document.getElementById('prev-zone-btn').addEventListener('click', prevZone);
   document.getElementById('reset-btn').addEventListener('click', resetProgress);
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+
+  // Timer controls
+  document.getElementById('timer-toggle-btn').addEventListener('click', () => {
+    const state = window.api.sendSync('timer-toggle');
+    document.getElementById('timer-toggle-btn').textContent = state.running
+      ? 'Pause'
+      : 'Start';
+  });
+
+  document.getElementById('timer-split-btn').addEventListener('click', () => {
+    const zones = getAllZones();
+    const currentZone = zones[currentZoneIndex];
+    const label = currentZone ? currentZone.name : `Split ${Date.now()}`;
+    const state = window.api.sendSync('timer-split', label);
+    updateSplitsList(state.splits);
+  });
+
+  document.getElementById('timer-reset-btn').addEventListener('click', () => {
+    if (confirm('Reset the timer?')) {
+      const state = window.api.sendSync('timer-reset');
+      updateTimerDisplay(0);
+      updateSplitsList([]);
+      document.getElementById('timer-toggle-btn').textContent = 'Start';
+    }
+  });
 }
 
+// ---------------------------------------------------------------------------
 // IPC event listeners
-window.api.receive('zone-changed', (zoneName) => {
-  console.log('Zone changed to:', zoneName);
-  
-  const zoneIndex = findZoneByName(zoneName);
-  if (zoneIndex !== -1) {
-    currentZoneIndex = zoneIndex;
-    const zones = getAllZones();
-    currentAct = zones[zoneIndex].act;
+// ---------------------------------------------------------------------------
+
+function attachIPCListeners() {
+  // Zone change from log parser
+  window.api.receive('zone-changed', (zoneName) => {
+    console.log('Zone changed to:', zoneName);
+    const zoneIndex = findZoneByName(zoneName);
+    if (zoneIndex !== -1) {
+      currentZoneIndex = zoneIndex;
+      const zones = getAllZones();
+      currentAct = zones[zoneIndex].act;
+      saveProgress();
+      updateUI();
+      updateGemUI();
+      // Auto-switch to guide tab on zone change
+      if (activeTab !== 'guide') switchTab('guide');
+    }
+  });
+
+  // Level up from log parser
+  window.api.receive('level-changed', (level) => {
+    console.log('Level changed to:', level);
+    currentLevel = level;
     saveProgress();
     updateUI();
-  }
-});
+    updateGemUI();
+  });
 
-window.api.receive('level-changed', (level) => {
-  console.log('Level changed to:', level);
-  currentLevel = level;
-  saveProgress();
-  updateUI();
-});
+  // Progress reset
+  window.api.receive('progress-reset', () => {
+    completedObjectives = [];
+    currentZoneIndex = 0;
+    currentAct = 1;
+    currentLevel = 1;
+    updateUI();
+    updateGemUI();
+  });
 
-window.api.receive('progress-reset', () => {
-  completedObjectives = [];
-  currentZoneIndex = 0;
-  currentAct = 1;
-  currentLevel = 1;
-  updateUI();
-});
+  // Overlay opacity changes
+  window.api.receive('overlay-opacity', (opacity) => {
+    document.getElementById('overlay-container').style.opacity = opacity;
+  });
 
-// Initialize on load
+  // Overlay mode changed
+  window.api.receive('overlay-mode-changed', (interactive) => {
+    overlayInteractive = interactive;
+    const lockBtn = document.getElementById('lock-btn');
+    if (interactive) {
+      lockBtn.classList.remove('lock-active');
+      lockBtn.innerHTML = '&#128274;'; // locked = interactive
+      showModeIndicator('INTERACTIVE');
+    } else {
+      lockBtn.classList.add('lock-active');
+      lockBtn.innerHTML = '&#128275;'; // unlocked = click-through
+      showModeIndicator('CLICK-THROUGH');
+    }
+  });
+
+  // Timer tick
+  window.api.receive('timer-tick', (elapsed) => {
+    updateTimerDisplay(elapsed);
+  });
+
+  // Timer state from hotkey
+  window.api.receive('timer-state', (state) => {
+    document.getElementById('timer-toggle-btn').textContent = state.running
+      ? 'Pause'
+      : 'Start';
+    updateTimerDisplay(state.elapsed);
+    updateSplitsList(state.splits || []);
+  });
+
+  // Hotkey zone navigation
+  window.api.receive('hotkey-next-zone', () => nextZone());
+  window.api.receive('hotkey-prev-zone', () => prevZone());
+}
+
+// ---------------------------------------------------------------------------
+// Boot
+// ---------------------------------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', init);

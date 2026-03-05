@@ -5,8 +5,20 @@
     "x": 100,
     "y": 100
   },
+  "windowSize": {
+    "width": 400,
+    "height": 600
+  },
   "autoDetect": true,
   "theme": "dark",
+  "hotkeys": {
+    "toggleOverlay": "Shift+Space",
+    "hideOverlay": "Shift+F1",
+    "nextZone": "Shift+F2",
+    "prevZone": "Shift+F3",
+    "toggleTimer": "Shift+F4"
+  },
+  "activeTab": "guide",
   "currentProgress": {
     "act": 1,
     "zone": null,

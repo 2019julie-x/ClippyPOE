@@ -1,0 +1,324 @@
+{
+  "questRewards": [
+    {
+      "act": 1,
+      "quest": "Enemy at the Gate",
+      "level": 1,
+      "description": "Reward from Tarkleigh after killing Hillock. Each class gets a different set of starting skill gems to choose from.",
+      "gems": [
+        { "name": "Freezing Pulse", "classes": ["Witch", "Shadow"] },
+        { "name": "Rolling Magma", "classes": ["Witch", "Templar"] },
+        { "name": "Ground Slam", "classes": ["Marauder"] },
+        { "name": "Molten Strike", "classes": ["Marauder", "Templar", "Duelist", "Scion"] },
+        { "name": "Split Arrow", "classes": ["Ranger", "Scion"] },
+        { "name": "Frost Blades", "classes": ["Ranger"] },
+        { "name": "Splitting Steel", "classes": ["Duelist", "Scion"] },
+        { "name": "Cobra Lash", "classes": ["Shadow"] }
+      ]
+    },
+    {
+      "act": 1,
+      "quest": "Breaking Some Eggs",
+      "level": 4,
+      "description": "Reward from Tarkleigh after destroying the Fetid Pool. Utility skills and secondary abilities.",
+      "gems": [
+        { "name": "Contagion", "classes": ["Witch", "Shadow"] },
+        { "name": "Summon Raging Spirit", "classes": ["Witch"] },
+        { "name": "Orb of Storms", "classes": ["Witch", "Shadow"] },
+        { "name": "Frostblink", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Dash", "classes": ["Shadow", "Ranger", "Duelist", "Scion"] },
+        { "name": "Shield Charge", "classes": ["Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Steelskin", "classes": ["Marauder"] },
+        { "name": "Holy Flame Totem", "classes": ["Templar"] }
+      ]
+    },
+    {
+      "act": 1,
+      "quest": "The Caged Brute",
+      "level": 8,
+      "description": "Reward from Tarkleigh after killing Brutus. Major gem unlock with core support gems and movement skills.",
+      "gems": [
+        { "name": "Flame Dash", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Added Lightning Damage Support", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Clarity", "classes": ["Witch", "Shadow", "Templar"] },
+        { "name": "Faster Attacks Support", "classes": ["Shadow", "Ranger", "Duelist", "Marauder", "Scion"] },
+        { "name": "Melee Splash Support", "classes": ["Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Multiple Projectiles Support", "classes": ["Shadow", "Ranger", "Duelist", "Scion"] },
+        { "name": "Leap Slam", "classes": ["Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Vitality", "classes": ["Duelist", "Marauder", "Templar"] }
+      ]
+    },
+    {
+      "act": 1,
+      "quest": "Mercy Mission",
+      "level": 4,
+      "description": "Reward from Nessa after retrieving the Allflame from the Tidal Island. Support gems that enhance your build.",
+      "gems": [
+        { "name": "Arcane Surge Support", "classes": ["Templar", "Scion"] },
+        { "name": "Ancestral Call Support", "classes": ["Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Pierce Support", "classes": ["Shadow", "Ranger", "Duelist", "Scion"] },
+        { "name": "Elemental Proliferation Support", "classes": ["Witch", "Shadow", "Scion"] },
+        { "name": "Ruthless Support", "classes": ["Duelist", "Templar", "Scion"] },
+        { "name": "Spell Cascade Support", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Volley Support", "classes": ["Shadow", "Ranger", "Duelist", "Scion"] },
+        { "name": "Mirage Archer Support", "classes": ["Ranger", "Duelist"] }
+      ]
+    },
+    {
+      "act": 1,
+      "quest": "The Siren's Cadence",
+      "level": 12,
+      "description": "Reward from Tarkleigh after killing Merveil. Powerful main skill gems for transitioning into Act 2.",
+      "gems": [
+        { "name": "Arc", "classes": ["Witch"] },
+        { "name": "Essence Drain", "classes": ["Witch", "Shadow"] },
+        { "name": "Storm Brand", "classes": ["Templar"] },
+        { "name": "Toxic Rain", "classes": ["Ranger"] },
+        { "name": "Rain of Arrows", "classes": ["Ranger", "Duelist", "Scion"] },
+        { "name": "Sunder", "classes": ["Marauder"] },
+        { "name": "Lacerate", "classes": ["Duelist"] },
+        { "name": "Blade Vortex", "classes": ["Shadow", "Scion"] }
+      ]
+    },
+    {
+      "act": 2,
+      "quest": "Intruders in Black",
+      "level": 16,
+      "description": "Reward from Yeena after killing the Vaal Oversoul interlopers. Heralds and defensive auras become available.",
+      "gems": [
+        { "name": "Herald of Ice", "classes": ["Witch", "Shadow", "Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Herald of Thunder", "classes": ["Witch", "Shadow", "Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Herald of Ash", "classes": ["Witch"] },
+        { "name": "Arctic Armour", "classes": ["Witch", "Shadow", "Ranger"] },
+        { "name": "Blood Rage", "classes": ["Shadow", "Ranger", "Duelist"] },
+        { "name": "Herald of Purity", "classes": ["Templar"] },
+        { "name": "Molten Shell", "classes": ["Marauder"] },
+        { "name": "Flesh and Stone", "classes": ["Duelist"] }
+      ]
+    },
+    {
+      "act": 2,
+      "quest": "Sharp and Cruel",
+      "level": 18,
+      "description": "Reward from Yeena after killing the Weaver. Key damage support gems for scaling your build.",
+      "gems": [
+        { "name": "Controlled Destruction Support", "classes": ["Witch", "Templar"] },
+        { "name": "Concentrated Effect Support", "classes": ["Witch", "Templar", "Scion"] },
+        { "name": "Faster Casting Support", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Melee Physical Damage Support", "classes": ["Shadow", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Elemental Damage with Attacks Support", "classes": ["Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Elemental Focus Support", "classes": ["Witch", "Shadow", "Templar"] },
+        { "name": "Trinity Support", "classes": ["Witch", "Shadow", "Ranger", "Duelist"] },
+        { "name": "Vicious Projectiles Support", "classes": ["Ranger", "Duelist", "Scion"] }
+      ]
+    },
+    {
+      "act": 3,
+      "quest": "Lost in Love",
+      "level": 24,
+      "description": "Reward from Clarissa after rescuing Tolman. Curses and powerful aura gems.",
+      "gems": [
+        { "name": "Hatred", "classes": ["Shadow", "Ranger", "Duelist", "Scion"] },
+        { "name": "Determination", "classes": ["Marauder"] },
+        { "name": "Grace", "classes": ["Ranger", "Duelist"] },
+        { "name": "Zealotry", "classes": ["Witch", "Templar", "Scion"] },
+        { "name": "Malevolence", "classes": ["Witch", "Shadow", "Scion"] },
+        { "name": "Despair", "classes": ["Witch", "Shadow", "Scion"] },
+        { "name": "Discipline", "classes": ["Witch"] },
+        { "name": "Pride", "classes": ["Duelist", "Marauder"] }
+      ]
+    },
+    {
+      "act": 3,
+      "quest": "A Fixture of Fate",
+      "level": 24,
+      "description": "Reward from Siosa in the Library. Massive gem unlock — Siosa sells all quest reward gems regardless of class.",
+      "gems": [
+        { "name": "Blasphemy Support", "classes": ["Witch", "Templar"] },
+        { "name": "Fire Penetration Support", "classes": ["Witch", "Templar", "Scion"] },
+        { "name": "Cold Penetration Support", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Lightning Penetration Support", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Fortify Support", "classes": ["Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Life Leech Support", "classes": ["Ranger", "Duelist", "Marauder", "Scion"] },
+        { "name": "Burning Damage Support", "classes": ["Witch", "Templar"] },
+        { "name": "Impale Support", "classes": ["Ranger", "Duelist", "Marauder"] }
+      ]
+    },
+    {
+      "act": 3,
+      "quest": "Sever the Right Hand",
+      "level": 28,
+      "description": "Reward from Hargan after killing Dominus. Powerful endgame-oriented skill gems.",
+      "gems": [
+        { "name": "Ball Lightning", "classes": ["Witch", "Shadow"] },
+        { "name": "Cyclone", "classes": ["Duelist", "Marauder", "Scion"] },
+        { "name": "Tornado Shot", "classes": ["Ranger", "Scion"] },
+        { "name": "Raise Spectre", "classes": ["Witch"] },
+        { "name": "Earthquake", "classes": ["Marauder"] },
+        { "name": "Flameblast", "classes": ["Witch", "Templar", "Scion"] },
+        { "name": "Ice Crash", "classes": ["Duelist", "Marauder", "Templar"] },
+        { "name": "Divine Ire", "classes": ["Templar", "Scion"] }
+      ]
+    },
+    {
+      "act": 4,
+      "quest": "The Eternal Nightmare",
+      "level": 34,
+      "description": "Reward from Petarus and Vanja after killing Malachai. Critical endgame support gems.",
+      "gems": [
+        { "name": "Spell Echo Support", "classes": ["Witch", "Shadow", "Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Multistrike Support", "classes": ["Witch", "Shadow", "Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Greater Multiple Projectiles Support", "classes": ["Witch", "Shadow", "Ranger", "Duelist", "Marauder", "Scion"] },
+        { "name": "Increased Area of Effect Support", "classes": ["Witch", "Shadow", "Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Chain Support", "classes": ["Witch", "Shadow", "Ranger", "Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Unleash Support", "classes": ["Witch"] },
+        { "name": "Brutality Support", "classes": ["Marauder"] },
+        { "name": "Barrage Support", "classes": ["Shadow", "Ranger", "Duelist"] }
+      ]
+    }
+  ],
+  "vendorRewards": [
+    {
+      "act": 1,
+      "quest": "Enemy at the Gate",
+      "vendor": "Nessa",
+      "level": 1,
+      "description": "Nessa sells additional starting gems after completing Enemy at the Gate.",
+      "gems": [
+        { "name": "Arcane Surge Support", "classes": ["Witch", "Templar"] },
+        { "name": "Onslaught Support", "classes": ["Shadow", "Ranger", "Duelist"] },
+        { "name": "Stormblast Mine", "classes": ["Witch", "Shadow"] },
+        { "name": "Explosive Trap", "classes": ["Shadow"] },
+        { "name": "Caustic Arrow", "classes": ["Ranger"] },
+        { "name": "Cleave", "classes": ["Duelist"] },
+        { "name": "Shield Crush", "classes": ["Marauder"] },
+        { "name": "Smite", "classes": ["Templar"] }
+      ]
+    },
+    {
+      "act": 1,
+      "quest": "The Caged Brute",
+      "vendor": "Nessa",
+      "level": 8,
+      "description": "Nessa's shop expands significantly after Brutus. Core support gems for all classes.",
+      "gems": [
+        { "name": "Added Fire Damage Support", "classes": ["Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Added Cold Damage Support", "classes": ["Shadow", "Ranger", "Scion"] },
+        { "name": "Added Lightning Damage Support", "classes": ["Witch", "Shadow", "Templar", "Scion"] },
+        { "name": "Lifetap Support", "classes": ["Duelist", "Marauder", "Templar", "Scion"] },
+        { "name": "Void Manipulation Support", "classes": ["Witch", "Shadow", "Ranger"] },
+        { "name": "Precision", "classes": ["Shadow", "Ranger", "Duelist"] },
+        { "name": "Summon Skeletons", "classes": ["Witch"] },
+        { "name": "Smoke Mine", "classes": ["Shadow", "Ranger"] }
+      ]
+    },
+    {
+      "act": 1,
+      "quest": "The Siren's Cadence",
+      "vendor": "Nessa",
+      "level": 12,
+      "description": "Nessa sells additional skill gems after Merveil. Strong secondary skill options.",
+      "gems": [
+        { "name": "Scorching Ray", "classes": ["Witch", "Templar", "Scion"] },
+        { "name": "Ice Nova", "classes": ["Witch", "Templar", "Scion"] },
+        { "name": "Lightning Arrow", "classes": ["Ranger"] },
+        { "name": "Reave", "classes": ["Shadow", "Ranger"] },
+        { "name": "Earthshatter", "classes": ["Duelist", "Marauder"] },
+        { "name": "Infernal Blow", "classes": ["Marauder"] },
+        { "name": "Fire Trap", "classes": ["Shadow"] },
+        { "name": "Lightning Strike", "classes": ["Ranger"] }
+      ]
+    },
+    {
+      "act": 2,
+      "quest": "Sharp and Cruel",
+      "vendor": "Yeena",
+      "level": 18,
+      "description": "Yeena sells key damage support gems after the Weaver fight.",
+      "gems": [
+        { "name": "Controlled Destruction Support", "classes": ["Witch", "Shadow", "Templar"] },
+        { "name": "Deadly Ailments Support", "classes": ["Shadow", "Scion"] },
+        { "name": "Rage Support", "classes": ["Duelist", "Marauder"] },
+        { "name": "Close Combat Support", "classes": ["Ranger", "Duelist", "Marauder"] },
+        { "name": "Nightblade Support", "classes": ["Shadow"] },
+        { "name": "Trap and Mine Damage Support", "classes": ["Shadow"] },
+        { "name": "Cruelty Support", "classes": ["Witch", "Marauder", "Templar", "Scion"] },
+        { "name": "Shockwave Support", "classes": ["Marauder", "Templar"] }
+      ]
+    },
+    {
+      "act": 2,
+      "quest": "Intruders in Black",
+      "vendor": "Yeena",
+      "level": 16,
+      "description": "Yeena sells Heralds and defensive utility gems.",
+      "gems": [
+        { "name": "Herald of Agony", "classes": ["Shadow", "Ranger"] },
+        { "name": "Summon Skitterbots", "classes": ["Shadow"] },
+        { "name": "Wave of Conviction", "classes": ["Templar"] },
+        { "name": "Cold Snap", "classes": ["Witch", "Shadow"] },
+        { "name": "Desecrate", "classes": ["Witch"] },
+        { "name": "Assassin's Mark", "classes": ["Shadow"] },
+        { "name": "Warlord's Mark", "classes": ["Duelist", "Marauder"] },
+        { "name": "Brand Recall", "classes": ["Templar"] }
+      ]
+    },
+    {
+      "act": 3,
+      "quest": "A Fixture of Fate",
+      "vendor": "Siosa",
+      "level": 24,
+      "description": "Siosa in the Library sells ALL quest reward gems regardless of class. This is the most important vendor for filling gaps in your build.",
+      "gems": [
+        { "name": "All quest reward gems", "classes": ["all"] },
+        { "name": "Cold Penetration Support", "classes": ["all"] },
+        { "name": "Fire Penetration Support", "classes": ["all"] },
+        { "name": "Lightning Penetration Support", "classes": ["all"] },
+        { "name": "Blasphemy Support", "classes": ["all"] },
+        { "name": "Fortify Support", "classes": ["all"] },
+        { "name": "Swift Affliction Support", "classes": ["all"] },
+        { "name": "Burning Damage Support", "classes": ["all"] }
+      ]
+    },
+    {
+      "act": 3,
+      "quest": "Sever the Right Hand",
+      "vendor": "Hargan",
+      "level": 28,
+      "description": "Hargan sells powerful skill gems after Dominus is defeated.",
+      "gems": [
+        { "name": "Cyclone", "classes": ["Duelist", "Marauder", "Scion"] },
+        { "name": "Ball Lightning", "classes": ["Witch", "Shadow"] },
+        { "name": "Tornado Shot", "classes": ["Ranger", "Scion"] },
+        { "name": "Glacial Cascade", "classes": ["Witch"] },
+        { "name": "Seismic Trap", "classes": ["Shadow"] },
+        { "name": "Blade Flurry", "classes": ["Shadow", "Ranger", "Scion"] },
+        { "name": "Bladefall", "classes": ["Shadow", "Scion"] },
+        { "name": "Shock Nova", "classes": ["Templar"] }
+      ]
+    },
+    {
+      "act": 4,
+      "quest": "The Eternal Nightmare",
+      "vendor": "Petarus and Vanja",
+      "level": 34,
+      "description": "Petarus and Vanja sell endgame support gems after Malachai. Essential for completing 5-6 link setups.",
+      "gems": [
+        { "name": "Cast When Damage Taken Support", "classes": ["all"] },
+        { "name": "Immortal Call", "classes": ["all"] },
+        { "name": "Spell Echo Support", "classes": ["all"] },
+        { "name": "Multistrike Support", "classes": ["all"] },
+        { "name": "Greater Multiple Projectiles Support", "classes": ["all"] },
+        { "name": "Increased Area of Effect Support", "classes": ["all"] },
+        { "name": "Withering Touch Support", "classes": ["Shadow", "Ranger"] },
+        { "name": "Vile Toxins Support", "classes": ["Shadow"] }
+      ]
+    }
+  ],
+  "notes": {
+    "siosaUnlock": "After completing 'A Fixture of Fate' in Act 3, Siosa in the Library sells all quest reward gems regardless of class. This is the go-to vendor for getting off-class gems before Act 6.",
+    "lillyRoth": "In Act 6, Lilly Roth sells every non-drop-only gem in the game after completing her quest. This replaces the need for Siosa.",
+    "dropOnlyGems": "Some gems like Empower Support, Enlighten Support, and Enhance Support are drop-only and cannot be obtained from quest rewards or vendors.",
+    "leagueStartTip": "Plan your gem links ahead of time. If a key gem is not available to your class, rush to Siosa in Act 3 Library or buy from other players."
+  }
+}

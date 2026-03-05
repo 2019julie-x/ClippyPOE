@@ -7,58 +7,120 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="overlay-container">
+  <div class="overlay-container" id="overlay-container">
     <!-- Header (draggable) -->
     <div class="header" id="header">
       <div class="title">
         <span id="act-title">Act 1</span>
-        <span class="separator">•</span>
+        <span class="separator">&bull;</span>
         <span id="zone-title">Loading...</span>
       </div>
       <div class="controls">
-        <button class="control-btn" id="settings-btn" title="Settings">⚙</button>
+        <button class="control-btn" id="lock-btn" title="Toggle click-through (Shift+Space)">&#128274;</button>
+        <button class="control-btn" id="settings-btn" title="Settings">&#9881;</button>
         <button class="control-btn" id="minimize-btn" title="Minimize">_</button>
-        <button class="control-btn close-btn" id="close-btn" title="Close">×</button>
+        <button class="control-btn close-btn" id="close-btn" title="Close">&times;</button>
       </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="content">
-      <!-- Objectives Section -->
-      <div class="section objectives-section" id="objectives-section">
-        <div class="section-header">Objectives</div>
-        <div class="objectives-list" id="objectives-list">
-          <div class="no-data">Waiting for zone detection...</div>
+    <!-- Tab bar -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="guide">Guide</button>
+      <button class="tab-btn" data-tab="gems">Gems</button>
+      <button class="tab-btn" data-tab="cheatsheets">Info</button>
+      <button class="tab-btn" data-tab="timer">Timer</button>
+    </div>
+
+    <!-- Tab: Guide -->
+    <div class="tab-content active" id="tab-guide">
+      <div class="content">
+        <!-- Objectives Section -->
+        <div class="section objectives-section" id="objectives-section">
+          <div class="section-header">
+            <span>Objectives</span>
+            <span class="level-indicator" id="level-indicator">Lv 1</span>
+          </div>
+          <div class="objectives-list" id="objectives-list">
+            <div class="no-data">Waiting for zone detection...</div>
+          </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="section tips-section" id="tips-section" style="display: none;">
+          <div class="section-header">Tips</div>
+          <div class="tips-content" id="tips-content"></div>
+        </div>
+
+        <!-- Passive Tree Section -->
+        <div class="section passive-section" id="passive-section" style="display: none;">
+          <div class="section-header">
+            <span>Passives</span>
+          </div>
+          <div class="passive-content" id="passive-content"></div>
+        </div>
+
+        <!-- Quest Reminder -->
+        <div class="section quest-section" id="quest-section" style="display: none;">
+          <div class="section-header">Quest Reward</div>
+          <div class="quest-content" id="quest-content"></div>
         </div>
       </div>
 
-      <!-- Tips Section -->
-      <div class="section tips-section" id="tips-section" style="display: none;">
-        <div class="section-header">Tips</div>
-        <div class="tips-content" id="tips-content"></div>
-      </div>
-
-      <!-- Passive Tree Section -->
-      <div class="section passive-section" id="passive-section" style="display: none;">
-        <div class="section-header">
-          <span>Passives</span>
-          <span class="level-indicator" id="level-indicator">Lv 1</span>
-        </div>
-        <div class="passive-content" id="passive-content"></div>
-      </div>
-
-      <!-- Quest Reminder -->
-      <div class="section quest-section" id="quest-section" style="display: none;">
-        <div class="section-header">Quest Reward</div>
-        <div class="quest-content" id="quest-content"></div>
+      <!-- Footer navigation -->
+      <div class="footer">
+        <button class="footer-btn" id="prev-zone-btn" title="Previous Zone (Shift+F3)">&#9664;</button>
+        <button class="footer-btn" id="reset-btn" title="Reset Progress">Reset</button>
+        <button class="footer-btn" id="next-zone-btn" title="Next Zone (Shift+F2)">&#9654;</button>
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-      <button class="footer-btn" id="prev-zone-btn" title="Previous Zone">◄</button>
-      <button class="footer-btn" id="reset-btn" title="Reset Progress">Reset</button>
-      <button class="footer-btn" id="next-zone-btn" title="Next Zone">►</button>
+    <!-- Tab: Gems -->
+    <div class="tab-content" id="tab-gems">
+      <div class="content">
+        <div class="section" id="gem-rewards-section">
+          <div class="section-header">Gem Rewards</div>
+          <div id="gem-rewards-content" class="gem-list">
+            <div class="no-data">Loading gem data...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Cheatsheets -->
+    <div class="tab-content" id="tab-cheatsheets">
+      <div class="content">
+        <div class="cheatsheet-nav" id="cheatsheet-nav"></div>
+        <div class="section" id="cheatsheet-content-section">
+          <div id="cheatsheet-content" class="cheatsheet-body">
+            <div class="no-data">Loading cheatsheets...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Timer -->
+    <div class="tab-content" id="tab-timer">
+      <div class="content">
+        <div class="section timer-section">
+          <div class="timer-display" id="timer-display">00:00:00</div>
+          <div class="timer-controls">
+            <button class="footer-btn timer-btn" id="timer-toggle-btn">Start</button>
+            <button class="footer-btn timer-btn" id="timer-split-btn">Split</button>
+            <button class="footer-btn timer-btn" id="timer-reset-btn">Reset</button>
+          </div>
+        </div>
+        <div class="section splits-section">
+          <div class="section-header">Splits</div>
+          <div class="splits-list" id="splits-list">
+            <div class="no-data">No splits yet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overlay mode indicator -->
+    <div class="mode-indicator" id="mode-indicator" style="display: none;">
+      <span id="mode-text">CLICK-THROUGH</span>
     </div>
   </div>
 

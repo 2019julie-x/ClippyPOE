@@ -9,35 +9,69 @@
 <body>
   <div class="settings-container">
     <h2>Settings</h2>
-    
+
+    <!-- Client.txt path -->
     <div class="setting-group">
       <label for="client-txt-path">Path of Exile Client.txt Location:</label>
       <div class="path-input-group">
         <input type="text" id="client-txt-path" placeholder="Select Client.txt file..." readonly>
         <button id="browse-btn">Browse</button>
       </div>
-      <div class="hint">
-        Usually located at:<br>
-        • <code>C:\Program Files (x86)\Grinding Gear Games\Path of Exile\logs\Client.txt</code><br>
-        • <code>Steam\steamapps\common\Path of Exile\logs\Client.txt</code>
-      </div>
+      <div class="hint" id="path-hints"></div>
     </div>
 
+    <!-- Opacity -->
     <div class="setting-group">
       <label for="opacity-slider">Overlay Opacity:</label>
       <div class="slider-group">
-        <input type="range" id="opacity-slider" min="50" max="100" value="95">
+        <input type="range" id="opacity-slider" min="30" max="100" value="95">
         <span id="opacity-value">95%</span>
       </div>
     </div>
 
+    <!-- Auto-detect -->
     <div class="setting-group">
       <label>
         <input type="checkbox" id="auto-detect-checkbox" checked>
-        Auto-detect zone changes
+        Auto-detect zone changes from Client.txt
       </label>
     </div>
 
+    <!-- Hotkeys -->
+    <div class="setting-group">
+      <label>Global Hotkeys:</label>
+      <div class="hotkey-grid">
+        <div class="hotkey-row">
+          <span class="hotkey-label">Toggle overlay</span>
+          <input type="text" class="hotkey-input" id="hk-toggle-overlay" readonly>
+        </div>
+        <div class="hotkey-row">
+          <span class="hotkey-label">Hide/show overlay</span>
+          <input type="text" class="hotkey-input" id="hk-hide-overlay" readonly>
+        </div>
+        <div class="hotkey-row">
+          <span class="hotkey-label">Next zone</span>
+          <input type="text" class="hotkey-input" id="hk-next-zone" readonly>
+        </div>
+        <div class="hotkey-row">
+          <span class="hotkey-label">Previous zone</span>
+          <input type="text" class="hotkey-input" id="hk-prev-zone" readonly>
+        </div>
+        <div class="hotkey-row">
+          <span class="hotkey-label">Toggle timer</span>
+          <input type="text" class="hotkey-input" id="hk-toggle-timer" readonly>
+        </div>
+      </div>
+      <div class="hint">Click a hotkey field and press the desired key combination.</div>
+    </div>
+
+    <!-- Platform info -->
+    <div class="setting-group" id="platform-info-group" style="display: none;">
+      <label>Platform Info:</label>
+      <div class="hint" id="platform-info-text"></div>
+    </div>
+
+    <!-- Buttons -->
     <div class="button-group">
       <button id="save-btn" class="primary-btn">Save</button>
       <button id="cancel-btn" class="secondary-btn">Cancel</button>

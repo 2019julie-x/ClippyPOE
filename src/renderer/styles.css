@@ -1,3 +1,7 @@
+/* =========================================================================
+   PoE League Starter – Overlay Styles
+   ========================================================================= */
+
 * {
   margin: 0;
   padding: 0;
@@ -12,49 +16,50 @@ body {
   user-select: none;
 }
 
+/* ---- Main container ---- */
 .overlay-container {
-  width: 380px;
-  background: rgba(20, 20, 25, 0.95);
-  border: 1px solid rgba(200, 150, 100, 0.4);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 14, 18, 0.92);
+  border: 1px solid rgba(200, 150, 100, 0.35);
   border-radius: 6px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
   overflow: hidden;
-  backdrop-filter: blur(10px);
+  /* NOTE: backdrop-filter removed – it breaks transparent Electron windows */
+  transition: opacity 0.2s ease;
 }
 
-/* Header */
+/* ---- Header ---- */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
-  background: linear-gradient(135deg, rgba(50, 40, 30, 0.9), rgba(40, 30, 25, 0.9));
+  padding: 6px 10px;
+  background: linear-gradient(135deg, rgba(50, 40, 30, 0.95), rgba(35, 28, 22, 0.95));
   border-bottom: 1px solid rgba(200, 150, 100, 0.3);
   cursor: move;
   -webkit-app-region: drag;
+  flex-shrink: 0;
 }
 
 .title {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 6px;
+  font-size: 12px;
   font-weight: 600;
   color: #f4d4a8;
+  min-width: 0;
 }
 
-#act-title {
-  color: #d4af37;
-}
+#act-title { color: #d4af37; white-space: nowrap; }
 
-.separator {
-  color: rgba(244, 212, 168, 0.4);
-  font-size: 10px;
-}
+.separator { color: rgba(244, 212, 168, 0.4); font-size: 10px; }
 
 #zone-title {
   color: #f4d4a8;
-  max-width: 180px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -62,24 +67,25 @@ body {
 
 .controls {
   display: flex;
-  gap: 4px;
+  gap: 3px;
   -webkit-app-region: no-drag;
+  flex-shrink: 0;
 }
 
 .control-btn {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   background: rgba(60, 50, 40, 0.5);
   border: 1px solid rgba(200, 150, 100, 0.3);
   border-radius: 3px;
   color: #d4af37;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: all 0.15s;
+  line-height: 1;
 }
 
 .control-btn:hover {
@@ -92,100 +98,136 @@ body {
   border-color: rgba(255, 100, 100, 0.5);
 }
 
-/* Content */
+.lock-active {
+  background: rgba(50, 120, 50, 0.5) !important;
+  border-color: rgba(100, 200, 100, 0.5) !important;
+}
+
+/* ---- Tab bar ---- */
+.tab-bar {
+  display: flex;
+  background: rgba(25, 22, 18, 0.95);
+  border-bottom: 1px solid rgba(200, 150, 100, 0.2);
+  flex-shrink: 0;
+  -webkit-app-region: no-drag;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 5px 4px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #8a7a6a;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tab-btn:hover { color: #c5b59a; }
+
+.tab-btn.active {
+  color: #d4af37;
+  border-bottom-color: #d4af37;
+}
+
+/* ---- Tab content ---- */
+.tab-content {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tab-content.active {
+  display: flex;
+}
+
+/* ---- Scrollable content area ---- */
 .content {
-  padding: 10px;
-  max-height: 400px;
+  flex: 1;
+  padding: 8px;
   overflow-y: auto;
   overflow-x: hidden;
+  min-height: 0;
 }
 
-.content::-webkit-scrollbar {
-  width: 6px;
-}
+.content::-webkit-scrollbar { width: 5px; }
+.content::-webkit-scrollbar-track { background: rgba(30, 25, 20, 0.3); }
+.content::-webkit-scrollbar-thumb { background: rgba(200, 150, 100, 0.3); border-radius: 3px; }
+.content::-webkit-scrollbar-thumb:hover { background: rgba(200, 150, 100, 0.5); }
 
-.content::-webkit-scrollbar-track {
-  background: rgba(30, 25, 20, 0.5);
-}
-
-.content::-webkit-scrollbar-thumb {
-  background: rgba(200, 150, 100, 0.4);
-  border-radius: 3px;
-}
-
-.content::-webkit-scrollbar-thumb:hover {
-  background: rgba(200, 150, 100, 0.6);
-}
-
-/* Sections */
+/* ---- Sections ---- */
 .section {
-  margin-bottom: 10px;
-  background: rgba(30, 25, 20, 0.6);
-  border: 1px solid rgba(200, 150, 100, 0.2);
+  margin-bottom: 8px;
+  background: rgba(30, 25, 20, 0.5);
+  border: 1px solid rgba(200, 150, 100, 0.15);
   border-radius: 4px;
-  padding: 8px;
+  padding: 7px;
 }
 
 .section-header {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: #d4af37;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .level-indicator {
-  font-size: 10px;
+  font-size: 9px;
   color: #f4d4a8;
   background: rgba(60, 50, 40, 0.6);
-  padding: 2px 6px;
+  padding: 1px 5px;
   border-radius: 3px;
 }
 
-/* Objectives */
+/* ---- Objectives ---- */
 .objectives-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .objective-item {
   display: flex;
   align-items: flex-start;
-  gap: 6px;
-  font-size: 12px;
+  gap: 5px;
+  font-size: 11px;
   color: #e8d5b7;
-  padding: 4px 6px;
+  padding: 3px 5px;
   border-radius: 3px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.15s;
 }
 
-.objective-item:hover {
-  background: rgba(60, 50, 40, 0.4);
-}
+.objective-item:hover { background: rgba(60, 50, 40, 0.4); }
 
 .objective-item.completed {
   color: #7a9878;
   text-decoration: line-through;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .objective-checkbox {
-  width: 14px;
-  height: 14px;
-  min-width: 14px;
+  width: 13px;
+  height: 13px;
+  min-width: 13px;
   border: 1px solid rgba(200, 150, 100, 0.4);
   border-radius: 2px;
   background: rgba(20, 15, 10, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 9px;
   color: #7a9878;
   margin-top: 1px;
 }
@@ -195,83 +237,165 @@ body {
   border-color: rgba(122, 152, 120, 0.5);
 }
 
-.objective-text {
-  flex: 1;
-  line-height: 1.4;
-}
+.objective-text { flex: 1; line-height: 1.4; }
 
-/* Tips */
+/* ---- Tips ---- */
 .tips-content {
-  font-size: 11px;
+  font-size: 10px;
   color: #c5b59a;
   line-height: 1.5;
   font-style: italic;
 }
 
-/* Passives */
-.passive-content {
-  font-size: 11px;
-  color: #e8d5b7;
-  line-height: 1.5;
+/* ---- Passives ---- */
+.passive-content { font-size: 10px; color: #e8d5b7; line-height: 1.5; }
+.passive-item { padding: 2px 0; display: flex; align-items: center; gap: 5px; }
+.passive-item::before { content: "\2192"; color: #d4af37; font-weight: bold; }
+
+/* ---- Quest ---- */
+.quest-content { font-size: 10px; color: #e8d5b7; line-height: 1.5; }
+.quest-reward { color: #d4af37; font-weight: 600; }
+.quest-required { color: #ff6b6b; font-weight: 600; }
+
+/* ---- Gem tracker ---- */
+.gem-list { display: flex; flex-direction: column; gap: 4px; }
+
+.gem-quest-group { margin-bottom: 6px; }
+
+.gem-quest-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: #c5b59a;
+  margin-bottom: 3px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(200, 150, 100, 0.15);
 }
 
-.passive-item {
-  padding: 3px 0;
+.gem-item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.gem-item:hover { background: rgba(60, 50, 40, 0.3); }
+
+.gem-name { color: #80d0ff; }
+.gem-classes { color: #8a7a6a; font-size: 9px; }
+
+/* ---- Cheatsheets ---- */
+.cheatsheet-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+.cheatsheet-nav-btn {
+  padding: 3px 8px;
+  background: rgba(40, 35, 28, 0.7);
+  border: 1px solid rgba(200, 150, 100, 0.2);
+  border-radius: 3px;
+  color: #8a7a6a;
+  font-size: 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.cheatsheet-nav-btn:hover { color: #c5b59a; border-color: rgba(200, 150, 100, 0.4); }
+
+.cheatsheet-nav-btn.active {
+  color: #d4af37;
+  border-color: rgba(212, 175, 55, 0.5);
+  background: rgba(60, 50, 35, 0.6);
+}
+
+.cheatsheet-body { font-size: 10px; color: #e8d5b7; }
+
+.cs-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 3px 4px;
+  border-bottom: 1px solid rgba(200, 150, 100, 0.08);
+  gap: 8px;
+}
+
+.cs-row:last-child { border-bottom: none; }
+.cs-label { color: #c5b59a; flex-shrink: 0; }
+.cs-value { color: #f4d4a8; text-align: right; }
+.cs-tip { padding: 3px 4px; color: #c5b59a; line-height: 1.4; }
+
+/* ---- Timer ---- */
+.timer-section { text-align: center; padding: 12px 8px; }
+
+.timer-display {
+  font-size: 32px;
+  font-weight: 700;
+  color: #d4af37;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.timer-controls {
+  display: flex;
   gap: 6px;
+  justify-content: center;
 }
 
-.passive-item::before {
-  content: "→";
-  color: #d4af37;
-  font-weight: bold;
+.timer-btn { min-width: 60px; }
+
+.splits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-/* Quest */
-.quest-content {
-  font-size: 11px;
-  color: #e8d5b7;
-  line-height: 1.5;
+.split-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-bottom: 1px solid rgba(200, 150, 100, 0.08);
 }
 
-.quest-reward {
-  color: #d4af37;
-  font-weight: 600;
-}
+.split-label { color: #c5b59a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
+.split-time { color: #d4af37; font-family: 'Courier New', monospace; white-space: nowrap; }
 
-.quest-required {
-  color: #ff6b6b;
-  font-weight: 600;
-}
-
-/* No Data */
+/* ---- No data ---- */
 .no-data {
-  font-size: 11px;
-  color: #888;
+  font-size: 10px;
+  color: #666;
   text-align: center;
-  padding: 8px;
+  padding: 6px;
   font-style: italic;
 }
 
-/* Footer */
+/* ---- Footer ---- */
 .footer {
   display: flex;
   justify-content: space-between;
-  padding: 6px 10px;
-  background: rgba(30, 25, 20, 0.8);
-  border-top: 1px solid rgba(200, 150, 100, 0.2);
+  padding: 5px 8px;
+  background: rgba(25, 22, 18, 0.9);
+  border-top: 1px solid rgba(200, 150, 100, 0.15);
+  flex-shrink: 0;
+  -webkit-app-region: no-drag;
 }
 
 .footer-btn {
-  padding: 4px 12px;
+  padding: 3px 10px;
   background: rgba(60, 50, 40, 0.6);
   border: 1px solid rgba(200, 150, 100, 0.3);
   border-radius: 3px;
   color: #d4af37;
-  font-size: 11px;
+  font-size: 10px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 
 .footer-btn:hover {
@@ -279,15 +403,13 @@ body {
   border-color: rgba(212, 175, 55, 0.5);
 }
 
-.footer-btn:active {
-  transform: scale(0.95);
-}
+.footer-btn:active { transform: scale(0.95); }
 
-/* Waypoint indicator */
+/* ---- Waypoint indicator ---- */
 .waypoint-indicator {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background: rgba(100, 150, 255, 0.3);
   border: 1px solid rgba(100, 150, 255, 0.6);
   border-radius: 50%;
@@ -295,23 +417,40 @@ body {
   vertical-align: middle;
 }
 
-.waypoint-indicator.found {
-  background: rgba(100, 150, 255, 0.6);
-  border-color: rgba(100, 150, 255, 0.9);
+/* ---- Mode indicator ---- */
+.mode-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #d4af37;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  pointer-events: none;
+  z-index: 100;
 }
 
-/* Animations */
+/* ---- Animations ---- */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-3px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.objective-item {
-  animation: fadeIn 0.3s ease;
+.objective-item { animation: fadeIn 0.2s ease; }
+
+@keyframes fadeInOut {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.mode-indicator.show {
+  display: block;
+  animation: fadeInOut 1.2s ease forwards;
 }

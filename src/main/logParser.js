@@ -9,6 +9,7 @@ class LogParser extends EventEmitter {
     this.watcher = null;
     this.filePosition = 0;
     this.isRunning = false;
+    this.leftoverString = '';
     
     // Patterns to match in log file
     this.patterns = {
@@ -117,9 +118,12 @@ class LogParser extends EventEmitter {
       // Update position
       this.filePosition = currentSize;
 
-      // Process new lines
-      const newContent = buffer.toString('utf8');
+      // Process new lines with partial line retention for 100% data consistency
+      const newContent = this.leftoverString + buffer.toString('utf8');
       const lines = newContent.split('\n');
+
+      // The last element is either an empty string (if ends with newline) or a partial line
+      this.leftoverString = lines.pop() || '';
 
       for (const line of lines) {
         this.parseLine(line);

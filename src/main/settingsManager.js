@@ -6,19 +6,34 @@ class SettingsManager {
   constructor() {
     this.configDir = path.join(app.getPath('userData'), 'config');
     this.settingsPath = path.join(this.configDir, 'settings.json');
+    this.backupPath = path.join(this.configDir, 'settings.json.bak');
+
     this.defaultSettings = {
       clientTxtPath: '',
       opacity: 0.95,
       windowPosition: { x: 100, y: 100 },
+      windowSize: { width: 400, height: 600 },
       autoDetect: true,
       theme: 'dark',
+      hotkeys: {
+        toggleOverlay: 'Shift+Space',
+        hideOverlay: 'Shift+F1',
+        nextZone: 'Shift+F2',
+        prevZone: 'Shift+F3',
+        toggleTimer: 'Shift+F4',
+      },
+      activeTab: 'guide',
       currentProgress: {
         act: 1,
         zone: null,
         completedObjectives: [],
-        currentLevel: 1
-      }
+        currentLevel: 1,
+      },
     };
+
+    // Debounce disk writes for high-frequency updates (window move/resize)
+    this.saveTimeout = null;
+    this.saveDelayMs = 500;
 
     this.ensureConfigDirectory();
     this.loadSettings();
@@ -32,12 +47,29 @@ class SettingsManager {
 
   loadSettings() {
     try {
+      let dataToParse = null;
       if (fs.existsSync(this.settingsPath)) {
-        const data = fs.readFileSync(this.settingsPath, 'utf8');
-        this.settings = { ...this.defaultSettings, ...JSON.parse(data) };
+        dataToParse = fs.readFileSync(this.settingsPath, 'utf8');
+        fs.copyFileSync(this.settingsPath, this.backupPath);
+      } else if (fs.existsSync(this.backupPath)) {
+        dataToParse = fs.readFileSync(this.backupPath, 'utf8');
+      }
+
+      if (dataToParse) {
+        const parsed = JSON.parse(dataToParse);
+        // Deep merge to preserve new defaults for nested objects
+        this.settings = {
+          ...this.defaultSettings,
+          ...parsed,
+          hotkeys: { ...this.defaultSettings.hotkeys, ...(parsed.hotkeys || {}) },
+          currentProgress: {
+            ...this.defaultSettings.currentProgress,
+            ...(parsed.currentProgress || {}),
+          },
+        };
       } else {
         this.settings = { ...this.defaultSettings };
-        this.saveSettingsToFile();
+        this.saveSettingsToFile(true);
       }
     } catch (err) {
       console.error('Error loading settings:', err);
@@ -45,15 +77,27 @@ class SettingsManager {
     }
   }
 
-  saveSettingsToFile() {
-    try {
-      fs.writeFileSync(
-        this.settingsPath,
-        JSON.stringify(this.settings, null, 2),
-        'utf8'
-      );
-    } catch (err) {
-      console.error('Error saving settings:', err);
+  saveSettingsToFile(immediate = false) {
+    if (this.saveTimeout) {
+      clearTimeout(this.saveTimeout);
+    }
+
+    const performSave = () => {
+      try {
+        const tempPath = this.settingsPath + '.tmp';
+        const data = JSON.stringify(this.settings, null, 2);
+        // Atomic write: write to temp then rename
+        fs.writeFileSync(tempPath, data, 'utf8');
+        fs.renameSync(tempPath, this.settingsPath);
+      } catch (err) {
+        console.error('Error saving settings:', err);
+      }
+    };
+
+    if (immediate) {
+      performSave();
+    } else {
+      this.saveTimeout = setTimeout(performSave, this.saveDelayMs);
     }
   }
 
@@ -79,12 +123,24 @@ class SettingsManager {
     this.saveSettingsToFile();
   }
 
+  getWindowSize() {
+    return this.settings.windowSize;
+  }
+
+  saveWindowSize(width, height) {
+    this.settings.windowSize = { width, height };
+    this.saveSettingsToFile();
+  }
+
   getProgress() {
     return { ...this.settings.currentProgress };
   }
 
   saveProgress(progress) {
-    this.settings.currentProgress = { ...this.settings.currentProgress, ...progress };
+    this.settings.currentProgress = {
+      ...this.settings.currentProgress,
+      ...progress,
+    };
     this.saveSettingsToFile();
   }
 
@@ -93,7 +149,7 @@ class SettingsManager {
       act: 1,
       zone: null,
       completedObjectives: [],
-      currentLevel: 1
+      currentLevel: 1,
     };
     this.saveSettingsToFile();
   }

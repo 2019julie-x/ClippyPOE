@@ -1,0 +1,87 @@
+{
+  "cheatsheets": [
+    {
+      "id": "vendor-recipes",
+      "title": "Vendor Recipes",
+      "category": "general",
+      "items": [
+        { "recipe": "3 same-color linked sockets", "result": "Chromatic Orb" },
+        { "recipe": "6-socket item", "result": "7 Jeweller's Orbs" },
+        { "recipe": "Any identified rare item", "result": "Alteration Shards" },
+        { "recipe": "RGB linked group", "result": "Chromatic Orb" },
+        { "recipe": "Rustic Sash + Blacksmith Whetstone + Weapon", "result": "% Phys weapon" },
+        { "recipe": "Magic/Normal Flask + Transmutation/Alteration", "result": "Upgraded flask" },
+        { "recipe": "Any unique ring + any skill gem with quality", "result": "Gemcutter's Prism" }
+      ]
+    },
+    {
+      "id": "resistance-caps",
+      "title": "Resistance Caps",
+      "category": "general",
+      "items": [
+        { "stage": "After Act 5", "penalty": "-30% all resistances" },
+        { "stage": "After Act 10", "penalty": "-60% all resistances" },
+        { "stage": "Cap", "penalty": "75% (uncapped)" },
+        { "stage": "Chaos resistance", "penalty": "Separate, starts at 0%" }
+      ]
+    },
+    {
+      "id": "trial-locations",
+      "title": "Trial Locations",
+      "category": "ascendancy",
+      "items": [
+        { "act": 1, "location": "The Lower Prison" },
+        { "act": 2, "location": "The Crypt Level 1 (via Chamber of Sins)" },
+        { "act": 2, "location": "The Chamber of Sins Level 2" },
+        { "act": 3, "location": "The Crematorium" },
+        { "act": 3, "location": "The Catacombs" },
+        { "act": 3, "location": "The Imperial Gardens" }
+      ]
+    },
+    {
+      "id": "leveling-tips",
+      "title": "Leveling Tips",
+      "category": "general",
+      "items": [
+        { "tip": "Keep moving, don't stop for every pack" },
+        { "tip": "Stay 2-3 levels below zone level" },
+        { "tip": "Replace flasks at vendor every few acts" },
+        { "tip": "Use movement skills (Flame Dash, Dash, Leap Slam)" },
+        { "tip": "Pick up rare items only for slot upgrades" },
+        { "tip": "4-link with right colors > 5-link with wrong colors" },
+        { "tip": "Buy gems from vendor if you miss a quest reward" },
+        { "tip": "Log out macros save time vs portaling" }
+      ]
+    },
+    {
+      "id": "bandit-choices",
+      "title": "Bandit Choices",
+      "category": "quest",
+      "items": [
+        { "choice": "Help Oak", "reward": "1% life regen, 2% phys damage reduction, 20% phys damage" },
+        { "choice": "Help Alira", "reward": "5 mana regen/s, 20% crit multiplier, +15% all resistances" },
+        { "choice": "Help Kraityn", "reward": "6% attack/cast speed, 3% dodge, 6% move speed" },
+        { "choice": "Kill All", "reward": "2 Passive Skill Points (most common choice for league starters)" }
+      ]
+    },
+    {
+      "id": "pantheon",
+      "title": "Pantheon",
+      "category": "endgame",
+      "items": {
+        "major": [
+          { "name": "Soul of the Brine King", "effect": "stun" },
+          { "name": "Soul of Lunaris", "effect": "projectiles" },
+          { "name": "Soul of Solaris", "effect": "single target" },
+          { "name": "Soul of Arakaali", "effect": "DoT" }
+        ],
+        "minor": [
+          { "name": "Soul of Gruthkul", "effect": "phys reduction" },
+          { "name": "Soul of Yugul", "effect": "cold/curse reflect" },
+          { "name": "Soul of Abberath", "effect": "burning ground" },
+          { "name": "Soul of Tukohama", "effect": "stationary phys reduction" }
+        ]
+      }
+    }
+  ]
+}
