@@ -542,6 +542,117 @@
           ],
           "tips": "Good farming zone. Voll drops quest item.",
           "waypoint": true
+        },
+        {
+          "name": "The Mines Level 1",
+          "order": 3,
+          "objectives": [
+            "Find Deshret's Spirit (Optional)",
+            "Continue to Mines Level 2"
+          ],
+          "tips": "Deshret's Spirit unlocks a skill point later.",
+          "waypoint": false
+        },
+        {
+          "name": "The Mines Level 2",
+          "order": 4,
+          "objectives": [
+            "Find Deshret's Spirit if not found yet",
+            "Continue to The Crystal Veins"
+          ],
+          "tips": "Release Deshret's Spirit to complete An Indomitable Spirit.",
+          "waypoint": false
+        },
+        {
+          "name": "The Crystal Veins",
+          "order": 5,
+          "objectives": [
+            "Find Waypoint",
+            "Enter Kaom's Dream"
+          ],
+          "tips": "Waypoint is at the end of the zone, splitting into two paths.",
+          "waypoint": true
+        },
+        {
+          "name": "Kaom's Dream",
+          "order": 6,
+          "objectives": [
+            "Navigate to Kaom's Stronghold"
+          ],
+          "tips": "Long linear zone with lots of fire damage.",
+          "waypoint": false
+        },
+        {
+          "name": "Kaom's Stronghold",
+          "order": 7,
+          "objectives": [
+            "Find Waypoint",
+            "Kill King Kaom",
+            "Return to Crystal Veins"
+          ],
+          "tips": "Kaom hits hard physically. Kite him.",
+          "waypoint": true
+        },
+        {
+          "name": "Daresso's Dream",
+          "order": 8,
+          "objectives": [
+            "Kill arena bosses",
+            "Continue to The Grand Arena"
+          ],
+          "tips": "Accessed from Crystal Veins. You must fight through arenas.",
+          "waypoint": false
+        },
+        {
+          "name": "The Grand Arena",
+          "order": 9,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Daresso",
+            "Return to Crystal Veins"
+          ],
+          "tips": "Daresso uses cold/phys attacks. Watch for his blade vortices.",
+          "waypoint": true
+        },
+        {
+          "name": "The Belly of the Beast Level 1",
+          "order": 10,
+          "objectives": [
+            "Enter from Crystal Veins",
+            "Continue to Level 2"
+          ],
+          "tips": "Talk to Dialla in Crystal Veins to open the path.",
+          "waypoint": false
+        },
+        {
+          "name": "The Belly of the Beast Level 2",
+          "order": 11,
+          "objectives": [
+            "Kill Piety",
+            "Enter The Harvest"
+          ],
+          "tips": "Piety transforms into a beam-firing abomination. Circle her.",
+          "waypoint": false
+        },
+        {
+          "name": "The Harvest",
+          "order": 12,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Doedre, Maligaro, and Shavronne",
+            "Kill Malachai"
+          ],
+          "tips": "Kill the three mini-bosses to unlock the Black Core. Malachai is a complex fight.",
+          "waypoint": true
+        },
+        {
+          "name": "The Ascent",
+          "order": 13,
+          "objectives": [
+            "Navigate to The Slave Pens (Act 5)"
+          ],
+          "tips": "Use the lever to activate the device after killing Malachai.",
+          "waypoint": false
         }
       ],
       "quests": [
@@ -550,12 +661,1052 @@
           "reward": "1 Passive Skill Point",
           "required": true,
           "location": "Kill Malachai"
+        },
+        {
+          "name": "An Indomitable Spirit",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Free Deshret's Spirit"
         }
       ],
       "passiveCheckpoints": [
         {
           "level": 33,
           "nodes": ["Continue build progression"]
+        },
+        {
+          "level": 38,
+          "nodes": ["Ensure fire resistance is capped for Kaom"]
+        }
+      ]
+    },
+    {
+      "act": 5,
+      "name": "The Fall of Oriath - Part 2",
+      "zones": [
+        {
+          "name": "The Slave Pens",
+          "order": 1,
+          "objectives": [
+             "Kill Overseer Krow",
+             "Enter Overseer's Tower"
+          ],
+          "tips": "Linear start to Act 5. Kill the unique boss at the end.",
+          "waypoint": true
+        },
+        {
+          "name": "Overseer's Tower",
+          "order": 2,
+          "objectives": [
+            "Talk to Lani",
+            "Go to The Control Blocks"
+          ],
+          "tips": "Town hub for Act 5.",
+          "waypoint": false
+        },
+        {
+          "name": "The Control Blocks",
+          "order": 3,
+          "objectives": [
+            "Find Miasmeter (Optional)",
+            "Kill Justicar Casticus",
+            "Enter Oriath Square"
+          ],
+          "tips": "Miasmeter is for a skill point quest. Always get it.",
+          "waypoint": false
+        },
+        {
+          "name": "Oriath Square",
+          "order": 4,
+          "objectives": [
+            "Find Waypoint",
+            "Enter The Templar Courts"
+          ],
+          "tips": "Large open area. Waypoint is near the entrance to Templar Courts.",
+          "waypoint": true
+        },
+        {
+          "name": "The Templar Courts",
+          "order": 5,
+          "objectives": [
+            "Navigate to The Chamber of Innocence"
+          ],
+          "tips": "Indoor zone. Follow the red carpet.",
+          "waypoint": false
+        },
+        {
+          "name": "The Chamber of Innocence",
+          "order": 6,
+          "objectives": [
+            "Find Waypoint",
+            "Kill High Templar Avarius",
+            "Exit to The Torched Courts"
+          ],
+          "tips": "Avarius transforms into Innocence. Bullet hell phase.",
+          "waypoint": true
+        },
+        {
+          "name": "The Torched Courts",
+          "order": 7,
+          "objectives": [
+            "Navigate to The Ruined Square"
+          ],
+          "tips": "Backtracking through destroyed courts.",
+          "waypoint": false
+        },
+        {
+          "name": "The Ruined Square",
+          "order": 8,
+          "objectives": [
+            "Find Waypoint",
+            "Enter The Ossuary (Optional)",
+            "Enter The Reliquary (Optional)",
+            "Enter The Cathedral Rooftop"
+          ],
+          "tips": "Central hub. Do Ossuary and Reliquary for skill points.",
+          "waypoint": true
+        },
+        {
+          "name": "The Ossuary",
+          "order": 9,
+          "objectives": [
+            "Find Sign of Purity",
+            "Return to Ruined Square"
+          ],
+          "tips": "Required to fight Kitava later. Also has a Trial of Ascendancy.",
+          "waypoint": false
+        },
+        {
+          "name": "The Reliquary",
+          "order": 10,
+          "objectives": [
+            "Find Waypoint",
+            "Collect 3 Kitava's Torments",
+            "Return to Ruined Square"
+          ],
+          "tips": "Rewards a passive skill point.",
+          "waypoint": true
+        },
+        {
+          "name": "The Cathedral Rooftop",
+          "order": 11,
+          "objectives": [
+            "Enter The Cathedral Apex",
+            "Fight Kitava"
+          ],
+          "tips": "Kitava fight is scripted to fail. You will be debuffed after.",
+          "waypoint": true
+        }
+      ],
+      "quests": [
+        {
+          "name": "The Ravenous God",
+          "reward": "Resistance penalty (-30%)",
+          "required": true,
+          "location": "Fight Kitava"
+        },
+        {
+          "name": "In Service to Science",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Find Miasmeter"
+        },
+        {
+          "name": "Kitava's Torments",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Reliquary Quest Items"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 41,
+          "nodes": ["Upgrade flask setup"]
+        },
+        {
+          "level": 44,
+          "nodes": ["Prepare for resistance penalty"]
+        }
+      ]
+    },
+    {
+      "act": 6,
+      "name": "The Part 2 - Tides of War",
+      "zones": [
+        {
+          "name": "Lioneye's Watch",
+          "order": 1,
+          "objectives": [
+             "Talk to Lilly Roth",
+             "Clear Twilight Strand (Optional)"
+          ],
+          "tips": "Clearing Twilight Strand unlocks all gems at Lilly.",
+          "waypoint": true
+        },
+        {
+          "name": "The Coast",
+          "order": 2,
+          "objectives": [
+            "Find Waypoint",
+            "Go to The Mud Flats"
+          ],
+          "tips": "Waypoint is in same spot as Act 1.",
+          "waypoint": true
+        },
+        {
+          "name": "The Mud Flats",
+          "order": 3,
+          "objectives": [
+            "Kill The Dishonoured Queen",
+            "Take Eye of Conquest",
+            "Enter Karui Fortress"
+          ],
+          "tips": "Queen is usually near the top right.",
+          "waypoint": false
+        },
+        {
+          "name": "The Karui Fortress",
+          "order": 4,
+          "objectives": [
+            "Kill Tukohama",
+            "Exit to The Ridge"
+          ],
+          "tips": "Tukohama has totems. Kill them or avoid their beams.",
+          "waypoint": false
+        },
+        {
+          "name": "The Ridge",
+          "order": 5,
+          "objectives": [
+            "Find Waypoint",
+            "Enter The Lower Prison"
+          ],
+          "tips": "Linear outdoor zone.",
+          "waypoint": true
+        },
+        {
+          "name": "The Lower Prison",
+          "order": 6,
+          "objectives": [
+            "Find Waypoint",
+            "Complete Trial of Ascendancy",
+            "Kill Shavronne",
+            "Exit to Prisoner's Gate"
+          ],
+          "tips": "Shavronne is in the tower at the end.",
+          "waypoint": true
+        },
+        {
+          "name": "Prisoner's Gate",
+          "order": 7,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Abberath (Optional)",
+            "Go to Western Forest"
+          ],
+          "tips": "Abberath grants a skill point. Follow the path to find him.",
+          "waypoint": true
+        },
+        {
+          "name": "The Western Forest",
+          "order": 8,
+          "objectives": [
+            "Find Waypoint",
+            "Go to The Riverways"
+          ],
+          "tips": "Follow the road.",
+          "waypoint": true
+        },
+        {
+          "name": "The Riverways",
+          "order": 9,
+          "objectives": [
+            "Find Waypoint",
+            "Go to The Wetlands"
+          ],
+          "tips": "Wetlands is usually in the upper left.",
+          "waypoint": true
+        },
+        {
+          "name": "The Wetlands",
+          "order": 10,
+          "objectives": [
+            "Enter Spawning Ground",
+            "Kill Ryslatha (Puppet Mistress)",
+            "Return to Riverways -> Southern Forest"
+          ],
+          "tips": "Kill Ryslatha to get a skill point.",
+          "waypoint": true
+        },
+        {
+          "name": "The Southern Forest",
+          "order": 11,
+          "objectives": [
+            "Find Waypoint",
+            "Go to The Beacon"
+          ],
+          "tips": "Linear zone leading to the coast.",
+          "waypoint": true
+        },
+        {
+          "name": "The Beacon",
+          "order": 12,
+          "objectives": [
+            "Find Waypoint",
+            "Escort the Torch",
+            "Light the Beacon",
+            "Sail to Brine King's Reef"
+          ],
+          "tips": "Escort mission. Stay in the circle.",
+          "waypoint": true
+        },
+        {
+          "name": "The Brine King's Reef",
+          "order": 13,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Tsoagoth, The Brine King"
+          ],
+          "tips": "Brine King has a tide phase. Stay in the safe bubbles.",
+          "waypoint": true
+        }
+      ],
+      "quests": [
+        {
+          "name": "The Brine King",
+          "reward": "Unlocks Pantheon Major Soul",
+          "required": true,
+          "location": "Kill Brine King"
+        },
+        {
+          "name": "The Father of War",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Tukohama"
+        },
+        {
+          "name": "The Puppet Mistress",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Ryslatha"
+        },
+         {
+          "name": "The Cloven One",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Abberath"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 46,
+          "nodes": ["Start fixing resistances"]
+        },
+        {
+          "level": 50,
+          "nodes": ["Pick up major keystones"]
+        }
+      ]
+    },
+    {
+      "act": 7,
+      "name": "Lord of the Amphitheatre",
+      "zones": [
+        {
+          "name": "The Bridge Encampment",
+          "order": 1,
+          "objectives": [
+            "Go to The Broken Bridge"
+          ],
+          "tips": "Town hub for Act 7.",
+          "waypoint": true
+        },
+        {
+          "name": "The Broken Bridge",
+          "order": 2,
+          "objectives": [
+            "Find Silver Locket",
+            "Go to The Crossroads"
+          ],
+          "tips": "Locket is in a chest for a quest reward.",
+          "waypoint": false
+        },
+        {
+          "name": "The Crossroads",
+          "order": 3,
+          "objectives": [
+            "Find Waypoint",
+            "Go to The Fellshrine Ruins"
+          ],
+          "tips": "Central hub. Go South/Right first.",
+          "waypoint": true
+        },
+        {
+          "name": "The Fellshrine Ruins",
+          "order": 4,
+          "objectives": [
+            "Go to The Crypt"
+          ],
+          "tips": "Just run through to the Crypt.",
+          "waypoint": false
+        },
+        {
+          "name": "The Crypt",
+          "order": 5,
+          "objectives": [
+            "Find Waypoint",
+            "Complete Trial of Ascendancy",
+            "Find Maligaro's Map",
+            "Return to Crossroads"
+          ],
+          "tips": "Map is in a chest at the end.",
+          "waypoint": true
+        },
+        {
+          "name": "The Chamber of Sins Level 1",
+          "order": 6,
+          "objectives": [
+            "Enter from Crossroads (North)",
+            "Find Waypoint",
+            "Use Map Device to enter Maligaro's Sanctum"
+          ],
+          "tips": "Center room has the map device.",
+          "waypoint": true
+        },
+        {
+          "name": "Maligaro's Sanctum",
+          "order": 7,
+          "objectives": [
+            "Kill Maligaro",
+            "Take Black Venom",
+            "Return to Chamber of Sins"
+          ],
+          "tips": "Maligaro summons clones. Kill them quickly.",
+          "waypoint": false
+        },
+        {
+          "name": "The Chamber of Sins Level 2",
+          "order": 8,
+          "objectives": [
+            "Complete Trial of Ascendancy",
+            "Give Venom to Silk",
+            "Enter The Den"
+          ],
+          "tips": "Trial is in this zone.",
+          "waypoint": false
+        },
+        {
+          "name": "The Ashen Fields",
+          "order": 9,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Greust",
+            "Enter Northern Forest"
+          ],
+          "tips": "Greust is the boss of this zone.",
+          "waypoint": true
+        },
+        {
+          "name": "The Northern Forest",
+          "order": 10,
+          "objectives": [
+            "Find Waypoint",
+            "Go to The Dread Thicket (Optional)",
+            "Go to The Causeway"
+          ],
+          "tips": "Dread Thicket has a skill point quest (Gruthkul).",
+          "waypoint": true
+        },
+        {
+          "name": "The Dread Thicket",
+          "order": 11,
+          "objectives": [
+            "Collect 7 Fireflies",
+            "Kill Gruthkul",
+            "Return to Northern Forest"
+          ],
+          "tips": "Optional area, but gives a passive point and Pantheon soul.",
+          "waypoint": false
+        },
+        {
+          "name": "The Causeway",
+          "order": 12,
+          "objectives": [
+            "Find Waypoint",
+            "Find Kishara's Star",
+            "Enter The Vaal City"
+          ],
+          "tips": "Kishara's Star is in a chest. Grants a skill point.",
+          "waypoint": true
+        },
+        {
+          "name": "The Vaal City",
+          "order": 13,
+          "objectives": [
+            "Find Waypoint",
+            "Talk to Yeena",
+            "Enter The Temple of Decay"
+          ],
+          "tips": "Large maze-like zone.",
+          "waypoint": true
+        },
+        {
+          "name": "The Temple of Decay Level 1",
+          "order": 14,
+          "objectives": [
+            "Go to Level 2"
+          ],
+          "tips": "Just run down.",
+          "waypoint": false
+        },
+        {
+          "name": "The Temple of Decay Level 2",
+          "order": 15,
+          "objectives": [
+            "Kill Arakaali"
+          ],
+          "tips": "Arakaali is a large spider. Avoid the chaos lasers.",
+          "waypoint": false
+        }
+      ],
+      "quests": [
+        {
+          "name": "The Mother of Spiders",
+          "reward": "Pantheon Soul",
+          "required": true,
+          "location": "Kill Arakaali"
+        },
+        {
+          "name": "The Master of a Million Faces",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Ralakesh (Wait, Ralakesh is later? No, this is Greust? No, Ralakesh is Act 7 god... wait. Greust is possessed by Ralakesh. Yes.)"
+        },
+         {
+          "name": "Queen of Despair",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Gruthkul"
+        },
+        {
+          "name": "Kishara's Star",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Find Kishara's Star"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 53,
+          "nodes": ["Chaos resistance is helpful here"]
+        }
+      ]
+    },
+    {
+      "act": 8,
+      "name": "Eclipse",
+      "zones": [
+        {
+          "name": "The Sarn Ramparts",
+          "order": 1,
+          "objectives": [
+            "Enter Sarn Encampment"
+          ],
+          "tips": "Short run to town.",
+          "waypoint": true
+        },
+        {
+          "name": "The Sarn Encampment",
+          "order": 2,
+          "objectives": [
+            "Talk to NPCs",
+            "Enter The Toxic Conduits"
+          ],
+          "tips": "Act 8 town.",
+          "waypoint": false
+        },
+        {
+          "name": "The Toxic Conduits",
+          "order": 3,
+          "objectives": [
+            "Enter Doedre's Cesspool"
+          ],
+          "tips": "Linear passage.",
+          "waypoint": false
+        },
+        {
+          "name": "Doedre's Cesspool",
+          "order": 4,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Doedre the Vile",
+            "Enter The Quay"
+          ],
+          "tips": "Doedre has a cauldron. Click valve to change debuffs.",
+          "waypoint": true
+        },
+        {
+          "name": "The Quay",
+          "order": 5,
+          "objectives": [
+            "Find Waypoint",
+            "Find Ankh of Eternity",
+            "Kill Tolman (Resurrection Site)",
+            "Enter The Grain Gate"
+          ],
+          "tips": "Ankh is for Clarissa quest (Skill point). Tolman fight is optional side area.",
+          "waypoint": true
+        },
+        {
+          "name": "The Grain Gate",
+          "order": 6,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Gemling Legion",
+            "Enter Imperial Fields"
+          ],
+          "tips": "Gemling Legion gives a passive point.",
+          "waypoint": true
+        },
+        {
+          "name": "The Imperial Fields",
+          "order": 7,
+          "objectives": [
+            "Find Waypoint",
+            "Enter Solaris Temple"
+          ],
+          "tips": "Run towards the temple.",
+          "waypoint": true
+        },
+        {
+          "name": "The Solaris Temple Level 1",
+          "order": 8,
+          "objectives": [
+            "Find Waypoint",
+            "Enter Level 2"
+          ],
+          "tips": "Standard temple layout.",
+          "waypoint": true
+        },
+        {
+          "name": "The Solaris Temple Level 2",
+          "order": 9,
+          "objectives": [
+            "Kill Dawn",
+            "Take Sun Orb",
+            "Return to Town -> Toxic Conduits -> Solaris Concourse"
+          ],
+          "tips": "Dawn deals heavy fire damage.",
+          "waypoint": false
+        },
+        {
+          "name": "The Solaris Concourse",
+          "order": 10,
+          "objectives": [
+            "Find Waypoint",
+            "Enter Harbour Bridge"
+          ],
+          "tips": "Connects Temple to Bridge.",
+          "waypoint": true
+        },
+        {
+          "name": "The Harbour Bridge",
+          "order": 11,
+          "objectives": [
+            "Cross bridge to Lunaris Concourse"
+          ],
+          "tips": "Skyy Shrine encounter is here.",
+          "waypoint": false
+        },
+        {
+          "name": "The Lunaris Concourse",
+          "order": 12,
+          "objectives": [
+            "Find Waypoint",
+            "Enter Bath House"
+          ],
+          "tips": "Go to Bath House first for wings/trial.",
+          "waypoint": true
+        },
+        {
+          "name": "The Bath House",
+          "order": 13,
+          "objectives": [
+            "Find Waypoint",
+            "Complete Trial of Ascendancy",
+            "Find Wings of Vastiri (Quest)",
+            "Enter High Gardens (Optional)"
+          ],
+          "tips": "Wings give a skill point. Trial is labyrinthine.",
+          "waypoint": true
+        },
+        {
+          "name": "The High Gardens",
+          "order": 14,
+          "objectives": [
+            "Kill Yugul",
+            "Return to Bath House -> Lunaris Concourse"
+          ],
+          "tips": "Yugul reflects damage. Careful. Reward is passive point.",
+          "waypoint": false
+        },
+        {
+          "name": "The Lunaris Temple Level 1",
+          "order": 15,
+          "objectives": [
+            "Enter from Lunaris Concourse",
+            "Find Waypoint",
+            "Enter Level 2"
+          ],
+          "tips": "Mirror of Solaris.",
+          "waypoint": true
+        },
+        {
+          "name": "The Lunaris Temple Level 2",
+          "order": 16,
+          "objectives": [
+            "Kill Dusk",
+            "Take Moon Orb",
+            "Return to Harbour Bridge"
+          ],
+          "tips": "Dusk deals cold/phys damage.",
+          "waypoint": false
+        },
+        {
+          "name": "The Harbour Bridge (Boss)",
+          "order": 17,
+          "objectives": [
+            "Kill Solaris and Lunaris"
+          ],
+          "tips": "Focus one then the other. Stay mobile.",
+          "waypoint": false
+        }
+      ],
+      "quests": [
+        {
+          "name": "Lunar Eclipse / Solar Eclipse",
+          "reward": "Story Progression",
+          "required": true,
+          "location": "Kill Dawn and Dusk"
+        },
+        {
+          "name": "Love is Dead",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Tolman in Quay"
+        },
+        {
+          "name": "The Gemling Legion",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Legion in Grain Gate"
+        },
+         {
+          "name": "Reflection of Terror",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Yugul"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 58,
+          "nodes": ["Finalize build core"]
+        }
+      ]
+    },
+    {
+      "act": 9,
+      "name": "Reunion",
+      "zones": [
+        {
+          "name": "The Blood Aqueduct",
+          "order": 1,
+          "objectives": [
+            "Go to Highgate",
+            "Farm Humility cards (Optional)"
+          ],
+          "tips": "Best place to farm Tabula Rasa (Humility cards).",
+          "waypoint": true
+        },
+        {
+          "name": "Highgate",
+          "order": 2,
+          "objectives": [
+            "Talk to Sin",
+            "Enter The Descent"
+          ],
+          "tips": "Act 9 Town.",
+          "waypoint": false
+        },
+        {
+          "name": "The Descent",
+          "order": 3,
+          "objectives": [
+            "Go to Vastiri Desert"
+          ],
+          "tips": "Short transition zone using cargo lifts.",
+          "waypoint": false
+        },
+        {
+          "name": "The Vastiri Desert",
+          "order": 4,
+          "objectives": [
+            "Find Waypoint",
+            "Find Storm Blade",
+            "Talk to Petarus/Vanja (Town) to get Bottled Storm",
+            "Enter The Oasis (Optional)"
+          ],
+          "tips": "Get Storm Blade first. Then go to Oasis for skill point.",
+          "waypoint": true
+        },
+        {
+          "name": "The Oasis",
+          "order": 5,
+          "objectives": [
+            "Kill Shakari",
+            "Return to Desert -> Foothills"
+          ],
+          "tips": "Shakari gives a passive point and Pantheon soul. Do not skip.",
+          "waypoint": false
+        },
+        {
+          "name": "The Foothills",
+          "order": 6,
+          "objectives": [
+            "Find Waypoint",
+            "Enter The Boiling Lake",
+            "Enter The Tunnel"
+          ],
+          "tips": "Hub zone. Go to Boiling Lake first.",
+          "waypoint": true
+        },
+        {
+          "name": "The Boiling Lake",
+          "order": 7,
+          "objectives": [
+            "Kill The Basilisk",
+            "Take Basilisk Acid",
+            "Return to Foothills"
+          ],
+          "tips": "Basilisk has a petrifying gaze.",
+          "waypoint": false
+        },
+        {
+          "name": "The Tunnel",
+          "order": 8,
+          "objectives": [
+            "Find Waypoint",
+            "Complete Trial of Ascendancy",
+            "Enter The Quarry"
+          ],
+          "tips": "Trial is here. Zone is linear.",
+          "waypoint": true
+        },
+        {
+          "name": "The Quarry",
+          "order": 9,
+          "objectives": [
+            "Find Waypoint",
+            "Enter The Refinery",
+            "Enter Shrine of Winds (Optional)",
+            "Enter Belly of the Beast"
+          ],
+          "tips": "Square layout. Waypoint in middle.",
+          "waypoint": true
+        },
+        {
+          "name": "The Refinery",
+          "order": 10,
+          "objectives": [
+            "Kill General Adus",
+            "Take Trarthan Powder",
+            "Return to Quarry"
+          ],
+          "tips": "General Adus uses lightning/phys.",
+          "waypoint": false
+        },
+        {
+          "name": "The Belly of the Beast",
+          "order": 11,
+          "objectives": [
+            "Talk to Sin",
+            "Enter The Rotting Core"
+          ],
+          "tips": "Short run.",
+          "waypoint": false
+        },
+        {
+          "name": "The Rotting Core",
+          "order": 12,
+          "objectives": [
+            "Enter Black Heart",
+            "Kill Shavronne, Maligaro, Doedre",
+            "Kill The Depraved Trinity"
+          ],
+          "tips": "Final boss of Act 9. Complex fight.",
+          "waypoint": false
+        }
+      ],
+      "quests": [
+        {
+          "name": "The Ruler of Highgate",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Garukhan (Shrine of Winds - Quarry)"
+        },
+        {
+          "name": "Queen of the Sands",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Shakari"
+        },
+        {
+          "name": "The Storm Blade",
+          "reward": "Rare Item",
+          "required": true,
+          "location": "Find Storm Blade"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 62,
+          "nodes": ["Prepare for final resistance penalty"]
+        }
+      ]
+    },
+    {
+      "act": 10,
+      "name": "Return to Oriath",
+      "zones": [
+        {
+          "name": "Oriath Docks",
+          "order": 1,
+          "objectives": [
+            "Enter Cathedral Rooftop"
+          ],
+          "tips": "Act 10 Town.",
+          "waypoint": true
+        },
+        {
+          "name": "The Cathedral Rooftop",
+          "order": 2,
+          "objectives": [
+            "Save Bannon",
+            "Enter The Ravaged Square"
+          ],
+          "tips": "Similar to Act 5 but destroyed.",
+          "waypoint": false
+        },
+        {
+          "name": "The Ravaged Square",
+          "order": 3,
+          "objectives": [
+            "Find Waypoint",
+            "Enter The Control Blocks (Optional)",
+            "Enter The Reliquary (Optional)",
+            "Enter The Ossuary (Optional)",
+            "Enter The Torched Courts"
+          ],
+          "tips": "Central hub. Do side quests here for points.",
+          "waypoint": true
+        },
+        {
+          "name": "The Control Blocks",
+          "order": 4,
+          "objectives": [
+            "Kill Vilenta",
+            "Return to Ravaged Square"
+          ],
+          "tips": "Vilenta gives a passive point.",
+          "waypoint": false
+        },
+        {
+          "name": "The Reliquary",
+          "order": 5,
+          "objectives": [
+            "Find Waypoint",
+            "Find Map to Tsoatha (Quest)",
+            "Return to Ravaged Square"
+          ],
+          "tips": "New layout compared to Act 5. Quest rewards a point.",
+          "waypoint": true
+        },
+        {
+          "name": "The Ossuary",
+          "order": 6,
+          "objectives": [
+            "Complete Trial of Ascendancy",
+            "Return to Ravaged Square"
+          ],
+          "tips": "Last trial for Uber Lab.",
+          "waypoint": false
+        },
+        {
+          "name": "The Torched Courts",
+          "order": 7,
+          "objectives": [
+            "Enter The Desecrated Chambers"
+          ],
+          "tips": "Run through.",
+          "waypoint": false
+        },
+        {
+          "name": "The Desecrated Chambers",
+          "order": 8,
+          "objectives": [
+            "Find Waypoint",
+            "Kill Avarius Reborn",
+            "Take Staff of Purity",
+            "Return to Docks -> Ravaged Square -> Canals"
+          ],
+          "tips": "Talk to Bannon in Docks to unlock the path to Canals.",
+          "waypoint": true
+        },
+        {
+          "name": "The Canals",
+          "order": 9,
+          "objectives": [
+            "Run to The Feeding Trough"
+          ],
+          "tips": "Linear path.",
+          "waypoint": false
+        },
+        {
+          "name": "The Feeding Trough",
+          "order": 10,
+          "objectives": [
+            "Run to Altar of Hunger",
+            "Kill Kitava"
+          ],
+          "tips": "Final boss. Kitava has multiple phases. Good luck.",
+          "waypoint": false
+        }
+      ],
+      "quests": [
+        {
+          "name": "An End to Hunger",
+          "reward": "Resistance penalty (-60%)",
+          "required": true,
+          "location": "Kill Kitava"
+        },
+        {
+          "name": "Map to Tsoatha",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Find Map in Reliquary"
+        },
+        {
+          "name": "Vilenta's Vengeance",
+          "reward": "1 Passive Skill Point",
+          "required": true,
+          "location": "Kill Vilenta in Control Blocks"
+        }
+      ],
+      "passiveCheckpoints": [
+        {
+          "level": 67,
+          "nodes": ["Cap resistances after Act 10 penalty"]
         }
       ]
     }

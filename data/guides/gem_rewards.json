@@ -313,6 +313,16 @@
         { "name": "Withering Touch Support", "classes": ["Shadow", "Ranger"] },
         { "name": "Vile Toxins Support", "classes": ["Shadow"] }
       ]
+    },
+    {
+      "act": 6,
+      "quest": "Fallen from Grace",
+      "vendor": "Lilly Roth",
+      "level": 1,
+      "description": "After clearing the Twilight Strand in Act 6, Lilly Roth sells nearly every gem in the game. This is your infinite gem supply for the rest of the game.",
+      "gems": [
+        { "name": "ALL GEMS", "classes": ["all"] }
+      ]
     }
   ],
   "notes": {

@@ -7,11 +7,18 @@
       "items": [
         { "recipe": "3 same-color linked sockets", "result": "Chromatic Orb" },
         { "recipe": "6-socket item", "result": "7 Jeweller's Orbs" },
+        { "recipe": "6-linked item", "result": "20 Orb of Fusing" },
         { "recipe": "Any identified rare item", "result": "Alteration Shards" },
         { "recipe": "RGB linked group", "result": "Chromatic Orb" },
-        { "recipe": "Rustic Sash + Blacksmith Whetstone + Weapon", "result": "% Phys weapon" },
-        { "recipe": "Magic/Normal Flask + Transmutation/Alteration", "result": "Upgraded flask" },
-        { "recipe": "Any unique ring + any skill gem with quality", "result": "Gemcutter's Prism" }
+        { "recipe": "Rustic Sash + Blacksmith Whetstone + Weapon", "result": "% Phys weapon (Magic)" },
+        { "recipe": "Chain Belt + Blacksmith Whetstone + Weapon", "result": "Spell Dmg weapon (Magic)" },
+        { "recipe": "Magic/Normal Flask + Transmutation/Alteration", "result": "Upgraded flask tier" },
+        { "recipe": "Any unique ring + any skill gem with quality", "result": "Gemcutter's Prism" },
+        { "recipe": "Full Rare Set (ilvl 60-74)", "result": "1 Chaos Orb (2 if unidentified)" },
+        { "recipe": "Full Rare Set (ilvl 75+)", "result": "1 Regal Orb (2 if unidentified)" },
+        { "recipe": "Any Gem (Total 40% Quality)", "result": "Gemcutter's Prism" },
+        { "recipe": "Lvl 20 Gem + Gemcutter's Prism", "result": "Lvl 1 Gem (20% Quality)" },
+        { "recipe": "Boots + Quicksilver Flask + Augmentation", "result": "+10% Movement Speed Boots" }
       ]
     },
     {
@@ -21,7 +28,8 @@
       "items": [
         { "stage": "After Act 5", "penalty": "-30% all resistances" },
         { "stage": "After Act 10", "penalty": "-60% all resistances" },
-        { "stage": "Cap", "penalty": "75% (uncapped)" },
+        { "stage": "Standard Cap", "penalty": "75%" },
+        { "stage": "Maximum Cap", "penalty": "90%" },
         { "stage": "Chaos resistance", "penalty": "Separate, starts at 0%" }
       ]
     },
@@ -31,11 +39,17 @@
       "category": "ascendancy",
       "items": [
         { "act": 1, "location": "The Lower Prison" },
-        { "act": 2, "location": "The Crypt Level 1 (via Chamber of Sins)" },
+        { "act": 2, "location": "The Crypt Level 1" },
         { "act": 2, "location": "The Chamber of Sins Level 2" },
         { "act": 3, "location": "The Crematorium" },
         { "act": 3, "location": "The Catacombs" },
-        { "act": 3, "location": "The Imperial Gardens" }
+        { "act": 3, "location": "The Imperial Gardens" },
+        { "act": 6, "location": "The Lower Prison" },
+        { "act": 7, "location": "The Crypt" },
+        { "act": 7, "location": "The Chamber of Sins Level 2" },
+        { "act": 8, "location": "The Bath House" },
+        { "act": 9, "location": "The Tunnel" },
+        { "act": 10, "location": "The Ossuary" }
       ]
     },
     {
@@ -70,18 +84,76 @@
       "category": "endgame",
       "items": {
         "major": [
-          { "name": "Soul of the Brine King", "effect": "stun" },
-          { "name": "Soul of Lunaris", "effect": "projectiles" },
-          { "name": "Soul of Solaris", "effect": "single target" },
-          { "name": "Soul of Arakaali", "effect": "DoT" }
+          { "name": "Soul of the Brine King", "effect": "Cannot be Stunned if Stunned Recently" },
+          { "name": "Soul of Lunaris", "effect": "Phys reduction per nearby enemy, Speed per nearby enemy" },
+          { "name": "Soul of Solaris", "effect": "Phys reduction if only one nearby enemy, Reduced Crit Dmg taken" },
+          { "name": "Soul of Arakaali", "effect": "Reduced DoT taken, Chaos Res against DoT" }
         ],
         "minor": [
-          { "name": "Soul of Gruthkul", "effect": "phys reduction" },
-          { "name": "Soul of Yugul", "effect": "cold/curse reflect" },
-          { "name": "Soul of Abberath", "effect": "burning ground" },
-          { "name": "Soul of Tukohama", "effect": "stationary phys reduction" }
+          { "name": "Soul of Gruthkul", "effect": "Phys reduction per hit taken recently" },
+          { "name": "Soul of Yugul", "effect": "Reduced reflected damage taken" },
+          { "name": "Soul of Abberath", "effect": "Unaffected by Burning Ground, Reduced Ignite Duration" },
+          { "name": "Soul of Tukohama", "effect": "Phys reduction while stationary, Life Regen while stationary" },
+           { "name": "Soul of Ralakesh", "effect": "Reduced Phys DoT taken, Cannot be Maimed/Blinded" },
+            { "name": "Soul of Garukhan", "effect": "Movement Speed if not hit recently" },
+             { "name": "Soul of Ryslatha", "effect": "Life Flasks gain charges, More healing at low life" },
+              { "name": "Soul of Shakari", "effect": "Reduced Chaos DoT taken, Poison Duration" }
         ]
       }
+    },
+    {
+      "id": "betrayal-rewards",
+      "title": "Betrayal Rewards (Syndicate)",
+      "category": "league",
+      "items": [
+        { "member": "Aisling", "role": "Research: Veiled Chaos / Intervention: Metamorph Scarabs" },
+        { "member": "Cameria", "role": "Intervention: Sulphite Scarabs / Transportation: Timeworn Uniques" },
+        { "member": "Elreon", "role": "Research: Unique Jewellery / Intervention: Reliquary Scarabs" },
+        { "member": "Gravicius", "role": "Transportation: Divination Cards / Intervention: Divination Scarabs" },
+        { "member": "Hillock", "role": "Fortification: Weapon Quality / Research: Flask Quality / Transport: Weapon Quality" },
+        { "member": "It That Fled", "role": "Research: Upgrade Breachstone / Intervention: Breach Scarabs" },
+        { "member": "Jorgin", "role": "Research: Talisman conversion / Intervention: Bestiary Scarabs" },
+        { "member": "Korell", "role": "Fortification: Map currency / Intervention: Elder Scarabs" },
+        { "member": "Leo", "role": "Research: Use currency on item / Intervention: Torment Scarabs" },
+        { "member": "Riker", "role": "Fortification: Unique Pick / Intervention: Blight Scarabs" },
+        { "member": "Rin", "role": "Intervention: Cartography Scarabs / Research: Maps" },
+        { "member": "Tora", "role": "Research: Gem XP / Intervention: Harbinger Scarabs" },
+        { "member": "Vagan", "role": "Intervention: Legion Scarabs / Research: Legion Splinters" },
+        { "member": "Vorici", "role": "Research: White Sockets / Intervention: Shaper Scarabs" }
+      ]
+    },
+    {
+      "id": "incursion-rooms",
+      "title": "Incursion Rooms (Temple)",
+      "category": "league",
+      "items": [
+        { "room": "Corruption Chamber (L3: Locus of Corruption)", "effect": "Double Corrupt Items" },
+        { "room": "Gemcutter's Workshop (L3: Doryani's Institute)", "effect": "Double Corrupt Gems" },
+        { "room": "Surveyor's Study (L3: Atlas of Worlds)", "effect": "Map Drops" },
+        { "room": "Vault (L3: Wealth of the Vaal)", "effect": "Currency Drops" },
+        { "room": "Storage Room (L3: Museum of Artifacts)", "effect": "League Specific Drops" },
+        { "room": "Sacrificial Chamber (L3: Apex of Ascension)", "effect": "Upgrade Uniques / Sacrifice Uniques" },
+        { "room": "Explosives Room (L3: Shrine of Empowerment)", "effect": "Upgrade connected room tier" }
+      ]
+    },
+    {
+      "id": "delve-fossils",
+      "title": "Delve Fossils",
+      "category": "league",
+      "items": [
+        { "fossil": "Metallic/Jagged/Pristine", "location": "Anywhere (Common)" },
+        { "fossil": "Dense", "location": "Fungal Caverns" },
+        { "fossil": "Frigid", "location": "Frozen Hollow" },
+        { "fossil": "Scorched", "location": "Magma Fissure" },
+        { "fossil": "Metallic", "location": "Petrified Forest" },
+        { "fossil": "Aberrant", "location": "Abyssal Depths" },
+        { "fossil": "Bound", "location": "Sulfur Vents" },
+        { "fossil": "Corroded", "location": "Fungal Caverns" },
+        { "fossil": "Prismatic", "location": "Magma Fissure (Behind walls)" },
+        { "fossil": "Faceted", "location": "Deep Delve (Rare)" },
+        { "fossil": "Bloodstained", "location": "Vaal Outpost" },
+        { "fossil": "Hollow", "location": "Abyssal City" }
+      ]
     }
   ]
 }
