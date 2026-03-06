@@ -80,6 +80,7 @@ This project uses GitHub Actions for automated testing and releases:
 
 See [.github/workflows/README.md](.github/workflows/README.md) for details.
 
+And also Trans Rights :3 
 ## License
 
 MIT
