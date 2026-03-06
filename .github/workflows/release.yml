@@ -59,6 +59,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
     
     - name: Download all artifacts
       uses: actions/download-artifact@v8
@@ -86,7 +88,11 @@ jobs:
         echo "3. Configure your Path of Exile Client.txt path in Settings" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT
         echo "### What's New" >> $GITHUB_OUTPUT
-        git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD >> $GITHUB_OUTPUT
+        
+        # Get previous tag, or use the very first commit if this is the first tag
+        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
+        git log --pretty=format:"- %s" $PREV_TAG..HEAD >> $GITHUB_OUTPUT
+        
         echo "" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
     
