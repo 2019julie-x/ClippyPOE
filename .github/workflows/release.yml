@@ -11,9 +11,9 @@ jobs:
     
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-22.04, windows-latest, macos-latest]
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-22.04
             artifact_name: ClippyPOE-Linux
             artifact_path: dist/*.AppImage
           - os: windows-latest
@@ -31,6 +31,12 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
+        
+    - name: Install Linux dependencies
+      if: matrix.os == 'ubuntu-22.04'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libfuse2
     
     - name: Install dependencies
       run: npm install
