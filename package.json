@@ -71,6 +71,10 @@
     "linux": {
       "target": "AppImage",
       "category": "Game"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.games"
     }
   }
 }
