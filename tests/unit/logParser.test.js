@@ -1,51 +1,24 @@
-/**
- * Unit tests for LogParser
- *
- * LogParser is responsible for tailing Client.txt and emitting:
- *   - 'zone-entered'  when a new area is generated or entered
- *   - 'level-up'      when the player levels up
- *   - 'error'         on fatal I/O errors
- */
-
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const LogParser = require('../../src/main/logParser');
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Write content to a temp file and return the path.
- */
 function writeTempFile(content = '') {
   const tmpPath = path.join(os.tmpdir(), `poe-test-${Date.now()}-${Math.random()}.txt`);
   fs.writeFileSync(tmpPath, content, 'utf8');
   return tmpPath;
 }
 
-/**
- * Append content to an existing file.
- */
 function appendToFile(filePath, content) {
   fs.appendFileSync(filePath, content, 'utf8');
 }
-
-// ---------------------------------------------------------------------------
-// parseLine() – internal method tested via the public API
-// We access it directly for fast, sync unit testing.
-// ---------------------------------------------------------------------------
 
 describe('LogParser – parseLine()', () => {
   let parser;
 
   beforeEach(() => {
-    // Create a parser with a dummy path (parseLine doesn't do I/O)
     parser = new LogParser('/fake/Client.txt');
   });
-
-  // ---- Zone patterns -------------------------------------------------------
 
   test('emits zone-entered for zoneGenerated pattern', (done) => {
     parser.once('zone-entered', (name) => {
@@ -64,12 +37,9 @@ describe('LogParser – parseLine()', () => {
   });
 
   test('prefers zoneGenerated over zoneEntered when both match', (done) => {
-    // Construct a contrived line that matches both (shouldn't happen in practice,
-    // but tests that the primary pattern takes precedence via early return).
     const events = [];
     parser.on('zone-entered', (name) => events.push(name));
     parser.parseLine('2024/01/01 Generating level 5 area "The Ledge" with seed 99');
-    // Only one event should fire
     setImmediate(() => {
       expect(events).toHaveLength(1);
       expect(events[0]).toBe('The Ledge');
@@ -140,9 +110,7 @@ describe('LogParser – parseLine()', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// start() – validation and initialisation
-// ---------------------------------------------------------------------------
+
 
 describe('LogParser – start()', () => {
   let tmpPath;
@@ -173,9 +141,7 @@ describe('LogParser – start()', () => {
     const parser = new LogParser(tmpPath);
     parser.start();
     expect(parser.isRunning).toBe(true);
-    // calling start() again should be a no-op
     parser.start();
-    // isRunning stays true, no crash
     expect(parser.isRunning).toBe(true);
     parser.stop();
   });
@@ -197,12 +163,10 @@ describe('LogParser – start()', () => {
   });
 
   test('initialises filePosition to near the end of an existing file', () => {
-    // Write content larger than the 5000-byte lookback window
     const bigContent = 'x'.repeat(10000) + '\n';
     tmpPath = writeTempFile(bigContent);
     const parser = new LogParser(tmpPath);
     parser.start();
-    // filePosition should be (size - 5000) or 0 if size < 5000
     const stats = fs.statSync(tmpPath);
     expect(parser.filePosition).toBe(Math.max(0, stats.size - 5000));
     parser.stop();
@@ -217,9 +181,7 @@ describe('LogParser – start()', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// readNewLines() – file truncation and partial-line handling
-// ---------------------------------------------------------------------------
+
 
 describe('LogParser – readNewLines()', () => {
   let tmpPath;
@@ -231,16 +193,12 @@ describe('LogParser – readNewLines()', () => {
   });
 
   test('resets filePosition to 0 when file is truncated', () => {
-    // Write a file large enough that start() sets filePosition > 0
     tmpPath = writeTempFile('A'.repeat(6000) + '\n');
     const parser = new LogParser(tmpPath);
     parser.start();
-    // filePosition should be stats.size - 5000 (> 0)
     expect(parser.filePosition).toBeGreaterThan(0);
-    // Simulate truncation: overwrite with much shorter content
     fs.writeFileSync(tmpPath, 'x\n', 'utf8');
     parser.readNewLines();
-    // currentSize (2) < filePosition, so position is reset to 0
     expect(parser.filePosition).toBe(0);
     parser.stop();
   });
@@ -253,14 +211,11 @@ describe('LogParser – readNewLines()', () => {
     const events = [];
     parser.on('zone-entered', (name) => events.push(name));
 
-    // Write a partial line (no trailing newline)
     appendToFile(tmpPath, '2024/01/01 Generating level 1 area "The Coast"');
     parser.readNewLines();
 
-    // Zone should NOT be emitted yet (no newline)
     expect(events).toHaveLength(0);
 
-    // Complete the line
     appendToFile(tmpPath, ' with seed 1\n');
     parser.readNewLines();
 
@@ -274,19 +229,15 @@ describe('LogParser – readNewLines()', () => {
     tmpPath = writeTempFile('content\n');
     const parser = new LogParser(tmpPath);
     parser.start();
-    // Manually advance filePosition to reflect "we have already read everything"
     parser.filePosition = fs.statSync(tmpPath).size;
     const pos = parser.filePosition;
-    // No new data appended – readNewLines must be a no-op
     parser.readNewLines();
     expect(parser.filePosition).toBe(pos);
     parser.stop();
   });
 });
 
-// ---------------------------------------------------------------------------
-// stop()
-// ---------------------------------------------------------------------------
+
 
 describe('LogParser – stop()', () => {
   test('can be called safely when never started', () => {

@@ -1,24 +1,12 @@
-/**
- * Unit tests for SettingsManager
- *
- * SettingsManager handles all persistence: user settings, window position/size,
- * and in-progress leveling state.  We mock the Electron `app` module so these
- * tests run outside of an Electron context.
- */
-
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-
-// ---------------------------------------------------------------------------
 // Mock electron's app so we can run tests in plain Node.js
-// ---------------------------------------------------------------------------
 jest.mock('electron', () => ({
   app: {
     getPath: jest.fn(() => require('path').join(require('os').tmpdir(), `poe-settings-test-${Date.now()}`)),
   },
 }));
-
 // Re-require after mock so each describe block gets a fresh tmp dir
 function makeSettingsManager() {
   jest.resetModules();
@@ -29,21 +17,13 @@ function makeSettingsManager() {
   const SettingsManager = require('../../src/main/settingsManager');
   return { sm: new SettingsManager(), tmpDir };
 }
-
-// ---------------------------------------------------------------------------
 // Helpers
-// ---------------------------------------------------------------------------
-
 function cleanup(tmpDir) {
   try {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   } catch (_) { /* ignore */ }
 }
-
-// ---------------------------------------------------------------------------
 // Initialisation
-// ---------------------------------------------------------------------------
-
 describe('SettingsManager – initialisation', () => {
   test('creates config directory if it does not exist', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -51,7 +31,6 @@ describe('SettingsManager – initialisation', () => {
     expect(fs.existsSync(configDir)).toBe(true);
     cleanup(tmpDir);
   });
-
   test('loads default settings on first run', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const s = sm.getSettings();
@@ -60,7 +39,6 @@ describe('SettingsManager – initialisation', () => {
     expect(s.autoDetect).toBe(true);
     cleanup(tmpDir);
   });
-
   test('writes settings.json to disk on first run', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const settingsPath = path.join(tmpDir, 'config', 'settings.json');
@@ -68,7 +46,6 @@ describe('SettingsManager – initialisation', () => {
     expect(fs.existsSync(settingsPath)).toBe(true);
     cleanup(tmpDir);
   });
-
   test('default hotkeys are present', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const hk = sm.getSettings().hotkeys;
@@ -80,11 +57,7 @@ describe('SettingsManager – initialisation', () => {
     cleanup(tmpDir);
   });
 });
-
-// ---------------------------------------------------------------------------
 // saveSettings() / getSettings()
-// ---------------------------------------------------------------------------
-
 describe('SettingsManager – saveSettings() / getSettings()', () => {
   test('persists new values', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -92,7 +65,6 @@ describe('SettingsManager – saveSettings() / getSettings()', () => {
     expect(sm.getSettings().opacity).toBeCloseTo(0.5);
     cleanup(tmpDir);
   });
-
   test('merges with existing settings (does not clobber unrelated fields)', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveSettings({ opacity: 0.6 });
@@ -102,7 +74,6 @@ describe('SettingsManager – saveSettings() / getSettings()', () => {
     expect(s.theme).toBe('light');
     cleanup(tmpDir);
   });
-
   test('getSettings() returns a copy, not the internal reference', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const s1 = sm.getSettings();
@@ -112,11 +83,7 @@ describe('SettingsManager – saveSettings() / getSettings()', () => {
     cleanup(tmpDir);
   });
 });
-
-// ---------------------------------------------------------------------------
 // Window position / size
-// ---------------------------------------------------------------------------
-
 describe('SettingsManager – window position & size', () => {
   test('saveWindowPosition stores x and y', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -126,7 +93,6 @@ describe('SettingsManager – window position & size', () => {
     expect(pos.y).toBe(350);
     cleanup(tmpDir);
   });
-
   test('saveWindowSize stores width and height', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveWindowSize(500, 700);
@@ -135,7 +101,6 @@ describe('SettingsManager – window position & size', () => {
     expect(size.height).toBe(700);
     cleanup(tmpDir);
   });
-
   test('default window position is returned when not overridden', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const pos = sm.getWindowPosition();
@@ -144,11 +109,7 @@ describe('SettingsManager – window position & size', () => {
     cleanup(tmpDir);
   });
 });
-
-// ---------------------------------------------------------------------------
 // Progress
-// ---------------------------------------------------------------------------
-
 describe('SettingsManager – progress', () => {
   test('getProgress returns default values on first run', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -159,7 +120,6 @@ describe('SettingsManager – progress', () => {
     expect(p.completedObjectives).toEqual([]);
     cleanup(tmpDir);
   });
-
   test('saveProgress persists act and zone', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveProgress({ act: 3, zone: 'The Lunaris Temple Level 2', currentLevel: 45 });
@@ -169,7 +129,6 @@ describe('SettingsManager – progress', () => {
     expect(p.currentLevel).toBe(45);
     cleanup(tmpDir);
   });
-
   test('saveProgress merges – does not erase completedObjectives', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveProgress({ completedObjectives: ['1-0-0', '1-0-1'] });
@@ -178,7 +137,6 @@ describe('SettingsManager – progress', () => {
     expect(p.completedObjectives).toEqual(['1-0-0', '1-0-1']);
     cleanup(tmpDir);
   });
-
   test('resetProgress sets everything back to defaults', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveProgress({ act: 5, zone: 'Oriath', currentLevel: 55, completedObjectives: ['x'] });
@@ -190,7 +148,6 @@ describe('SettingsManager – progress', () => {
     expect(p.completedObjectives).toEqual([]);
     cleanup(tmpDir);
   });
-
   test('getProgress returns a copy, not the internal reference', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const p1 = sm.getProgress();
@@ -200,18 +157,13 @@ describe('SettingsManager – progress', () => {
     cleanup(tmpDir);
   });
 });
-
-// ---------------------------------------------------------------------------
 // getClientTxtPath()
-// ---------------------------------------------------------------------------
-
 describe('SettingsManager – getClientTxtPath()', () => {
   test('returns empty string by default', () => {
     const { sm, tmpDir } = makeSettingsManager();
     expect(sm.getClientTxtPath()).toBe('');
     cleanup(tmpDir);
   });
-
   test('returns saved path after saveSettings', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveSettings({ clientTxtPath: '/home/user/poe/Client.txt' });
@@ -219,22 +171,16 @@ describe('SettingsManager – getClientTxtPath()', () => {
     cleanup(tmpDir);
   });
 });
-
-// ---------------------------------------------------------------------------
 // Persistence across instances (round-trip)
-// ---------------------------------------------------------------------------
-
 describe('SettingsManager – round-trip persistence', () => {
   test('settings written by one instance are loaded by a new instance', (done) => {
     jest.resetModules();
     const { app } = require('electron');
     const tmpDir = path.join(os.tmpdir(), `poe-roundtrip-${Date.now()}`);
     app.getPath.mockReturnValue(tmpDir);
-
     const SettingsManager = require('../../src/main/settingsManager');
     const sm1 = new SettingsManager();
     sm1.saveSettings({ opacity: 0.42, theme: 'light' });
-
     // Force the debounced write to flush immediately
     // We access the internal performSave via a short timeout
     setTimeout(() => {
