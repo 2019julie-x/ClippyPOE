@@ -10,7 +10,12 @@ class LogParser extends EventEmitter {
     this.filePosition = 0;
     this.isRunning = false;
     this.leftoverString = '';
-    
+
+    // Deduplication: track the last zone name emitted so that if both the
+    // zoneGenerated and zoneEntered patterns fire for the same transition
+    // (which can happen in a single log flush), only one event is sent.
+    this._lastZoneEmitted = null;
+
     // Patterns to match in log file
     this.patterns = {
       // More reliable pattern: area generation
@@ -143,7 +148,10 @@ class LogParser extends EventEmitter {
     let match = line.match(this.patterns.zoneGenerated);
     if (match) {
       const zoneName = match[1];
-      this.emit('zone-entered', zoneName);
+      if (zoneName !== this._lastZoneEmitted) {
+        this._lastZoneEmitted = zoneName;
+        this.emit('zone-entered', zoneName);
+      }
       return;
     }
 
@@ -151,7 +159,10 @@ class LogParser extends EventEmitter {
     match = line.match(this.patterns.zoneEntered);
     if (match) {
       const zoneName = match[1];
-      this.emit('zone-entered', zoneName);
+      if (zoneName !== this._lastZoneEmitted) {
+        this._lastZoneEmitted = zoneName;
+        this.emit('zone-entered', zoneName);
+      }
       return;
     }
 

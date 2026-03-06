@@ -16,10 +16,6 @@ contextBridge.exposeInMainWorld('api', {
       'overlay-activate',
       'overlay-deactivate',
       'overlay-toggle',
-      // Timer
-      'timer-toggle',
-      'timer-reset',
-      'timer-split',
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
@@ -74,8 +70,15 @@ contextBridge.exposeInMainWorld('api', {
       'hotkey-prev-zone',
     ];
     if (validChannels.includes(channel)) {
-      ipcRenderer.removeAllListeners(channel);
-      ipcRenderer.on(channel, (event, ...args) => func(...args));
+      // Use a named wrapper stored on the function so we can remove only OUR
+      // listener on re-subscription, rather than nuking ALL listeners on
+      // the channel (which could break other parts of the app).
+      if (func._ipcWrapper) {
+        ipcRenderer.removeListener(channel, func._ipcWrapper);
+      }
+      const wrapper = (event, ...args) => func(...args);
+      func._ipcWrapper = wrapper;
+      ipcRenderer.on(channel, wrapper);
     }
   },
 });

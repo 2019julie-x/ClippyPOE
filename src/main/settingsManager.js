@@ -106,7 +106,20 @@ class SettingsManager {
   }
 
   saveSettings(newSettings) {
-    this.settings = { ...this.settings, ...newSettings };
+    // Deep-merge nested objects (hotkeys, currentProgress) so callers that
+    // pass a partial object don't accidentally wipe out sibling keys.
+    this.settings = {
+      ...this.settings,
+      ...newSettings,
+      hotkeys: {
+        ...this.settings.hotkeys,
+        ...(newSettings.hotkeys || {}),
+      },
+      currentProgress: {
+        ...this.settings.currentProgress,
+        ...(newSettings.currentProgress || {}),
+      },
+    };
     this.saveSettingsToFile();
   }
 
