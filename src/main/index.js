@@ -12,15 +12,11 @@ const {
   applyOverlayBehavior,
 } = require('./platformUtils');
 
-// ---------------------------------------------------------------------------
-// Platform detection & early configuration (MUST happen before app.whenReady)
-// ---------------------------------------------------------------------------
+// Platform config
 const platformInfo = getPlatformInfo();
 configureAppForPlatform(app, platformInfo);
 
-// ---------------------------------------------------------------------------
 // Global state
-// ---------------------------------------------------------------------------
 let mainWindow = null;
 let settingsWindow = null;
 let logParser = null;
@@ -34,9 +30,7 @@ let cachedCheatsheetData = null;
 let timerState = { running: false, elapsed: 0, startTime: null, splits: [] };
 let timerInterval = null;
 
-// ---------------------------------------------------------------------------
-// Window creation
-// ---------------------------------------------------------------------------
+// Create windows
 
 function createMainWindow() {
   const overlayOpts = getOverlayWindowOptions(platformInfo);
@@ -138,9 +132,7 @@ function createSettingsWindow() {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Global hotkeys
-// ---------------------------------------------------------------------------
+// Register hotkeys
 
 function registerHotkeys() {
   const settings = settingsManager.getSettings();
@@ -217,9 +209,7 @@ function registerHotkeys() {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Timer logic
-// ---------------------------------------------------------------------------
 
 function toggleTimer() {
   if (timerState.running) {
@@ -262,9 +252,7 @@ function addTimerSplit(label) {
   timerState.splits.push({ label, time: getTimerElapsed() });
 }
 
-// ---------------------------------------------------------------------------
 // App lifecycle
-// ---------------------------------------------------------------------------
 
 app.whenReady().then(() => {
   settingsManager = new SettingsManager();
@@ -310,9 +298,7 @@ app.on('activate', () => {
   }
 });
 
-// ---------------------------------------------------------------------------
-// IPC Handlers – Window management
-// ---------------------------------------------------------------------------
+// Window operations
 
 ipcMain.on('open-settings', () => {
   // Make overlay interactive so the settings modal works
@@ -328,9 +314,7 @@ ipcMain.on('minimize-window', () => {
   if (mainWindow) mainWindow.minimize();
 });
 
-// ---------------------------------------------------------------------------
-// IPC Handlers – Overlay control
-// ---------------------------------------------------------------------------
+// Overlay control
 
 ipcMain.on('overlay-activate', () => {
   if (overlayController) overlayController.activate();
@@ -352,9 +336,7 @@ ipcMain.on('overlay-toggle', () => {
   }
 });
 
-// ---------------------------------------------------------------------------
-// IPC Handlers – Settings
-// ---------------------------------------------------------------------------
+// Settings handlers
 
 ipcMain.on('get-settings', (event) => {
   event.returnValue = settingsManager.getSettings();
@@ -398,9 +380,7 @@ ipcMain.on('save-settings', (event, settings) => {
   event.returnValue = true;
 });
 
-// ---------------------------------------------------------------------------
-// IPC Handlers – Data loading
-// ---------------------------------------------------------------------------
+// Load guide data
 
 ipcMain.handle('load-guide-data', async () => {
   try {
@@ -447,9 +427,7 @@ ipcMain.handle('get-platform-info', async () => {
   return platformInfo;
 });
 
-// ---------------------------------------------------------------------------
-// IPC Handlers – File browser
-// ---------------------------------------------------------------------------
+// File dialog
 
 ipcMain.handle('browse-client-txt', async (event) => {
   const defaults = getDefaultClientTxtPaths(platformInfo);
@@ -474,9 +452,7 @@ ipcMain.handle('browse-client-txt', async (event) => {
   return null;
 });
 
-// ---------------------------------------------------------------------------
-// IPC Handlers – Progress
-// ---------------------------------------------------------------------------
+// Progress handlers
 
 ipcMain.on('get-progress', (event) => {
   event.returnValue = settingsManager.getProgress();
@@ -510,9 +486,7 @@ ipcMain.on('toggle-objective', (event, objectiveId) => {
   event.returnValue = true;
 });
 
-// ---------------------------------------------------------------------------
-// IPC Handlers – Timer
-// ---------------------------------------------------------------------------
+// Timer IPC
 
 ipcMain.on('timer-toggle', (event) => {
   toggleTimer();
@@ -533,9 +507,7 @@ ipcMain.on('timer-get', (event) => {
   event.returnValue = { ...timerState, elapsed: getTimerElapsed() };
 });
 
-// ---------------------------------------------------------------------------
-// Log parser
-// ---------------------------------------------------------------------------
+// Init log parser
 
 function initLogParser(clientTxtPath) {
   logParser = new LogParser(clientTxtPath);
@@ -565,9 +537,7 @@ function initLogParser(clientTxtPath) {
   logParser.start();
 }
 
-// ---------------------------------------------------------------------------
-// Graceful shutdown
-// ---------------------------------------------------------------------------
+// Cleanup
 
 process.on('SIGINT', () => {
   if (logParser) logParser.stop();

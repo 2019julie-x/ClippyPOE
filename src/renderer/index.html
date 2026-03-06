@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PoE League Starter</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline';">
+  <title>ClippyPOE</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="overlay-container" id="overlay-container">
-    <!-- Header (draggable) -->
+    <!-- draggable header -->
     <div class="header" id="header">
       <div class="title">
         <span id="act-title">Act 1</span>
@@ -23,7 +24,7 @@
       </div>
     </div>
 
-    <!-- Tab bar -->
+    <!-- tab bar -->
     <div class="tab-bar">
       <button class="tab-btn active" data-tab="guide">Guide</button>
       <button class="tab-btn" data-tab="gems">Gems</button>
@@ -31,7 +32,7 @@
       <button class="tab-btn" data-tab="timer">Timer</button>
     </div>
 
-    <!-- Tab: Guide -->
+    <!-- tab Guide -->
     <div class="tab-content active" id="tab-guide">
       <div class="content">
         <!-- Objectives Section -->
@@ -86,7 +87,7 @@
       </div>
     </div>
 
-    <!-- Tab: Cheatsheets -->
+    <!-- Tab Cheatsheets -->
     <div class="tab-content" id="tab-cheatsheets">
       <div class="content">
         <div class="cheatsheet-nav" id="cheatsheet-nav"></div>
@@ -98,7 +99,7 @@
       </div>
     </div>
 
-    <!-- Tab: Timer -->
+    <!-- Tab Timer -->
     <div class="tab-content" id="tab-timer">
       <div class="content">
         <div class="section timer-section">

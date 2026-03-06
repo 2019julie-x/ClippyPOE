@@ -82,7 +82,7 @@ class SettingsManager {
       clearTimeout(this.saveTimeout);
     }
 
-    const performSave = () => {
+    if (immediate) {
       try {
         const tempPath = this.settingsPath + '.tmp';
         const data = JSON.stringify(this.settings, null, 2);
@@ -92,11 +92,19 @@ class SettingsManager {
       } catch (err) {
         console.error('Error saving settings:', err);
       }
-    };
-
-    if (immediate) {
-      performSave();
     } else {
+      const performSave = async () => {
+        this.saveTimeout = null;
+        try {
+          const tempPath = this.settingsPath + '.tmp';
+          const data = JSON.stringify(this.settings, null, 2);
+          // Atomic write: write to temp then rename asynchronously
+          await fs.promises.writeFile(tempPath, data, 'utf8');
+          await fs.promises.rename(tempPath, this.settingsPath);
+        } catch (err) {
+          console.error('Error saving settings:', err);
+        }
+      };
       this.saveTimeout = setTimeout(performSave, this.saveDelayMs);
     }
   }
@@ -106,8 +114,7 @@ class SettingsManager {
   }
 
   saveSettings(newSettings) {
-    // Deep-merge nested objects (hotkeys, currentProgress) so callers that
-    // pass a partial object don't accidentally wipe out sibling keys.
+    // Carefully merging settings here so we don't accidentally erase any parts
     this.settings = {
       ...this.settings,
       ...newSettings,

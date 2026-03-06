@@ -1,6 +1,4 @@
-/* =========================================================================
-   PoE League Starter – Overlay Styles
-   ========================================================================= */
+/* CSS styling */
 
 * {
   margin: 0;
@@ -16,7 +14,7 @@ body {
   user-select: none;
 }
 
-/* ---- Main container ---- */
+/* main wrapper container here */
 .overlay-container {
   width: 100%;
   height: 100vh;
@@ -27,11 +25,10 @@ body {
   border-radius: 6px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
   overflow: hidden;
-  /* NOTE: backdrop-filter removed – it breaks transparent Electron windows */
   transition: opacity 0.2s ease;
 }
 
-/* ---- Header ---- */
+/* Setting up the top header styling */
 .header {
   display: flex;
   justify-content: space-between;
@@ -103,7 +100,7 @@ body {
   border-color: rgba(100, 200, 100, 0.5) !important;
 }
 
-/* ---- Tab bar ---- */
+/* Styling the navigation tab bar */
 .tab-bar {
   display: flex;
   background: rgba(25, 22, 18, 0.95);
@@ -134,7 +131,7 @@ body {
   border-bottom-color: #d4af37;
 }
 
-/* ---- Tab content ---- */
+/* Styles for the content inside each tab */
 .tab-content {
   display: none;
   flex: 1;
@@ -147,7 +144,7 @@ body {
   display: flex;
 }
 
-/* ---- Scrollable content area ---- */
+/* content scrolling config */
 .content {
   flex: 1;
   padding: 8px;
@@ -161,7 +158,7 @@ body {
 .content::-webkit-scrollbar-thumb { background: rgba(200, 150, 100, 0.3); border-radius: 3px; }
 .content::-webkit-scrollbar-thumb:hover { background: rgba(200, 150, 100, 0.5); }
 
-/* ---- Sections ---- */
+/* Content */
 .section {
   margin-bottom: 8px;
   background: rgba(30, 25, 20, 0.5);
@@ -190,7 +187,7 @@ body {
   border-radius: 3px;
 }
 
-/* ---- Objectives ---- */
+/* Obj checkoff styling */
 .objectives-list {
   display: flex;
   flex-direction: column;
@@ -239,7 +236,7 @@ body {
 
 .objective-text { flex: 1; line-height: 1.4; }
 
-/* ---- Tips ---- */
+/* How the tips should look */
 .tips-content {
   font-size: 10px;
   color: #c5b59a;
@@ -247,17 +244,17 @@ body {
   font-style: italic;
 }
 
-/* ---- Passives ---- */
+/* Skill tree recs portion */
 .passive-content { font-size: 10px; color: #e8d5b7; line-height: 1.5; }
 .passive-item { padding: 2px 0; display: flex; align-items: center; gap: 5px; }
 .passive-item::before { content: "\2192"; color: #d4af37; font-weight: bold; }
 
-/* ---- Quest ---- */
+/* Quest info */
 .quest-content { font-size: 10px; color: #e8d5b7; line-height: 1.5; }
 .quest-reward { color: #d4af37; font-weight: 600; }
 .quest-required { color: #ff6b6b; font-weight: 600; }
 
-/* ---- Gem tracker ---- */
+/* Styling for the gem reward tracking tab */
 .gem-list { display: flex; flex-direction: column; gap: 4px; }
 
 .gem-quest-group { margin-bottom: 6px; }
@@ -285,7 +282,7 @@ body {
 .gem-name { color: #80d0ff; }
 .gem-classes { color: #8a7a6a; font-size: 9px; }
 
-/* ---- Cheatsheets ---- */
+/* The layout and styles for cheatsheets */
 .cheatsheet-nav {
   display: flex;
   flex-wrap: wrap;
@@ -328,7 +325,7 @@ body {
 .cs-value { color: #f4d4a8; text-align: right; }
 .cs-tip { padding: 3px 4px; color: #c5b59a; line-height: 1.4; }
 
-/* ---- Timer ---- */
+/* Speedrun timer */
 .timer-section { text-align: center; padding: 12px 8px; }
 
 .timer-display {
@@ -367,7 +364,7 @@ body {
 .split-label { color: #c5b59a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 200px; }
 .split-time { color: #d4af37; font-family: 'Courier New', monospace; white-space: nowrap; }
 
-/* ---- No data ---- */
+/* The void (no data)  */
 .no-data {
   font-size: 10px;
   color: #666;
@@ -376,7 +373,7 @@ body {
   font-style: italic;
 }
 
-/* ---- Footer ---- */
+/* Styling the bottom footer area */
 .footer {
   display: flex;
   justify-content: space-between;
@@ -405,7 +402,7 @@ body {
 
 .footer-btn:active { transform: scale(0.95); }
 
-/* ---- Waypoint indicator ---- */
+/* Making sure the waypoint indicator stands out */
 .waypoint-indicator {
   display: inline-block;
   width: 10px;
@@ -417,7 +414,7 @@ body {
   vertical-align: middle;
 }
 
-/* ---- Mode indicator ---- */
+/* Styling the popup for interactive or clickthrough */
 .mode-indicator {
   position: absolute;
   top: 50%;
@@ -435,7 +432,7 @@ body {
   z-index: 100;
 }
 
-/* ---- Animations ---- */
+/* UI animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-3px); }
   to   { opacity: 1; transform: translateY(0); }

@@ -1,7 +1,9 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-// Expose protected methods that allow the renderer process to use
-// the ipcRenderer without exposing the entire object
+// Keeping track of our IPC listeners so we don't mess up the original functions
+const listenerMap = new WeakMap();
+
+// Securing our API context bridge so the renderer can only call what we allow
 contextBridge.exposeInMainWorld('api', {
   send: (channel, data) => {
     const validChannels = [
@@ -70,14 +72,19 @@ contextBridge.exposeInMainWorld('api', {
       'hotkey-prev-zone',
     ];
     if (validChannels.includes(channel)) {
-      // Use a named wrapper stored on the function so we can remove only OUR
-      // listener on re-subscription, rather than nuking ALL listeners on
-      // the channel (which could break other parts of the app).
-      if (func._ipcWrapper) {
-        ipcRenderer.removeListener(channel, func._ipcWrapper);
+      // Tracking these wrappers securely so we can remove listeners later if needed
+      let channelMap = listenerMap.get(func);
+      if (!channelMap) {
+        channelMap = new Map();
+        listenerMap.set(func, channelMap);
       }
-      const wrapper = (event, ...args) => func(...args);
-      func._ipcWrapper = wrapper;
+
+      if (channelMap.has(channel)) {
+        ipcRenderer.removeListener(channel, channelMap.get(channel));
+      }
+
+      const wrapper = (event, ...args) => func(...args); // strip the event object before forwarding
+      channelMap.set(channel, wrapper);
       ipcRenderer.on(channel, wrapper);
     }
   },

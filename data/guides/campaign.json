@@ -12,7 +12,7 @@
             "Kill Hillock",
             "Enter Lioneye's Watch"
           ],
-          "tips": "Skip all monsters except Hillock. Don't loot anything except the skill gem.",
+          "tips": "Run straight to Hillock and kill him quickly. Grab the skill gem reward, then head to town. Skip all other enemies—they offer minimal experience and slow your progression.",
           "waypoint": false
         },
         {
@@ -23,7 +23,7 @@
             "Take Quicksilver Flask from Nessa",
             "Head to The Coast"
           ],
-          "tips": "Don't talk to other NPCs unless necessary. Grab your support gem and go.",
+          "tips": "Talk to Nessa for your support gem. Grab the Quicksilver Flask (one of your most important leveling items). Stock up on life flasks if you have currency.",
           "waypoint": false
         },
         {
@@ -33,7 +33,7 @@
             "Find waypoint (usually top-left area)",
             "Continue to Mud Flats"
           ],
-          "tips": "Skip monsters, run straight for waypoint. Coast waypoint is usually in the top-left quadrant.",
+          "tips": "Find the waypoint in the upper-left area of the zone and activate it immediately. Then push forward—don't spend time clearing monsters here.",
           "waypoint": true
         },
         {
@@ -44,7 +44,7 @@
             "Return to Coast via waypoint",
             "Go to Submerged Passage"
           ],
-          "tips": "Kill only Rhoas near nests if needed. Nests are scattered across the zone.",
+          "tips": "Hunt for Rhoa nests scattered across the zone (they're visible on the ground). Kill Rhoas only if they're guarding nests. This is faster than clearing the whole zone.",
           "waypoint": false
         },
         {
@@ -54,7 +54,7 @@
             "Find waypoint",
             "Continue to Ledge"
           ],
-          "tips": "Waypoint is usually in the middle section. Skip side areas.",
+          "tips": "Waypoint is usually in the middle section. Once found, continue forward without clearing side areas.",
           "waypoint": true
         },
         {
@@ -64,7 +64,7 @@
             "Run through to The Climb",
             "Skip all monsters"
           ],
-          "tips": "Long linear zone. Keep moving, don't fight.",
+          "tips": "This is a long, linear zone—just keep moving forward. Don't stop to fight unless enemies block the path. Movement speed is more valuable than loot here.",
           "waypoint": false
         },
         {
@@ -74,7 +74,7 @@
             "Navigate to Lower Prison",
             "Find waypoint near zone entrance"
           ],
-          "tips": "Waypoint is very close to entrance. Grab it immediately.",
+          "tips": "The waypoint is very close to the entrance. Grab it immediately, then continue toward the prison areas.",
           "waypoint": true
         },
         {
@@ -84,7 +84,7 @@
             "Find stairs to Upper Prison",
             "Skip side rooms"
           ],
-          "tips": "Stairs are usually on the opposite side from entrance.",
+          "tips": "Stairs to Upper Prison are typically on the opposite side from where you entered. Head straight there without detouring.",
           "waypoint": false
         },
         {
@@ -94,7 +94,7 @@
             "Kill Brutus",
             "Continue to Prisoner's Gate"
           ],
-          "tips": "Brutus is the first major boss. Keep moving during his hook attack.",
+          "tips": "Brutus is a significant first boss—he does physical damage and can hook you. Keep moving to avoid his attacks. If you die, log out and back in (he won't respawn fully).",
           "waypoint": false
         },
         {
@@ -104,7 +104,7 @@
             "Find waypoint",
             "Continue to The Ship Graveyard"
           ],
-          "tips": "Waypoint is near the middle. Linear zone.",
+          "tips": "Waypoint is near the middle. This zone is relatively short—push through to the graveyard.",
           "waypoint": true
         },
         {
@@ -114,7 +114,7 @@
             "Navigate to Ship Graveyard Cave",
             "Skip Fairgraves (optional quest)"
           ],
-          "tips": "Cave entrance is usually in the upper area.",
+          "tips": "Cave entrance is usually in the upper area. You can skip the Fairgraves optional boss if rushing.",
           "waypoint": false
         },
         {
@@ -123,7 +123,7 @@
           "objectives": [
             "Navigate to Cavern of Wrath"
           ],
-          "tips": "Linear cave. Keep moving.",
+          "tips": "Linear cave with a straightforward path. Keep moving forward.",
           "waypoint": false
         },
         {
@@ -133,7 +133,7 @@
             "Kill Merveil",
             "Take the exit to Act 2"
           ],
-          "tips": "Merveil has two phases. Stay mobile and avoid her projectiles.",
+          "tips": "Merveil has two phases with similar mechanics. She teleports and casts cold projectiles—move sideways (not backward) to dodge. Kill her summons if they overwhelm you. Use flasks for survivability.",
           "waypoint": false
         }
       ],
@@ -142,37 +142,55 @@
           "name": "Enemy at the Gate",
           "reward": "1 Passive Skill Point",
           "required": true,
-          "location": "Kill Hillock"
+          "location": "Kill Hillock",
+          "description": "Kill Hillock to complete the first quest",
+          "strategyTip": "Passive point allocation: Invest in life nodes early. These provide essential survivability throughout the campaign."
         },
         {
           "name": "The Siren's Cadence",
           "reward": "1 Passive Skill Point",
           "required": true,
-          "location": "Kill Merveil"
+          "location": "Kill Merveil",
+          "description": "Defeat Merveil to progress to Act 2",
+          "strategyTip": "This passive point should also go toward life nodes. Merveil's cold damage makes cold resistance valuable if you're struggling."
         },
         {
           "name": "The Caged Brute",
           "reward": "Skill Gem",
           "required": false,
-          "location": "Free Brutus"
+          "location": "Free Brutus",
+          "description": "Free Brutus from prison",
+          "strategyTip": "Optional quest offering a skill gem reward. Useful if you're missing specific gems for your build."
         }
       ],
       "passiveCheckpoints": [
         {
           "level": 2,
-          "nodes": ["Life nodes near starting area"]
+          "nodes": [
+            "Life nodes near starting area"
+          ],
+          "strategy": "Focus on life nodes. Early survivability is crucial."
         },
         {
           "level": 4,
-          "nodes": ["Continue towards first notable"]
+          "nodes": [
+            "Continue towards first notable"
+          ],
+          "strategy": "Focus on life nodes. Early survivability is crucial."
         },
         {
           "level": 8,
-          "nodes": ["Pick up damage or defense notable"]
+          "nodes": [
+            "Pick up damage or defense notable"
+          ],
+          "strategy": "Combine life nodes with damage scaling. Your weapon upgrades are more important than pure damage nodes."
         },
         {
           "level": 12,
-          "nodes": ["Path towards next major cluster"]
+          "nodes": [
+            "Path towards next major cluster"
+          ],
+          "strategy": "Combine life nodes with damage scaling. Your weapon upgrades are more important than pure damage nodes."
         }
       ]
     },
@@ -187,7 +205,7 @@
             "Find waypoint",
             "Continue to The Forest Encampment"
           ],
-          "tips": "First zone of Act 2. Waypoint is usually on the left side.",
+          "tips": "Waypoint is usually on the left side. Grab it first, then continue toward the camp.",
           "waypoint": true
         },
         {
@@ -197,7 +215,7 @@
             "Talk to Bestel for quest",
             "Continue to The Riverways"
           ],
-          "tips": "Town area. Stock up on flasks if needed.",
+          "tips": "Town area. Talk to Bestel for the quest, stock up on flasks if you have currency.",
           "waypoint": false
         },
         {
@@ -207,7 +225,7 @@
             "Find waypoint",
             "Go to Western Forest"
           ],
-          "tips": "Large zone. Waypoint can be anywhere in the middle area.",
+          "tips": "Navigate toward the Sanctuary. Contains waypoints for quick travel.",
           "waypoint": true
         },
         {
@@ -218,7 +236,7 @@
             "Enter The Weaver's Chambers",
             "Kill the Weaver"
           ],
-          "tips": "Weaver's Chambers entrance is usually in top area. Skip Alira for speedrun.",
+          "tips": "Weaver's Chambers entrance is usually in the top area. The Weaver is dangerous if your defenses are low—stay mobile and use flasks.",
           "waypoint": true
         },
         {
@@ -229,7 +247,7 @@
             "Kill the Weaver",
             "Return to Western Forest"
           ],
-          "tips": "Linear dungeon. The Weaver can be dangerous - kite if needed.",
+          "tips": "Linear dungeon. The Weaver deals physical damage—kite around obstacles if necessary. This is a quick dungeon if you keep moving.",
           "waypoint": false
         },
         {
@@ -239,7 +257,7 @@
             "Find waypoint",
             "Optional: Get Oak's amulet for passive point"
           ],
-          "tips": "Accessed from Riverways. Has optional bandit quest.",
+          "tips": "Optional area with the bandit Oak. Deciding to fight or ally with bandits depends on your build—most players eventually kill all three for passive points.",
           "waypoint": true
         },
         {
@@ -248,7 +266,7 @@
           "objectives": [
             "Navigate to Northern Forest"
           ],
-          "tips": "Connect Wetlands to Northern Forest. Skip if going around.",
+          "tips": "Leads to the Vaal Overseer boss fight. The Overseer has multiple attack patterns (projectiles, quakes, lasers). Stay mobile and move perpendicular to avoid laser attacks.",
           "waypoint": false
         },
         {
@@ -267,7 +285,7 @@
           "objectives": [
             "Navigate to Ancient Pyramid"
           ],
-          "tips": "Dark cave zone. Keep moving forward.",
+          "tips": "Navigate toward the boss encounter. Keep moving and avoid lingering in monster packs.",
           "waypoint": false
         },
         {
@@ -277,7 +295,7 @@
             "Kill Vaal Oversoul",
             "Take the exit to Act 3"
           ],
-          "tips": "Vaal Oversoul slams. Stay away from glowing circles on ground.",
+          "tips": "Optional zone with Vaal enemies. Contains valuable altar drops but isn't necessary for progression.",
           "waypoint": false
         }
       ],
@@ -304,15 +322,24 @@
       "passiveCheckpoints": [
         {
           "level": 15,
-          "nodes": ["Continue damage scaling path"]
+          "nodes": [
+            "Continue damage scaling path"
+          ],
+          "strategy": "Combine life nodes with damage scaling. Your weapon upgrades are more important than pure damage nodes."
         },
         {
           "level": 18,
-          "nodes": ["Add life and defense nodes"]
+          "nodes": [
+            "Add life and defense nodes"
+          ],
+          "strategy": "Combine life nodes with damage scaling. Your weapon upgrades are more important than pure damage nodes."
         },
         {
           "level": 22,
-          "nodes": ["Path towards keystone or major cluster"]
+          "nodes": [
+            "Path towards keystone or major cluster"
+          ],
+          "strategy": "Balance life and damage. Resistance management becomes important. Consider nodes that help with pathing toward resistance clusters."
         }
       ]
     },
@@ -327,7 +354,7 @@
             "Enter Sarn Encampment",
             "Talk to Clarissa"
           ],
-          "tips": "Town entrance. First zone of Act 3.",
+          "tips": "Large hub zone. Explore to find the Market Square and other amenities. The Catacombs entrance is here.",
           "waypoint": false
         },
         {
@@ -337,7 +364,7 @@
             "Get quest from Clarissa",
             "Go to The Slums"
           ],
-          "tips": "Act 3 town. Multiple vendors available.",
+          "tips": "Town area—the largest in the game. Grab supplies and prepare for what's ahead.",
           "waypoint": false
         },
         {
@@ -348,7 +375,7 @@
             "Go to Crematorium (Trial of Ascendancy)",
             "Continue to Sewers"
           ],
-          "tips": "Crematorium has Trial. Get it for Lab access later.",
+          "tips": "First zone of Act 3. Waypoint is here. Stock up on supplies before proceeding deeper into the city.",
           "waypoint": true
         },
         {
@@ -358,7 +385,7 @@
             "Complete Trial of Ascendancy",
             "Return to Slums"
           ],
-          "tips": "First trial of Act 3. Complete for Lab access.",
+          "tips": "Contains burning ground hazards. Avoid standing in the fire and keep moving. The waypoint is usually accessible from the main path.",
           "waypoint": false
         },
         {
@@ -368,7 +395,7 @@
             "Navigate through sewers",
             "Continue to Marketplace"
           ],
-          "tips": "Linear sewer section. Keep moving.",
+          "tips": "Contains optional hidden busts for the Victario's Secret quest (rewards passive points and respec points). Linear navigation—follow the main path if rushing.",
           "waypoint": false
         },
         {
@@ -389,7 +416,7 @@
             "Complete Trial of Ascendancy",
             "Return to Marketplace"
           ],
-          "tips": "Second trial of Act 3. Complete for Lab.",
+          "tips": "Multiple Trials of Ascendancy are located here (3 trials total across Acts 1-3). Complete them to unlock the Labyrinth later. Essential for progression.",
           "waypoint": false
         },
         {
@@ -399,7 +426,7 @@
             "Find waypoint",
             "Continue to The Docks"
           ],
-          "tips": "Large outdoor zone. Waypoint usually in middle.",
+          "tips": "Navigate through enemy-filled zones. Keep moving toward the prison.",
           "waypoint": true
         },
         {
@@ -409,7 +436,7 @@
             "Find waypoint",
             "Go to Solaris Temple"
           ],
-          "tips": "Connects to multiple zones. Important waypoint.",
+          "tips": "Navigate toward the cavern. Keep moving forward.",
           "waypoint": true
         },
         {
@@ -494,7 +521,9 @@
           "name": "Victario's Secrets",
           "reward": "1 Passive Skill Point",
           "required": true,
-          "location": "Find busts in Sewers"
+          "location": "Find busts in Sewers",
+          "description": "Find hidden busts in Act 3 Sewers",
+          "strategyTip": "Rewards a passive point and two respec points. Useful for path corrections later. Can be skipped for speed."
         },
         {
           "name": "A Fixture of Fate",
@@ -506,15 +535,24 @@
       "passiveCheckpoints": [
         {
           "level": 25,
-          "nodes": ["Continue main damage path"]
+          "nodes": [
+            "Continue main damage path"
+          ],
+          "strategy": "Balance life and damage. Resistance management becomes important. Consider nodes that help with pathing toward resistance clusters."
         },
         {
           "level": 28,
-          "nodes": ["Get key defensive nodes"]
+          "nodes": [
+            "Get key defensive nodes"
+          ],
+          "strategy": "Balance life and damage. Resistance management becomes important. Consider nodes that help with pathing toward resistance clusters."
         },
         {
           "level": 31,
-          "nodes": ["Path to next major notable or keystone"]
+          "nodes": [
+            "Path to next major notable or keystone"
+          ],
+          "strategy": "Balance life and damage. Resistance management becomes important. Consider nodes that help with pathing toward resistance clusters."
         }
       ]
     },
@@ -529,7 +567,7 @@
             "Talk to Petarus and Vanja",
             "Head to The Dried Lake"
           ],
-          "tips": "Act 4 town hub.",
+          "tips": "Final zone before Malachai. Boss preparation and final push. Stock up on supplies.",
           "waypoint": false
         },
         {
@@ -540,7 +578,7 @@
             "Kill Voll for Deshret's Banner",
             "Continue to The Mines"
           ],
-          "tips": "Good farming zone. Voll drops quest item.",
+          "tips": "Excellent experience farming zone with good monster density. Farm here if underleveled before entering dangerous mines.",
           "waypoint": true
         },
         {
@@ -642,7 +680,7 @@
             "Kill Doedre, Maligaro, and Shavronne",
             "Kill Malachai"
           ],
-          "tips": "Kill the three mini-bosses to unlock the Black Core. Malachai is a complex fight.",
+          "tips": "Optional zone with unique mechanics and altars for crafting. Can be skipped if rushing but offers valuable crafting opportunities.",
           "waypoint": true
         },
         {
@@ -672,11 +710,17 @@
       "passiveCheckpoints": [
         {
           "level": 33,
-          "nodes": ["Continue build progression"]
+          "nodes": [
+            "Continue build progression"
+          ],
+          "strategy": "Balance life and damage. Resistance management becomes important. Consider nodes that help with pathing toward resistance clusters."
         },
         {
           "level": 38,
-          "nodes": ["Ensure fire resistance is capped for Kaom"]
+          "nodes": [
+            "Ensure fire resistance is capped for Kaom"
+          ],
+          "strategy": "Balance life and damage. Resistance management becomes important. Consider nodes that help with pathing toward resistance clusters."
         }
       ]
     },
@@ -688,10 +732,10 @@
           "name": "The Slave Pens",
           "order": 1,
           "objectives": [
-             "Kill Overseer Krow",
-             "Enter Overseer's Tower"
+            "Kill Overseer Krow",
+            "Enter Overseer's Tower"
           ],
-          "tips": "Linear start to Act 5. Kill the unique boss at the end.",
+          "tips": "Linear start to Act 5. Kill the unique boss at the end and continue.",
           "waypoint": true
         },
         {
@@ -773,7 +817,7 @@
             "Find Sign of Purity",
             "Return to Ruined Square"
           ],
-          "tips": "Required to fight Kitava later. Also has a Trial of Ascendancy.",
+          "tips": "Contains a Trial of Ascendancy (the third trial). Complete it to unlock Uber Lab. Essential for later progression.",
           "waypoint": false
         },
         {
@@ -821,11 +865,17 @@
       "passiveCheckpoints": [
         {
           "level": 41,
-          "nodes": ["Upgrade flask setup"]
+          "nodes": [
+            "Upgrade flask setup"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         },
         {
           "level": 44,
-          "nodes": ["Prepare for resistance penalty"]
+          "nodes": [
+            "Prepare for resistance penalty"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         }
       ]
     },
@@ -837,10 +887,10 @@
           "name": "Lioneye's Watch",
           "order": 1,
           "objectives": [
-             "Talk to Lilly Roth",
-             "Clear Twilight Strand (Optional)"
+            "Talk to Lilly Roth",
+            "Clear Twilight Strand (Optional)"
           ],
-          "tips": "Clearing Twilight Strand unlocks all gems at Lilly.",
+          "tips": "Talk to Nessa for your support gem. Grab the Quicksilver Flask (one of your most important leveling items). Stock up on life flasks if you have currency.",
           "waypoint": true
         },
         {
@@ -850,7 +900,7 @@
             "Find Waypoint",
             "Go to The Mud Flats"
           ],
-          "tips": "Waypoint is in same spot as Act 1.",
+          "tips": "Find the waypoint in the upper-left area of the zone and activate it immediately. Then push forward—don't spend time clearing monsters here.",
           "waypoint": true
         },
         {
@@ -861,7 +911,7 @@
             "Take Eye of Conquest",
             "Enter Karui Fortress"
           ],
-          "tips": "Queen is usually near the top right.",
+          "tips": "Hunt for Rhoa nests scattered across the zone (they're visible on the ground). Kill Rhoas only if they're guarding nests. This is faster than clearing the whole zone.",
           "waypoint": false
         },
         {
@@ -904,7 +954,7 @@
             "Kill Abberath (Optional)",
             "Go to Western Forest"
           ],
-          "tips": "Abberath grants a skill point. Follow the path to find him.",
+          "tips": "Waypoint is near the middle. This zone is relatively short—push through to the graveyard.",
           "waypoint": true
         },
         {
@@ -914,7 +964,7 @@
             "Find Waypoint",
             "Go to The Riverways"
           ],
-          "tips": "Follow the road.",
+          "tips": "Weaver's Chambers entrance is usually in the top area. The Weaver is dangerous if your defenses are low—stay mobile and use flasks.",
           "waypoint": true
         },
         {
@@ -924,7 +974,7 @@
             "Find Waypoint",
             "Go to The Wetlands"
           ],
-          "tips": "Wetlands is usually in the upper left.",
+          "tips": "Navigate toward the Sanctuary. Contains waypoints for quick travel.",
           "waypoint": true
         },
         {
@@ -935,7 +985,7 @@
             "Kill Ryslatha (Puppet Mistress)",
             "Return to Riverways -> Southern Forest"
           ],
-          "tips": "Kill Ryslatha to get a skill point.",
+          "tips": "Optional area with the bandit Oak. Deciding to fight or ally with bandits depends on your build—most players eventually kill all three for passive points.",
           "waypoint": true
         },
         {
@@ -945,7 +995,7 @@
             "Find Waypoint",
             "Go to The Beacon"
           ],
-          "tips": "Linear zone leading to the coast.",
+          "tips": "Waypoint is usually on the left side. Grab it first, then continue toward the camp.",
           "waypoint": true
         },
         {
@@ -967,7 +1017,7 @@
             "Find Waypoint",
             "Kill Tsoagoth, The Brine King"
           ],
-          "tips": "Brine King has a tide phase. Stay in the safe bubbles.",
+          "tips": "Optional boss area. Rewards unique item. Can be skipped if rushing, but worth doing for gear.",
           "waypoint": true
         }
       ],
@@ -990,7 +1040,7 @@
           "required": true,
           "location": "Kill Ryslatha"
         },
-         {
+        {
           "name": "The Cloven One",
           "reward": "1 Passive Skill Point",
           "required": true,
@@ -1000,11 +1050,17 @@
       "passiveCheckpoints": [
         {
           "level": 46,
-          "nodes": ["Start fixing resistances"]
+          "nodes": [
+            "Start fixing resistances"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         },
         {
           "level": 50,
-          "nodes": ["Pick up major keystones"]
+          "nodes": [
+            "Pick up major keystones"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         }
       ]
     },
@@ -1028,7 +1084,7 @@
             "Find Silver Locket",
             "Go to The Crossroads"
           ],
-          "tips": "Locket is in a chest for a quest reward.",
+          "tips": "Optional crossing area. Contains some challenging packs. Can be skipped if rushing.",
           "waypoint": false
         },
         {
@@ -1103,7 +1159,7 @@
             "Kill Greust",
             "Enter Northern Forest"
           ],
-          "tips": "Greust is the boss of this zone.",
+          "tips": "Large area leading toward the boss. Find waypoints and continue forward.",
           "waypoint": true
         },
         {
@@ -1182,7 +1238,7 @@
           "required": true,
           "location": "Kill Ralakesh (Wait, Ralakesh is later? No, this is Greust? No, Ralakesh is Act 7 god... wait. Greust is possessed by Ralakesh. Yes.)"
         },
-         {
+        {
           "name": "Queen of Despair",
           "reward": "1 Passive Skill Point",
           "required": true,
@@ -1198,7 +1254,10 @@
       "passiveCheckpoints": [
         {
           "level": 53,
-          "nodes": ["Chaos resistance is helpful here"]
+          "nodes": [
+            "Chaos resistance is helpful here"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         }
       ]
     },
@@ -1222,7 +1281,7 @@
             "Talk to NPCs",
             "Enter The Toxic Conduits"
           ],
-          "tips": "Act 8 town.",
+          "tips": "Town area—the largest in the game. Grab supplies and prepare for what's ahead.",
           "waypoint": false
         },
         {
@@ -1265,7 +1324,7 @@
             "Kill Gemling Legion",
             "Enter Imperial Fields"
           ],
-          "tips": "Gemling Legion gives a passive point.",
+          "tips": "Final zone before the boss.",
           "waypoint": true
         },
         {
@@ -1347,7 +1406,7 @@
             "Kill Yugul",
             "Return to Bath House -> Lunaris Concourse"
           ],
-          "tips": "Yugul reflects damage. Careful. Reward is passive point.",
+          "tips": "Navigate through garden-themed zones with various enemies. Keep moving toward the next waypoint.",
           "waypoint": false
         },
         {
@@ -1401,7 +1460,7 @@
           "required": true,
           "location": "Kill Legion in Grain Gate"
         },
-         {
+        {
           "name": "Reflection of Terror",
           "reward": "1 Passive Skill Point",
           "required": true,
@@ -1411,7 +1470,10 @@
       "passiveCheckpoints": [
         {
           "level": 58,
-          "nodes": ["Finalize build core"]
+          "nodes": [
+            "Finalize build core"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         }
       ]
     },
@@ -1436,7 +1498,7 @@
             "Talk to Sin",
             "Enter The Descent"
           ],
-          "tips": "Act 9 Town.",
+          "tips": "Final zone before Malachai. Boss preparation and final push. Stock up on supplies.",
           "waypoint": false
         },
         {
@@ -1512,7 +1574,7 @@
             "Enter Shrine of Winds (Optional)",
             "Enter Belly of the Beast"
           ],
-          "tips": "Square layout. Waypoint in middle.",
+          "tips": "Zone before Daresso. Navigate and continue forward.",
           "waypoint": true
         },
         {
@@ -1533,7 +1595,7 @@
             "Talk to Sin",
             "Enter The Rotting Core"
           ],
-          "tips": "Short run.",
+          "tips": "Large mine zone with multiple paths. The waypoint is accessible from the main route. Continue toward the next area.",
           "waypoint": false
         },
         {
@@ -1544,7 +1606,7 @@
             "Kill Shavronne, Maligaro, Doedre",
             "Kill The Depraved Trinity"
           ],
-          "tips": "Final boss of Act 9. Complex fight.",
+          "tips": "Navigate toward the final boss arena.",
           "waypoint": false
         }
       ],
@@ -1571,7 +1633,10 @@
       "passiveCheckpoints": [
         {
           "level": 62,
-          "nodes": ["Prepare for final resistance penalty"]
+          "nodes": [
+            "Prepare for final resistance penalty"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         }
       ]
     },
@@ -1595,7 +1660,7 @@
             "Save Bannon",
             "Enter The Ravaged Square"
           ],
-          "tips": "Similar to Act 5 but destroyed.",
+          "tips": "Build-up to Kitava. Final preparations here.",
           "waypoint": false
         },
         {
@@ -1608,7 +1673,7 @@
             "Enter The Ossuary (Optional)",
             "Enter The Torched Courts"
           ],
-          "tips": "Central hub. Do side quests here for points.",
+          "tips": "Final hub before the final boss. Maximize resistances—Kitava applies another 30% penalty here (on top of Act 5's penalty). Aim for 75% resistances after penalties.",
           "waypoint": true
         },
         {
@@ -1639,7 +1704,7 @@
             "Complete Trial of Ascendancy",
             "Return to Ravaged Square"
           ],
-          "tips": "Last trial for Uber Lab.",
+          "tips": "Contains a Trial of Ascendancy (the third trial). Complete it to unlock Uber Lab. Essential for later progression.",
           "waypoint": false
         },
         {
@@ -1660,7 +1725,7 @@
             "Take Staff of Purity",
             "Return to Docks -> Ravaged Square -> Canals"
           ],
-          "tips": "Talk to Bannon in Docks to unlock the path to Canals.",
+          "tips": "Contains the final Kitava encounter. This boss is significantly harder than Act 5's version. The fight alternates between damaging Kitava and destroying his heart. Use defensive flasks liberally.",
           "waypoint": true
         },
         {
@@ -1669,7 +1734,7 @@
           "objectives": [
             "Run to The Feeding Trough"
           ],
-          "tips": "Linear path.",
+          "tips": "Short path to the final zone.",
           "waypoint": false
         },
         {
@@ -1679,7 +1744,7 @@
             "Run to Altar of Hunger",
             "Kill Kitava"
           ],
-          "tips": "Final boss. Kitava has multiple phases. Good luck.",
+          "tips": "Final area before Kitava. Prepare flasks and ensure adequate life totals.",
           "waypoint": false
         }
       ],
@@ -1688,7 +1753,9 @@
           "name": "An End to Hunger",
           "reward": "Resistance penalty (-60%)",
           "required": true,
-          "location": "Kill Kitava"
+          "location": "Kill Kitava",
+          "description": "Defeat Kitava at the end of Act 10",
+          "strategyTip": "Permanent -30% resistance penalty (in addition to Act 5's -30%). Ensure resistances are capped at 75% before fighting if possible."
         },
         {
           "name": "Map to Tsoatha",
@@ -1706,7 +1773,10 @@
       "passiveCheckpoints": [
         {
           "level": 67,
-          "nodes": ["Cap resistances after Act 10 penalty"]
+          "nodes": [
+            "Cap resistances after Act 10 penalty"
+          ],
+          "strategy": "Optimize based on your build. Life and resistances should be priority. Damage nodes are supplementary."
         }
       ]
     }

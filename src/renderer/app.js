@@ -1,10 +1,6 @@
-// =========================================================================
-// PoE League Starter – Renderer
-// =========================================================================
+// Renderer script 
 
-// ---------------------------------------------------------------------------
-// State
-// ---------------------------------------------------------------------------
+// State variables
 let currentGuideData = null;
 let gemData = null;
 let cheatsheetData = null;
@@ -16,9 +12,7 @@ let activeTab = 'guide';
 let activeCheatsheet = null;
 let overlayInteractive = true;
 
-// ---------------------------------------------------------------------------
-// Data loading
-// ---------------------------------------------------------------------------
+// Load data
 
 async function loadGuideData() {
   currentGuideData = await window.api.invoke('load-guide-data');
@@ -35,9 +29,7 @@ async function loadCheatsheetData() {
   if (cheatsheetData) console.log('Cheatsheet data loaded');
 }
 
-// ---------------------------------------------------------------------------
-// Initialization
-// ---------------------------------------------------------------------------
+// Init
 
 async function init() {
   await Promise.all([loadGuideData(), loadGemData(), loadCheatsheetData()]);
@@ -50,9 +42,7 @@ async function init() {
   attachIPCListeners();
 }
 
-// ---------------------------------------------------------------------------
-// Progress
-// ---------------------------------------------------------------------------
+// Progress management
 
 function loadProgress() {
   const progress = window.api.sendSync('get-progress');
@@ -80,9 +70,7 @@ function saveProgress() {
   });
 }
 
-// ---------------------------------------------------------------------------
 // Zone helpers
-// ---------------------------------------------------------------------------
 
 function getAllZones() {
   if (!currentGuideData || !currentGuideData.acts) return [];
@@ -108,9 +96,7 @@ function findZoneByName(zoneName) {
   return idx;
 }
 
-// ---------------------------------------------------------------------------
-// UI: Guide tab
-// ---------------------------------------------------------------------------
+// Guide UI
 
 function updateUI() {
   const zones = getAllZones();
@@ -248,9 +234,7 @@ function updateQuestInfo(act) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// UI: Gem tab
-// ---------------------------------------------------------------------------
+// Gem UI
 
 function updateGemUI() {
   const container = document.getElementById('gem-rewards-content');
@@ -261,7 +245,7 @@ function updateGemUI() {
 
   container.innerHTML = '';
 
-  // Show gems relevant to current act (and one act ahead)
+  // Grabbing only the gems I care about for my current level
   const relevantRewards = gemData.questRewards.filter(
     (r) => r.act >= currentAct - 1 && r.act <= currentAct + 1
   );
@@ -306,9 +290,7 @@ function updateGemUI() {
   });
 }
 
-// ---------------------------------------------------------------------------
-// UI: Cheatsheet tab
-// ---------------------------------------------------------------------------
+// Cheatsheet UI
 
 function initCheatsheets() {
   const nav = document.getElementById('cheatsheet-nav');
@@ -437,7 +419,7 @@ function selectCheatsheet(id) {
       }
     });
   } else if (cs.items && typeof cs.items === 'object') {
-    // Nested structure (e.g. pantheon with major/minor)
+    // Figuring out these nested cheatsheet data tables
     Object.entries(cs.items).forEach(([groupName, groupItems]) => {
       const groupTitle = document.createElement('div');
       groupTitle.className = 'gem-quest-title';
@@ -466,9 +448,7 @@ function selectCheatsheet(id) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// UI: Timer tab
-// ---------------------------------------------------------------------------
+// Timer UI
 
 function initTimer() {
   const state = window.api.sendSync('timer-get');
@@ -528,9 +508,7 @@ function updateSplitsList(splits) {
   container.scrollTop = container.scrollHeight;
 }
 
-// ---------------------------------------------------------------------------
-// Actions
-// ---------------------------------------------------------------------------
+// User actions
 
 function toggleObjective(objectiveId) {
   const index = completedObjectives.indexOf(objectiveId);
@@ -603,9 +581,7 @@ function showModeIndicator(text) {
   }, 1200);
 }
 
-// ---------------------------------------------------------------------------
 // Event listeners
-// ---------------------------------------------------------------------------
 
 function attachEventListeners() {
   // Window controls
@@ -662,9 +638,7 @@ function attachEventListeners() {
   });
 }
 
-// ---------------------------------------------------------------------------
-// IPC event listeners
-// ---------------------------------------------------------------------------
+// IPC listeners
 
 function attachIPCListeners() {
   // Zone change from log parser
@@ -741,8 +715,6 @@ function attachIPCListeners() {
   window.api.receive('hotkey-prev-zone', () => prevZone());
 }
 
-// ---------------------------------------------------------------------------
-// Boot
-// ---------------------------------------------------------------------------
+// Start
 
 document.addEventListener('DOMContentLoaded', init);

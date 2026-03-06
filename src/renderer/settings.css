@@ -145,7 +145,7 @@ input[type="checkbox"] {
   cursor: pointer;
 }
 
-/* Hotkey grid */
+/* Arranging the hotkey inputs in a grid format */
 .hotkey-grid {
   display: flex;
   flex-direction: column;

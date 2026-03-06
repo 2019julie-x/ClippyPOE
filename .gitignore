@@ -25,7 +25,3 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
-
-# Ignore markdown and text files for now
-*.md
-*.txt

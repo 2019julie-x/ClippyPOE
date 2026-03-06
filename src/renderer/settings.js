@@ -1,9 +1,7 @@
 let currentSettings = {};
 let capturingHotkey = null;
 
-// ---------------------------------------------------------------------------
-// Initialize
-// ---------------------------------------------------------------------------
+// init
 
 async function init() {
   loadSettings();
@@ -11,9 +9,7 @@ async function init() {
   attachEventListeners();
 }
 
-// ---------------------------------------------------------------------------
-// Load / Save
-// ---------------------------------------------------------------------------
+// load and save settings logic
 
 function loadSettings() {
   currentSettings = window.api.sendSync('get-settings');
@@ -105,9 +101,7 @@ function saveSettings() {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Hotkey capture
-// ---------------------------------------------------------------------------
+// Hotkey capturing and save 
 
 function startHotkeyCapture(inputEl) {
   capturingHotkey = inputEl;
@@ -129,7 +123,7 @@ function handleHotkeyKeydown(e) {
   if (e.shiftKey) parts.push('Shift');
   if (e.metaKey) parts.push('Super');
 
-  // Normalize key names to Electron accelerator format
+  // Making sure Electron knows what hotkey string format to expect
   let key = e.key;
   if (key === ' ') key = 'Space';
   if (key.length === 1) key = key.toUpperCase();
@@ -140,9 +134,7 @@ function handleHotkeyKeydown(e) {
   capturingHotkey = null;
 }
 
-// ---------------------------------------------------------------------------
-// Status message
-// ---------------------------------------------------------------------------
+// Showing status messages to the user
 
 function showStatus(message, type) {
   const statusEl = document.getElementById('status-message');
@@ -156,9 +148,7 @@ function showStatus(message, type) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Event listeners
-// ---------------------------------------------------------------------------
+// Hooking up all the event listeners for the UI elements
 
 function attachEventListeners() {
   // Browse button
@@ -190,8 +180,6 @@ function attachEventListeners() {
   document.addEventListener('keydown', handleHotkeyKeydown);
 }
 
-// ---------------------------------------------------------------------------
-// Boot
-// ---------------------------------------------------------------------------
+
 
 document.addEventListener('DOMContentLoaded', init);

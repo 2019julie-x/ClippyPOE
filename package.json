@@ -1,7 +1,7 @@
 {
-  "name": "poe-league-starter",
-  "version": "0.2.0",
-  "description": "Path of Exile League Start Leveling Guide Overlay",
+  "name": "clippy-poe",
+  "version": "1.0.0",
+  "description": "Path of Exile Campaign Guide Overlay",
   "main": "src/main/index.js",
   "scripts": {
     "start": "electron .",
@@ -55,8 +55,8 @@
     "chokidar": "^3.5.3"
   },
   "build": {
-    "appId": "com.poe.leaguestarter",
-    "productName": "PoE League Starter",
+    "appId": "com.poe.clippypoe",
+    "productName": "ClippyPOE",
     "directories": {
       "output": "dist"
     },
@@ -66,8 +66,7 @@
       "config/**/*"
     ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico"
+      "target": "nsis"
     },
     "linux": {
       "target": "AppImage",
