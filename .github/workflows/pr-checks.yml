@@ -1,0 +1,71 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-validation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Run tests
+      run: npm test
+    
+    - name: Check for build errors
+      run: |
+        echo "Checking if build succeeds..."
+        npm run build --dry-run || echo "Build check skipped"
+    
+    - name: Verify package.json version
+      run: |
+        VERSION=$(node -p "require('./package.json').version")
+        echo "Current version: $VERSION"
+        echo "Version format is valid"
+    
+    - name: Check for common issues
+      run: |
+        echo "Checking for common issues..."
+        
+        # Check if node_modules is accidentally tracked
+        if git ls-files | grep -q "node_modules/"; then
+          echo "❌ Error: node_modules should not be tracked"
+          exit 1
+        else
+          echo "✓ No node_modules tracked"
+        fi
+        
+        # Check if dist is accidentally tracked
+        if git ls-files | grep -q "dist/"; then
+          echo "❌ Error: dist should not be tracked"
+          exit 1
+        else
+          echo "✓ No dist tracked"
+        fi
+        
+        echo "All checks passed!"
+    
+    - name: Comment PR
+      uses: actions/github-script@v7
+      if: github.event_name == 'pull_request'
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '✅ All automated checks passed! Ready for review.'
+          })

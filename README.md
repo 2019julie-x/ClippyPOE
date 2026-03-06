@@ -1,5 +1,9 @@
 # ClippyPOE
 
+[![Test & Lint](https://github.com/2019julie-x/PoE-helper-overlay/workflows/Test%20&%20Lint/badge.svg)](https://github.com/2019julie-x/PoE-helper-overlay/actions)
+[![Release Build](https://github.com/2019julie-x/PoE-helper-overlay/workflows/Release%20Build/badge.svg)](https://github.com/2019julie-x/PoE-helper-overlay/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Path of Exile Campaign Guide Overlay. This application provides a transparent, click-through overlay to guide you through acts 1-10 during your Path of Exile campaign journey.
 
 ## Features
@@ -12,10 +16,11 @@ Path of Exile Campaign Guide Overlay. This application provides a transparent, c
 
 ## Installation
 
-Download the latest release from the [Releases](https://github.com/yourusername/ClippyPOE/releases) page.
+Download the latest release from the [Releases](https://github.com/2019julie-x/PoE-helper-overlay/releases) page.
 
-- **Windows**: Download the `.exe` installer.
-- **Linux**: Download the `.AppImage`.
+- **Windows**: Download the `.exe` installer
+- **Linux**: Download the `.AppImage` (make it executable: `chmod +x ClippyPOE*.AppImage`)
+- **macOS**: Download the `.dmg`
 
 ## Usage
 
@@ -31,9 +36,49 @@ To read your client logs for auto-zone tracking, open Settings and browse to you
 ## Development
 
 1. Clone the repository
-2. Run `npm install`
-3. Run `npm run dev` to start the app in development mode with devtools attached.
-4. Run `npm run build` to package the app for your platform.
+   ```bash
+   git clone https://github.com/2019julie-x/PoE-helper-overlay.git
+   cd PoE-helper-overlay
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Run in development mode
+   ```bash
+   npm run dev
+   ```
+
+4. Run tests
+   ```bash
+   npm test
+   ```
+
+5. Build for your platform
+   ```bash
+   npm run build
+   ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## CI/CD
+
+This project uses GitHub Actions for automated testing and releases:
+- **Test & Lint**: Runs on every push and PR
+- **Release Build**: Automatically triggered on version tags (e.g., `v1.0.0`)
+- **Dependabot**: Weekly dependency updates
+
+See [.github/workflows/README.md](.github/workflows/README.md) for details.
 
 ## License
 
