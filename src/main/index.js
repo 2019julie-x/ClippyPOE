@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, globalShortcut, screen } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const LogParser = require('./logParser');
@@ -12,6 +12,7 @@ const {
   configureAppForPlatform,
   getOverlayWindowOptions,
   applyOverlayBehavior,
+  validateWindowPosition,
 } = require('./platformUtils');
 
 // Platform config
@@ -32,6 +33,9 @@ let cachedCheatsheetData = null;
 
 // Guard flag to prevent infinite move loop during magnetization snap
 let isSnapping = false;
+
+// Guard flag to suppress move/resize saves during startup restoration
+let isWindowReady = false;
 
 // Create windows
 
@@ -60,54 +64,89 @@ function createMainWindow() {
 
   mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
 
+  // Restore saved bounds before showing (setPosition/setSize fire move/resize
+  // events — the isWindowReady guard keeps them from overwriting the config)
+  const savedPosition = settingsManager.getWindowPosition();
+  const savedSize = settingsManager.getWindowSize();
+
+  if (savedSize) {
+    mainWindow.setSize(savedSize.width, savedSize.height);
+  }
+
+  if (savedPosition) {
+    // Validate against active displays so we don't spawn off-screen
+    const validatedPos = validateWindowPosition(
+      savedPosition.x,
+      savedPosition.y,
+      savedSize ? savedSize.width : 400,
+      savedSize ? savedSize.height : 600,
+      screen.getAllDisplays(),
+      screen.getPrimaryDisplay()
+    );
+    mainWindow.setPosition(validatedPos.x, validatedPos.y);
+  }
+
   // Show only when the renderer is ready (prevents transparent flash)
   mainWindow.once('ready-to-show', () => {
+    // Startup restoration is finished — start persisting moves/resizes
+    isWindowReady = true;
     mainWindow.show();
     // Start in interactive mode
     overlayController.activate();
   });
 
-  // Restore window position from settings
-  const position = settingsManager.getWindowPosition();
-  if (position) {
-    mainWindow.setPosition(position.x, position.y);
-  }
-
-  // Restore window size from settings
-  const size = settingsManager.getWindowSize();
-  if (size) {
-    mainWindow.setSize(size.width, size.height);
-  }
-
   // Save window position on move with magnetization support
   mainWindow.on('move', () => {
-    if (isSnapping) return; // prevent re-entrant loop from setPosition
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      // Check if window should snap to edges
-      const snapPosition = windowMagnetizer.calculateSnapPosition(mainWindow);
+    if (!isWindowReady || isSnapping) return;
+    if (!mainWindow || mainWindow.isDestroyed()) return;
 
-      if (snapPosition) {
-        isSnapping = true;
-        mainWindow.setPosition(snapPosition.x, snapPosition.y);
-        settingsManager.saveWindowPosition(snapPosition.x, snapPosition.y);
-        isSnapping = false;
-      } else {
-        // Save current position without snapping
-        const [x, y] = mainWindow.getPosition();
-        settingsManager.saveWindowPosition(x, y);
-      }
+    // Minimizing on Windows moves the window to ~(-32000,-32000) — never save that
+    if (mainWindow.isMinimized()) return;
+
+    // On Wayland, getPosition() returns [0,0] and setPosition() is a no-op,
+    // so skip magnetization and position persistence entirely
+    if (platformInfo.isWayland) return;
+
+    // Check if window should snap to edges
+    const snapPosition = windowMagnetizer.calculateSnapPosition(mainWindow);
+
+    if (snapPosition) {
+      isSnapping = true;
+      mainWindow.setPosition(snapPosition.x, snapPosition.y);
+      settingsManager.saveWindowPosition(snapPosition.x, snapPosition.y);
+      isSnapping = false;
+    } else {
+      const [x, y] = mainWindow.getPosition();
+      settingsManager.saveWindowPosition(x, y);
     }
   });
 
   // Save window size on resize
   mainWindow.on('resize', () => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      const [width, height] = mainWindow.getSize();
-      settingsManager.saveWindowSize(width, height);
+    if (!isWindowReady) return;
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    // Minimizing can trigger a resize to 0×0 on some platforms
+    if (mainWindow.isMinimized()) return;
+
+    const [width, height] = mainWindow.getSize();
+    settingsManager.saveWindowSize(width, height);
+  });
+
+  // Re-apply overlay state after restore — minimizing an alwaysOnTop window
+  // can drop the z-order flag on some platforms (macOS, some Linux WMs)
+  mainWindow.on('restore', () => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    if (overlayController) {
+      if (overlayController.interactive) {
+        overlayController.activate();
+      } else {
+        overlayController.deactivate();
+      }
     }
   });
 
   mainWindow.on('closed', () => {
+    isWindowReady = false;
     mainWindow = null;
   });
 
@@ -179,6 +218,7 @@ function registerHotkeys() {
           mainWindow.hide();
         } else {
           mainWindow.show();
+          if (mainWindow.isMinimized()) mainWindow.restore();
         }
       }
     });
@@ -299,7 +339,12 @@ ipcMain.on('close-window', () => {
 });
 
 ipcMain.on('minimize-window', () => {
-  if (mainWindow) mainWindow.minimize();
+  if (mainWindow) {
+    // Since the overlay has skipTaskbar: true, minimizing it makes it disappear
+    // completely with no way to restore via UI. Hiding it is safer, as the
+    // global hotkey (Shift+F1) toggles visibility.
+    mainWindow.hide();
+  }
 });
 
 // Overlay control (fire-and-forget)
