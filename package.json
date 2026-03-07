@@ -57,6 +57,7 @@
   "build": {
     "appId": "com.poe.clippypoe",
     "productName": "ClippyPOE",
+    "publish": null,
     "directories": {
       "output": "dist"
     },
