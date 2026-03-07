@@ -1,7 +1,7 @@
 # ClippyPOE
 
-[![Test & Lint](https://github.com/2019julie-x/PoE-helper-overlay/workflows/Test%20&%20Lint/badge.svg)](https://github.com/2019julie-x/PoE-helper-overlay/actions)
-[![Release Build](https://github.com/2019julie-x/PoE-helper-overlay/workflows/Release%20Build/badge.svg)](https://github.com/2019julie-x/PoE-helper-overlay/actions)
+[![Test & Lint](https://github.com/2019julie-x/ClippyPOE/workflows/Test%20&%20Lint/badge.svg)](https://github.com/2019julie-x/ClippyPOE/actions)
+[![Release Build](https://github.com/2019julie-x/ClippyPOE/workflows/Release%20Build/badge.svg)](https://github.com/2019julie-x/ClippyPOE/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Path of Exile Campaign Guide Overlay. This application provides a transparent, click-through overlay to guide you through acts 1-10 during your Path of Exile campaign journey.
@@ -16,7 +16,7 @@ Path of Exile Campaign Guide Overlay. This application provides a transparent, c
 
 ## Installation
 
-Download the latest release from the [Releases](https://github.com/2019julie-x/PoE-helper-overlay/releases) page.
+Download the latest release from the [Releases](https://github.com/2019julie-x/ClippyPOE/releases) page.
 
 - **Windows**: Download the `.exe` installer
 - **Linux**: Download the `.AppImage` (make it executable: `chmod +x ClippyPOE*.AppImage`)
@@ -37,8 +37,8 @@ To read your client logs for auto-zone tracking, open Settings and browse to you
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/2019julie-x/PoE-helper-overlay.git
-   cd PoE-helper-overlay
+   git clone https://github.com/2019julie-x/ClippyPOE.git
+   cd ClippyPOE
    ```
 
 2. Install dependencies

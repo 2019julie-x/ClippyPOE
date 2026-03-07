@@ -49,6 +49,7 @@ jobs:
     - name: Build for ${{ matrix.os }}
       run: npm run build
       env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Upload artifacts
@@ -74,8 +75,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         path: artifacts
-        pattern: '*'
-        merge-multiple: false
     
     - name: Extract version from tag
       id: version
@@ -99,9 +98,12 @@ jobs:
         echo "" >> $GITHUB_OUTPUT
         echo "### What's New" >> $GITHUB_OUTPUT
         
-        # Get previous tag, or use the very first commit if this is the first tag
-        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
-        git log --pretty=format:"- %s" $PREV_TAG..HEAD >> $GITHUB_OUTPUT
+        # Get previous tag, or generate full log if this is the first tag
+        if PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null); then
+          git log --pretty=format:"- %s" "$PREV_TAG..HEAD" >> $GITHUB_OUTPUT
+        else
+          git log --pretty=format:"- %s" >> $GITHUB_OUTPUT
+        fi
         
         echo "" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
@@ -114,6 +116,8 @@ jobs:
         draft: false
         prerelease: false
         files: |
-          artifacts/**/*
+          artifacts/ClippyPOE-Linux/*
+          artifacts/ClippyPOE-Windows/*
+          artifacts/ClippyPOE-macOS/*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
