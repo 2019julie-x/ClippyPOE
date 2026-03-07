@@ -890,7 +890,7 @@
             "Talk to Lilly Roth",
             "Clear Twilight Strand (Optional)"
           ],
-          "tips": "Talk to Nessa for your support gem. Grab the Quicksilver Flask (one of your most important leveling items). Stock up on life flasks if you have currency.",
+          "tips": "Talk to Lilly Roth to unlock her gem shop. Clear Twilight Strand if you haven't already. Prepare for the resistance penalty from Act 5 Kitava.",
           "waypoint": true
         },
         {
@@ -900,7 +900,7 @@
             "Find Waypoint",
             "Go to The Mud Flats"
           ],
-          "tips": "Find the waypoint in the upper-left area of the zone and activate it immediately. Then push forward—don't spend time clearing monsters here.",
+          "tips": "Same layout as Act 1 but with tougher enemies. Find the waypoint and push forward to Mud Flats.",
           "waypoint": true
         },
         {
@@ -911,7 +911,7 @@
             "Take Eye of Conquest",
             "Enter Karui Fortress"
           ],
-          "tips": "Hunt for Rhoa nests scattered across the zone (they're visible on the ground). Kill Rhoas only if they're guarding nests. This is faster than clearing the whole zone.",
+          "tips": "Kill The Dishonoured Queen for the Eye of Conquest. The layout is similar to Act 1 but enemies hit harder.",
           "waypoint": false
         },
         {
@@ -954,7 +954,7 @@
             "Kill Abberath (Optional)",
             "Go to Western Forest"
           ],
-          "tips": "Waypoint is near the middle. This zone is relatively short—push through to the graveyard.",
+          "tips": "Optional Abberath fight for a passive point. Waypoint is central. Continue to Western Forest.",
           "waypoint": true
         },
         {
@@ -964,7 +964,7 @@
             "Find Waypoint",
             "Go to The Riverways"
           ],
-          "tips": "Weaver's Chambers entrance is usually in the top area. The Weaver is dangerous if your defenses are low—stay mobile and use flasks.",
+          "tips": "Find the waypoint and continue toward The Riverways. No Weaver in Act 6.",
           "waypoint": true
         },
         {
@@ -974,7 +974,7 @@
             "Find Waypoint",
             "Go to The Wetlands"
           ],
-          "tips": "Navigate toward the Sanctuary. Contains waypoints for quick travel.",
+          "tips": "Find the waypoint and continue to The Wetlands for the Ryslatha fight.",
           "waypoint": true
         },
         {
@@ -985,7 +985,7 @@
             "Kill Ryslatha (Puppet Mistress)",
             "Return to Riverways -> Southern Forest"
           ],
-          "tips": "Optional area with the bandit Oak. Deciding to fight or ally with bandits depends on your build—most players eventually kill all three for passive points.",
+          "tips": "Kill Ryslatha (Puppet Mistress) in the Spawning Ground for a passive point and Pantheon soul. Then return to Riverways.",
           "waypoint": true
         },
         {
@@ -995,7 +995,7 @@
             "Find Waypoint",
             "Go to The Beacon"
           ],
-          "tips": "Waypoint is usually on the left side. Grab it first, then continue toward the camp.",
+          "tips": "Find the waypoint and head to The Beacon. Almost done with Act 6.",
           "waypoint": true
         },
         {
@@ -1236,7 +1236,7 @@
           "name": "The Master of a Million Faces",
           "reward": "1 Passive Skill Point",
           "required": true,
-          "location": "Kill Ralakesh (Wait, Ralakesh is later? No, this is Greust? No, Ralakesh is Act 7 god... wait. Greust is possessed by Ralakesh. Yes.)"
+          "location": "Kill Greust (possessed by Ralakesh) in The Ashen Fields"
         },
         {
           "name": "Queen of Despair",

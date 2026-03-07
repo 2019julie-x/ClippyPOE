@@ -107,27 +107,25 @@ const mockCheatsheetData = {
     },
   ],
 };
-// Mock window.api (preload bridge)
+// Mock window.api (preload bridge) — updated: no more sendSync
 function buildMockApi({ guideData = mockGuideData, gemData = mockGemData,
                         cheatsheetData = mockCheatsheetData, progress = {},
                         timerState = { running: false, elapsed: 0, splits: [] } } = {}) {
   return {
-    invoke: jest.fn(async (channel) => {
+    invoke: jest.fn(async (channel, data) => {
       if (channel === 'load-guide-data') return guideData;
       if (channel === 'load-gem-data') return gemData;
       if (channel === 'load-cheatsheet-data') return cheatsheetData;
-      return null;
-    }),
-    send: jest.fn(),
-    sendSync: jest.fn((channel) => {
       if (channel === 'get-progress') return progress;
       if (channel === 'timer-get') return timerState;
       if (channel === 'timer-toggle') return { ...timerState, running: !timerState.running };
       if (channel === 'timer-reset') return { running: false, elapsed: 0, splits: [] };
-      if (channel === 'timer-split') return { ...timerState, splits: [...(timerState.splits || []), { label: 'x', time: 0 }] };
+      if (channel === 'timer-split') return { ...timerState, splits: [...(timerState.splits || []), { label: data || 'x', time: 0 }] };
       return null;
     }),
+    send: jest.fn(),
     receive: jest.fn(),
+    removeReceive: jest.fn(),
   };
 }
 // Utility: load app.js into the current jsdom context
@@ -142,6 +140,9 @@ function patchForGlobals(src) {
   // 2. Top-level `function name(` → `window.name = function name(`
   out = out.replace(/^function ([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/gm,
     'window.$1 = function $1(');
+  // 3. Top-level `async function name(` → `window.name = async function name(`
+  out = out.replace(/^async function ([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/gm,
+    'window.$1 = async function $1(');
   return out;
 }
 const APP_JS_PATCHED = patchForGlobals(APP_JS_RAW);
@@ -433,5 +434,34 @@ describe('showModeIndicator()', () => {
     expect(document.getElementById('mode-indicator').style.display).toBe('none');
     jest.useRealTimers();
     done();
+  });
+});
+// init() – async integration
+describe('init()', () => {
+  test('calls invoke for guide, gem, cheatsheet data and progress', async () => {
+    loadApp();
+    await window.init();
+    const channels = window.api.invoke.mock.calls.map((c) => c[0]);
+    expect(channels).toContain('load-guide-data');
+    expect(channels).toContain('load-gem-data');
+    expect(channels).toContain('load-cheatsheet-data');
+    expect(channels).toContain('get-progress');
+    expect(channels).toContain('timer-get');
+  });
+});
+// showLoadError()
+describe('showLoadError()', () => {
+  beforeEach(() => loadApp());
+  test('renders error message with retry button for guide type', () => {
+    window.showLoadError('guide');
+    const errorDiv = document.querySelector('.load-error');
+    expect(errorDiv).not.toBeNull();
+    expect(errorDiv.querySelector('.error-text').textContent).toContain('Failed to load');
+    expect(errorDiv.querySelector('.retry-btn')).not.toBeNull();
+  });
+  test('does nothing for unknown type', () => {
+    window.showLoadError('unknown');
+    const errorDiv = document.querySelector('.load-error');
+    expect(errorDiv).toBeNull();
   });
 });

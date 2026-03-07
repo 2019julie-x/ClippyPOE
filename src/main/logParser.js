@@ -1,17 +1,37 @@
+// @ts-check
+'use strict';
+
 const fs = require('fs');
 const { EventEmitter } = require('events');
 const chokidar = require('chokidar');
 
+/**
+ * LogParser - Watches the PoE Client.txt log file and emits events for zone
+ * changes and level-ups.
+ *
+ * @fires LogParser#zone-entered
+ * @fires LogParser#level-up
+ * @fires LogParser#error
+ */
 class LogParser extends EventEmitter {
+  /**
+   * @param {string} clientTxtPath - Absolute path to the Client.txt log file
+   */
   constructor(clientTxtPath) {
     super();
+    /** @type {string} */
     this.clientTxtPath = clientTxtPath;
+    /** @type {import('chokidar').FSWatcher | null} */
     this.watcher = null;
+    /** @type {number} */
     this.filePosition = 0;
+    /** @type {boolean} */
     this.isRunning = false;
+    /** @type {string} */
     this.leftoverString = '';
 
     // Prevent duplicate zone events
+    /** @type {string | null} */
     this._lastZoneEmitted = null;
 
     // Regex patterns
@@ -25,6 +45,7 @@ class LogParser extends EventEmitter {
     };
   }
 
+  /** Start watching the Client.txt file for changes. */
   start() {
     if (this.isRunning) {
       return;
@@ -78,6 +99,7 @@ class LogParser extends EventEmitter {
     console.log('Log parser started, watching:', this.clientTxtPath);
   }
 
+  /** Stop watching and clean up. */
   stop() {
     if (this.watcher) {
       this.watcher.close();
@@ -87,6 +109,7 @@ class LogParser extends EventEmitter {
     console.log('Log parser stopped');
   }
 
+  /** Read newly appended lines from Client.txt and parse them. */
   readNewLines() {
     try {
       const stats = fs.statSync(this.clientTxtPath);
@@ -136,6 +159,10 @@ class LogParser extends EventEmitter {
     }
   }
 
+  /**
+   * Parse a single log line and emit events as appropriate.
+   * @param {string} line - A single line from the log file
+   */
   parseLine(line) {
     if (!line.trim()) {
       return;

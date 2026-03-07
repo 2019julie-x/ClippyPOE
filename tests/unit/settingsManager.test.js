@@ -18,7 +18,9 @@ function makeSettingsManager() {
   return { sm: new SettingsManager(), tmpDir };
 }
 // Helpers
-function cleanup(tmpDir) {
+function cleanup(sm, tmpDir) {
+  // Cancel any pending debounced writes before removing the directory
+  sm.destroy();
   try {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   } catch (_) { /* ignore */ }
@@ -29,7 +31,7 @@ describe('SettingsManager – initialisation', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const configDir = path.join(tmpDir, 'config');
     expect(fs.existsSync(configDir)).toBe(true);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('loads default settings on first run', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -37,14 +39,14 @@ describe('SettingsManager – initialisation', () => {
     expect(s.opacity).toBeCloseTo(0.95);
     expect(s.theme).toBe('dark');
     expect(s.autoDetect).toBe(true);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('writes settings.json to disk on first run', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const settingsPath = path.join(tmpDir, 'config', 'settings.json');
     // Allow debounce to flush
     expect(fs.existsSync(settingsPath)).toBe(true);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('default hotkeys are present', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -54,7 +56,7 @@ describe('SettingsManager – initialisation', () => {
     expect(hk.nextZone).toBe('Shift+F2');
     expect(hk.prevZone).toBe('Shift+F3');
     expect(hk.toggleTimer).toBe('Shift+F4');
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
 });
 // saveSettings() / getSettings()
@@ -63,7 +65,7 @@ describe('SettingsManager – saveSettings() / getSettings()', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveSettings({ opacity: 0.5 });
     expect(sm.getSettings().opacity).toBeCloseTo(0.5);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('merges with existing settings (does not clobber unrelated fields)', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -72,7 +74,7 @@ describe('SettingsManager – saveSettings() / getSettings()', () => {
     const s = sm.getSettings();
     expect(s.opacity).toBeCloseTo(0.6);
     expect(s.theme).toBe('light');
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('getSettings() returns a copy, not the internal reference', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -80,7 +82,7 @@ describe('SettingsManager – saveSettings() / getSettings()', () => {
     s1.opacity = 0;
     const s2 = sm.getSettings();
     expect(s2.opacity).not.toBe(0);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
 });
 // Window position / size
@@ -91,7 +93,7 @@ describe('SettingsManager – window position & size', () => {
     const pos = sm.getWindowPosition();
     expect(pos.x).toBe(200);
     expect(pos.y).toBe(350);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('saveWindowSize stores width and height', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -99,14 +101,14 @@ describe('SettingsManager – window position & size', () => {
     const size = sm.getWindowSize();
     expect(size.width).toBe(500);
     expect(size.height).toBe(700);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('default window position is returned when not overridden', () => {
     const { sm, tmpDir } = makeSettingsManager();
     const pos = sm.getWindowPosition();
     expect(typeof pos.x).toBe('number');
     expect(typeof pos.y).toBe('number');
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
 });
 // Progress
@@ -118,7 +120,7 @@ describe('SettingsManager – progress', () => {
     expect(p.currentLevel).toBe(1);
     expect(p.zone).toBeNull();
     expect(p.completedObjectives).toEqual([]);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('saveProgress persists act and zone', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -127,7 +129,7 @@ describe('SettingsManager – progress', () => {
     expect(p.act).toBe(3);
     expect(p.zone).toBe('The Lunaris Temple Level 2');
     expect(p.currentLevel).toBe(45);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('saveProgress merges – does not erase completedObjectives', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -135,7 +137,7 @@ describe('SettingsManager – progress', () => {
     sm.saveProgress({ act: 2 });
     const p = sm.getProgress();
     expect(p.completedObjectives).toEqual(['1-0-0', '1-0-1']);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('resetProgress sets everything back to defaults', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -146,7 +148,7 @@ describe('SettingsManager – progress', () => {
     expect(p.zone).toBeNull();
     expect(p.currentLevel).toBe(1);
     expect(p.completedObjectives).toEqual([]);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('getProgress returns a copy, not the internal reference', () => {
     const { sm, tmpDir } = makeSettingsManager();
@@ -154,7 +156,7 @@ describe('SettingsManager – progress', () => {
     p1.act = 99;
     const p2 = sm.getProgress();
     expect(p2.act).toBe(1);
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
 });
 // getClientTxtPath()
@@ -162,13 +164,24 @@ describe('SettingsManager – getClientTxtPath()', () => {
   test('returns empty string by default', () => {
     const { sm, tmpDir } = makeSettingsManager();
     expect(sm.getClientTxtPath()).toBe('');
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
   });
   test('returns saved path after saveSettings', () => {
     const { sm, tmpDir } = makeSettingsManager();
     sm.saveSettings({ clientTxtPath: '/home/user/poe/Client.txt' });
     expect(sm.getClientTxtPath()).toBe('/home/user/poe/Client.txt');
-    cleanup(tmpDir);
+    cleanup(sm, tmpDir);
+  });
+});
+// destroy()
+describe('SettingsManager – destroy()', () => {
+  test('cancels pending debounced save', () => {
+    const { sm, tmpDir } = makeSettingsManager();
+    sm.saveWindowPosition(500, 500); // triggers debounced write
+    expect(sm.saveTimeout).not.toBeNull();
+    sm.destroy();
+    expect(sm.saveTimeout).toBeNull();
+    cleanup(sm, tmpDir);
   });
 });
 // Persistence across instances (round-trip)
@@ -184,6 +197,7 @@ describe('SettingsManager – round-trip persistence', () => {
     // Force the debounced write to flush immediately
     // We access the internal performSave via a short timeout
     setTimeout(() => {
+      sm1.destroy();
       jest.resetModules();
       const { app: app2 } = require('electron');
       app2.getPath.mockReturnValue(tmpDir);
@@ -191,7 +205,8 @@ describe('SettingsManager – round-trip persistence', () => {
       const sm2 = new SM2();
       expect(sm2.getSettings().opacity).toBeCloseTo(0.42);
       expect(sm2.getSettings().theme).toBe('light');
-      cleanup(tmpDir);
+      sm2.destroy();
+      try { fs.rmSync(tmpDir, { recursive: true, force: true }); } catch (_) { /* ignore */ }
       done();
     }, 700); // longer than the 500ms debounce
   });
