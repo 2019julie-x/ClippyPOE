@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "start:x11": "electron . --ozone-platform=x11",
-    "start:wayland": "electron . --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland",
+    "start:wayland": "electron . --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations",
     "dev": "electron . --dev",
     "dev:x11": "electron . --dev --ozone-platform=x11",
     "build": "electron-builder",

@@ -76,8 +76,8 @@ function getDefaultClientTxtPaths(platformInfo) {
 }
 
 /**
- * Apply Chromium command-line switches early to fix Linux transparency and
- * force XWayland when running under Wayland.
+ * Apply Chromium command-line switches early to fix Linux transparency,
+ * suppress VA-API probe errors, and enable native Wayland via Ozone.
  * @param {Electron.App} app
  * @param {PlatformInfo} [platformInfo]
  */
@@ -88,8 +88,14 @@ function configureAppForPlatform(app, platformInfo) {
     app.disableHardwareAcceleration();
     app.commandLine.appendSwitch('disable-gpu-compositing');
 
+    // Suppress VA-API probe errors (harmless — hw accel is already disabled)
+    app.commandLine.appendSwitch('disable-features', 'VaapiVideoDecoder,VaapiVideoEncoder');
+
     if (info.isWayland) {
-      app.commandLine.appendSwitch('ozone-platform', 'x11'); // force XWayland
+      // Use native Wayland via Ozone instead of forcing XWayland, which avoids
+      // "XGetWindowAttributes failed" errors on wlroots compositors (Hyprland, Sway)
+      app.commandLine.appendSwitch('ozone-platform-hint', 'auto');
+      app.commandLine.appendSwitch('enable-features', 'WaylandWindowDecorations');
     }
   }
 }
