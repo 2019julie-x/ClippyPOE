@@ -54,6 +54,7 @@ describe('preload – api.send()', () => {
     'overlay-activate',
     'overlay-deactivate',
     'overlay-toggle',
+    'overlay-collapse-toggle',
   ];
   validChannels.forEach((channel) => {
     test(`allows valid channel: ${channel}`, () => {
@@ -117,6 +118,7 @@ describe('preload – api.receive()', () => {
     'progress-reset',
     'overlay-opacity',
     'overlay-mode-changed',
+    'overlay-collapsed',
     'timer-tick',
     'timer-state',
     'hotkey-next-zone',
