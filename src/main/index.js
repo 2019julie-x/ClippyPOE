@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, globalShortcut, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, screen } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const LogParser = require('./logParser');
@@ -6,6 +6,7 @@ const SettingsManager = require('./settingsManager');
 const OverlayController = require('./overlayController');
 const WindowMagnetizer = require('./windowMagnetizer');
 const TimerManager = require('./timer');
+const hotkeyManager = require('./hotkeyManager');
 const {
   getPlatformInfo,
   getDefaultClientTxtPaths,
@@ -46,7 +47,7 @@ function createMainWindow() {
     width: 400,
     height: 600,
     minWidth: 320,
-    minHeight: 200,
+    minHeight: 36,
     ...overlayOpts,
     resizable: true,
     webPreferences: {
@@ -190,11 +191,12 @@ function createSettingsWindow() {
 
 function registerHotkeys() {
   const settings = settingsManager.getSettings();
+  hotkeyManager.clearAll();
 
   // Toggle overlay interactive / clickthrough
-  const toggleKey = settings.hotkeys?.toggleOverlay || 'Shift+Space';
-  try {
-    globalShortcut.register(toggleKey, () => {
+  const toggleKey = settings.hotkeys?.toggleOverlay ?? 'Shift+Space';
+  if (toggleKey) {
+    hotkeyManager.register(toggleKey, () => {
       if (overlayController) {
         overlayController.toggle();
         if (mainWindow && !mainWindow.isDestroyed()) {
@@ -205,14 +207,12 @@ function registerHotkeys() {
         }
       }
     });
-  } catch (err) {
-    console.warn(`Failed to register hotkey "${toggleKey}":`, err.message);
   }
 
   // Toggle overlay visibility
-  const hideKey = settings.hotkeys?.hideOverlay || 'Shift+F1';
-  try {
-    globalShortcut.register(hideKey, () => {
+  const hideKey = settings.hotkeys?.hideOverlay ?? 'Shift+F1';
+  if (hideKey) {
+    hotkeyManager.register(hideKey, () => {
       if (mainWindow && !mainWindow.isDestroyed()) {
         if (mainWindow.isVisible()) {
           mainWindow.hide();
@@ -222,58 +222,50 @@ function registerHotkeys() {
         }
       }
     });
-  } catch (err) {
-    console.warn(`Failed to register hotkey "${hideKey}":`, err.message);
   }
 
   // Navigate next zone
-  const nextZoneKey = settings.hotkeys?.nextZone || 'Shift+F2';
-  try {
-    globalShortcut.register(nextZoneKey, () => {
+  const nextZoneKey = settings.hotkeys?.nextZone ?? 'Shift+F2';
+  if (nextZoneKey) {
+    hotkeyManager.register(nextZoneKey, () => {
       if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('hotkey-next-zone');
       }
     });
-  } catch (err) {
-    console.warn(`Failed to register hotkey "${nextZoneKey}":`, err.message);
   }
 
   // Navigate prev zone
-  const prevZoneKey = settings.hotkeys?.prevZone || 'Shift+F3';
-  try {
-    globalShortcut.register(prevZoneKey, () => {
+  const prevZoneKey = settings.hotkeys?.prevZone ?? 'Shift+F3';
+  if (prevZoneKey) {
+    hotkeyManager.register(prevZoneKey, () => {
       if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('hotkey-prev-zone');
       }
     });
-  } catch (err) {
-    console.warn(`Failed to register hotkey "${prevZoneKey}":`, err.message);
   }
 
   // Toggle timer
-  const timerKey = settings.hotkeys?.toggleTimer || 'Shift+F4';
-  try {
-    globalShortcut.register(timerKey, () => {
+  const timerKey = settings.hotkeys?.toggleTimer ?? 'Shift+F4';
+  if (timerKey) {
+    hotkeyManager.register(timerKey, () => {
       const state = timerManager.toggle();
       if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.webContents.send('timer-state', state);
       }
     });
-  } catch (err) {
-    console.warn(`Failed to register hotkey "${timerKey}":`, err.message);
   }
 
   // Collapse/expand overlay
-  const collapseKey = settings.hotkeys?.collapseOverlay || 'Shift+F5';
-  try {
-    globalShortcut.register(collapseKey, () => {
+  const collapseKey = settings.hotkeys?.collapseOverlay ?? 'Shift+F5';
+  if (collapseKey) {
+    hotkeyManager.register(collapseKey, () => {
       if (overlayController) {
         overlayController.toggleCollapse();
       }
     });
-  } catch (err) {
-    console.warn(`Failed to register hotkey "${collapseKey}":`, err.message);
   }
+
+  hotkeyManager.start();
 }
 
 // App lifecycle
@@ -314,7 +306,7 @@ app.whenReady().then(() => {
 });
 
 app.on('will-quit', () => {
-  globalShortcut.unregisterAll();
+  hotkeyManager.stop();
   if (logParser) {
     logParser.stop();
   }
@@ -422,7 +414,6 @@ ipcMain.handle('save-settings', async (_event, settings) => {
 
   // Re-register hotkeys if changed
   if (settings.hotkeys) {
-    globalShortcut.unregisterAll();
     registerHotkeys();
   }
 

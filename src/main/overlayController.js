@@ -112,7 +112,6 @@ class OverlayController {
 
     // Resize window to collapsed height — header(~30px) + border(2px)
     const [width] = this.win.getSize();
-    this.win.setMinimumSize(width >= 320 ? 320 : width, 36);
     this.win.setSize(width, 36);
 
     this.win.webContents.send('overlay-collapsed', true);
@@ -126,7 +125,6 @@ class OverlayController {
 
     const [width] = this.win.getSize();
     const restoreHeight = this._expandedHeight || 600;
-    this.win.setMinimumSize(width >= 320 ? 320 : width, 200);
     this.win.setSize(width, restoreHeight);
 
     this.win.webContents.send('overlay-collapsed', false);
