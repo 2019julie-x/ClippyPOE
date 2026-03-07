@@ -4,6 +4,7 @@ const fs = require('fs');
 const LogParser = require('./logParser');
 const SettingsManager = require('./settingsManager');
 const OverlayController = require('./overlayController');
+const WindowMagnetizer = require('./windowMagnetizer');
 const {
   getPlatformInfo,
   getDefaultClientTxtPaths,
@@ -22,6 +23,7 @@ let settingsWindow = null;
 let logParser = null;
 let settingsManager = null;
 let overlayController = null;
+let windowMagnetizer = null;
 let cachedGuideData = null;
 let cachedGemData = null;
 let cachedCheatsheetData = null;
@@ -76,11 +78,21 @@ function createMainWindow() {
     mainWindow.setSize(size.width, size.height);
   }
 
-  // Save window position on move (debounced inside settingsManager)
+  // Save window position on move with magnetization support
   mainWindow.on('move', () => {
     if (mainWindow && !mainWindow.isDestroyed()) {
-      const [x, y] = mainWindow.getPosition();
-      settingsManager.saveWindowPosition(x, y);
+      // Check if window should snap to edges
+      const snapPosition = windowMagnetizer.calculateSnapPosition(mainWindow);
+      
+      if (snapPosition) {
+        // Apply snap position
+        mainWindow.setPosition(snapPosition.x, snapPosition.y);
+        settingsManager.saveWindowPosition(snapPosition.x, snapPosition.y);
+      } else {
+        // Save current position without snapping
+        const [x, y] = mainWindow.getPosition();
+        settingsManager.saveWindowPosition(x, y);
+      }
     }
   });
 
@@ -260,6 +272,10 @@ app.whenReady().then(() => {
     platformInfo,
     settingsManager.getSettings().opacity || 0.95
   );
+  
+  // Initialize window magnetizer with settings
+  const settings = settingsManager.getSettings();
+  windowMagnetizer = new WindowMagnetizer(settings.magnetization || {});
 
   createMainWindow();
   registerHotkeys();
@@ -363,6 +379,11 @@ ipcMain.on('save-settings', (event, settings) => {
   // Update overlay opacity if changed
   if (settings.opacity !== undefined && overlayController) {
     overlayController.setBaseOpacity(settings.opacity);
+  }
+
+  // Update magnetization config if changed
+  if (settings.magnetization && windowMagnetizer) {
+    windowMagnetizer.updateConfig(settings.magnetization);
   }
 
   // Re-register hotkeys if changed

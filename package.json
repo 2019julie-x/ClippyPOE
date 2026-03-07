@@ -24,6 +24,7 @@
           "<rootDir>/tests/unit/overlayController.test.js",
           "<rootDir>/tests/unit/platformUtils.test.js",
           "<rootDir>/tests/unit/settingsManager.test.js",
+          "<rootDir>/tests/unit/windowMagnetizer.test.js",
           "<rootDir>/tests/integration/ipcChannels.test.js"
         ]
       },
