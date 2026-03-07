@@ -38,6 +38,23 @@
       </label>
     </div>
 
+    <!-- Window Magnetization -->
+    <div class="setting-group">
+      <label>Window Behavior:</label>
+      <div class="magnetization-controls">
+        <label>
+          <input type="checkbox" id="magnetization-enabled-checkbox" checked>
+          Enable window edge snapping
+        </label>
+        <div class="slider-group" id="snap-distance-group">
+          <label for="snap-distance-slider">Snap Distance:</label>
+          <input type="range" id="snap-distance-slider" min="5" max="50" value="20" step="5">
+          <span id="snap-distance-value">20px</span>
+        </div>
+        <div class="hint">Automatically align window to screen edges when dragged nearby.</div>
+      </div>
+    </div>
+
     <!-- Hotkeys -->
     <div class="setting-group">
       <label>Global Hotkeys:</label>

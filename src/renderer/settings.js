@@ -4,15 +4,15 @@ let capturingHotkey = null;
 // init
 
 async function init() {
-  loadSettings();
+  await loadSettings();
   await loadPlatformInfo();
   attachEventListeners();
 }
 
 // load and save settings logic
 
-function loadSettings() {
-  currentSettings = window.api.sendSync('get-settings');
+async function loadSettings() {
+  currentSettings = await window.api.invoke('get-settings');
 
   document.getElementById('client-txt-path').value =
     currentSettings.clientTxtPath || '';
@@ -22,6 +22,18 @@ function loadSettings() {
     Math.round((currentSettings.opacity || 0.95) * 100) + '%';
   document.getElementById('auto-detect-checkbox').checked =
     currentSettings.autoDetect !== false;
+
+  // Magnetization
+  const mag = currentSettings.magnetization || {};
+  document.getElementById('magnetization-enabled-checkbox').checked =
+    mag.enabled !== false;
+  document.getElementById('snap-distance-slider').value =
+    mag.snapDistance || 20;
+  document.getElementById('snap-distance-value').textContent =
+    (mag.snapDistance || 20) + 'px';
+  
+  // Update snap distance slider state based on enabled checkbox
+  updateSnapDistanceState();
 
   // Hotkeys
   const hk = currentSettings.hotkeys || {};
@@ -60,8 +72,8 @@ async function loadPlatformInfo() {
       } else {
         hintsEl.innerHTML =
           'Typical locations:<br>' +
-          '<code>C:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt</code><br>' +
-          '<code>Steam\\steamapps\\common\\Path of Exile\\logs\\Client.txt</code>';
+          '<code>C:\\\\Program Files (x86)\\\\Grinding Gear Games\\\\Path of Exile\\\\logs\\\\Client.txt</code><br>' +
+          '<code>Steam\\\\steamapps\\\\common\\\\Path of Exile\\\\logs\\\\Client.txt</code>';
       }
     }
   } catch (err) {
@@ -69,13 +81,18 @@ async function loadPlatformInfo() {
   }
 }
 
-function saveSettings() {
+async function saveSettings() {
   const clientTxtPath = document
     .getElementById('client-txt-path')
     .value.trim();
   const opacity =
     parseInt(document.getElementById('opacity-slider').value) / 100;
   const autoDetect = document.getElementById('auto-detect-checkbox').checked;
+
+  const magnetization = {
+    enabled: document.getElementById('magnetization-enabled-checkbox').checked,
+    snapDistance: parseInt(document.getElementById('snap-distance-slider').value),
+  };
 
   const hotkeys = {
     toggleOverlay: document.getElementById('hk-toggle-overlay').value,
@@ -90,8 +107,8 @@ function saveSettings() {
     return;
   }
 
-  const newSettings = { clientTxtPath, opacity, autoDetect, hotkeys };
-  const result = window.api.sendSync('save-settings', newSettings);
+  const newSettings = { clientTxtPath, opacity, autoDetect, magnetization, hotkeys };
+  const result = await window.api.invoke('save-settings', newSettings);
 
   if (result) {
     showStatus('Settings saved successfully!', 'success');
@@ -134,6 +151,17 @@ function handleHotkeyKeydown(e) {
   capturingHotkey = null;
 }
 
+// Update snap distance slider state based on magnetization enabled state
+
+function updateSnapDistanceState() {
+  const enabled = document.getElementById('magnetization-enabled-checkbox').checked;
+  const slider = document.getElementById('snap-distance-slider');
+  const group = document.getElementById('snap-distance-group');
+  
+  slider.disabled = !enabled;
+  group.style.opacity = enabled ? '1' : '0.5';
+}
+
 // Showing status messages to the user
 
 function showStatus(message, type) {
@@ -164,6 +192,16 @@ function attachEventListeners() {
   // Opacity slider
   document.getElementById('opacity-slider').addEventListener('input', (e) => {
     document.getElementById('opacity-value').textContent = e.target.value + '%';
+  });
+
+  // Magnetization checkbox
+  document.getElementById('magnetization-enabled-checkbox').addEventListener('change', () => {
+    updateSnapDistanceState();
+  });
+
+  // Snap distance slider
+  document.getElementById('snap-distance-slider').addEventListener('input', (e) => {
+    document.getElementById('snap-distance-value').textContent = e.target.value + 'px';
   });
 
   // Save / Cancel

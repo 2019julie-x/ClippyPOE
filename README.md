@@ -11,8 +11,9 @@ Path of Exile Campaign Guide Overlay. This application provides a transparent, c
 - **Passives Tracking**: Never miss a skill point from quests.
 - **Cheatsheets**: Quick references for Betrayal, Incursion, Delve, and vendor recipes.
 - **Speedrun Timer**: Built-in timer with auto-splitting per zone.
+- **Window Edge Snapping**: Automatically align overlay to screen edges for precise positioning.
 - **Non-blocking Performance**: State saves are fully asynchronous so you won't drop frames.
-- **Highly Configurable**: Change opacity, hotkeys, and click-through behaviors.
+- **Highly Configurable**: Change opacity, hotkeys, snap distance, and click-through behaviors.
 
 ## Installation
 
