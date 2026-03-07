@@ -258,3 +258,60 @@ describe('applyOverlayBehavior()', () => {
     });
   });
 });
+
+describe('validateWindowPosition()', () => {
+  const mockDisplays = [
+    { bounds: { x: 0, y: 0, width: 1920, height: 1080 } },
+    { bounds: { x: 1920, y: 0, width: 1920, height: 1080 } }
+  ];
+  const mockPrimary = { workArea: { x: 0, y: 0, width: 1920, height: 1040 } };
+
+  test('returns original position if fully visible on primary display', () => {
+    withPlatform('win32', {}, ({ validateWindowPosition }) => {
+      const pos = validateWindowPosition(100, 100, 400, 600, mockDisplays, mockPrimary);
+      expect(pos).toEqual({ x: 100, y: 100 });
+    });
+  });
+
+  test('returns original position if partially visible on primary display', () => {
+    withPlatform('win32', {}, ({ validateWindowPosition }) => {
+      const pos = validateWindowPosition(-100, -100, 400, 600, mockDisplays, mockPrimary);
+      expect(pos).toEqual({ x: -100, y: -100 });
+    });
+  });
+
+  test('returns original position if visible on secondary display', () => {
+    withPlatform('win32', {}, ({ validateWindowPosition }) => {
+      const pos = validateWindowPosition(2000, 100, 400, 600, mockDisplays, mockPrimary);
+      expect(pos).toEqual({ x: 2000, y: 100 });
+    });
+  });
+
+  test('returns centered primary position if completely off-screen (left)', () => {
+    withPlatform('win32', {}, ({ validateWindowPosition }) => {
+      const pos = validateWindowPosition(-500, 100, 400, 600, mockDisplays, mockPrimary);
+      expect(pos).toEqual({ x: 760, y: 220 }); // (1920-400)/2, (1040-600)/2
+    });
+  });
+
+  test('returns centered primary position if completely off-screen (right)', () => {
+    withPlatform('win32', {}, ({ validateWindowPosition }) => {
+      const pos = validateWindowPosition(4000, 100, 400, 600, mockDisplays, mockPrimary);
+      expect(pos).toEqual({ x: 760, y: 220 });
+    });
+  });
+
+  test('returns centered primary position if completely off-screen (top)', () => {
+    withPlatform('win32', {}, ({ validateWindowPosition }) => {
+      const pos = validateWindowPosition(100, -700, 400, 600, mockDisplays, mockPrimary);
+      expect(pos).toEqual({ x: 760, y: 220 });
+    });
+  });
+
+  test('returns centered primary position if completely off-screen (bottom)', () => {
+    withPlatform('win32', {}, ({ validateWindowPosition }) => {
+      const pos = validateWindowPosition(100, 2000, 400, 600, mockDisplays, mockPrimary);
+      expect(pos).toEqual({ x: 760, y: 220 });
+    });
+  });
+});

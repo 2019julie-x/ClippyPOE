@@ -147,10 +147,43 @@ function applyOverlayBehavior(win, platformInfo) {
   }
 }
 
+/**
+ * Validates that a window position is visible on at least one active display.
+ * If the position is off-screen (e.g., monitor unplugged), returns the center of the primary display.
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
+ * @param {Electron.Display[]} displays
+ * @param {Electron.Display} primaryDisplay
+ * @returns {{x: number, y: number}}
+ */
+function validateWindowPosition(x, y, width, height, displays, primaryDisplay) {
+  const isVisible = displays.some(display => {
+    const bounds = display.bounds;
+    return (
+      x < bounds.x + bounds.width &&
+      x + width > bounds.x &&
+      y < bounds.y + bounds.height &&
+      y + height > bounds.y
+    );
+  });
+
+  if (isVisible) {
+    return { x, y };
+  }
+
+  return {
+    x: Math.floor(primaryDisplay.workArea.x + (primaryDisplay.workArea.width - width) / 2),
+    y: Math.floor(primaryDisplay.workArea.y + (primaryDisplay.workArea.height - height) / 2)
+  };
+}
+
 module.exports = {
   getPlatformInfo,
   getDefaultClientTxtPaths,
   configureAppForPlatform,
   getOverlayWindowOptions,
   applyOverlayBehavior,
+  validateWindowPosition,
 };
