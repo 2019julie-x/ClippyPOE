@@ -4,15 +4,15 @@ let capturingHotkey = null;
 // init
 
 async function init() {
-  loadSettings();
+  await loadSettings();
   await loadPlatformInfo();
   attachEventListeners();
 }
 
 // load and save settings logic
 
-function loadSettings() {
-  currentSettings = window.api.sendSync('get-settings');
+async function loadSettings() {
+  currentSettings = await window.api.invoke('get-settings');
 
   document.getElementById('client-txt-path').value =
     currentSettings.clientTxtPath || '';
@@ -72,8 +72,8 @@ async function loadPlatformInfo() {
       } else {
         hintsEl.innerHTML =
           'Typical locations:<br>' +
-          '<code>C:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt</code><br>' +
-          '<code>Steam\\steamapps\\common\\Path of Exile\\logs\\Client.txt</code>';
+          '<code>C:\\\\Program Files (x86)\\\\Grinding Gear Games\\\\Path of Exile\\\\logs\\\\Client.txt</code><br>' +
+          '<code>Steam\\\\steamapps\\\\common\\\\Path of Exile\\\\logs\\\\Client.txt</code>';
       }
     }
   } catch (err) {
@@ -81,7 +81,7 @@ async function loadPlatformInfo() {
   }
 }
 
-function saveSettings() {
+async function saveSettings() {
   const clientTxtPath = document
     .getElementById('client-txt-path')
     .value.trim();
@@ -108,7 +108,7 @@ function saveSettings() {
   }
 
   const newSettings = { clientTxtPath, opacity, autoDetect, magnetization, hotkeys };
-  const result = window.api.sendSync('save-settings', newSettings);
+  const result = await window.api.invoke('save-settings', newSettings);
 
   if (result) {
     showStatus('Settings saved successfully!', 'success');

@@ -5,6 +5,7 @@ const LogParser = require('./logParser');
 const SettingsManager = require('./settingsManager');
 const OverlayController = require('./overlayController');
 const WindowMagnetizer = require('./windowMagnetizer');
+const TimerManager = require('./timer');
 const {
   getPlatformInfo,
   getDefaultClientTxtPaths,
@@ -24,13 +25,13 @@ let logParser = null;
 let settingsManager = null;
 let overlayController = null;
 let windowMagnetizer = null;
+let timerManager = null;
 let cachedGuideData = null;
 let cachedGemData = null;
 let cachedCheatsheetData = null;
 
-// Timer state (managed in main so it persists across renderer reloads)
-let timerState = { running: false, elapsed: 0, startTime: null, splits: [] };
-let timerInterval = null;
+// Guard flag to prevent infinite move loop during magnetization snap
+let isSnapping = false;
 
 // Create windows
 
@@ -80,14 +81,16 @@ function createMainWindow() {
 
   // Save window position on move with magnetization support
   mainWindow.on('move', () => {
+    if (isSnapping) return; // prevent re-entrant loop from setPosition
     if (mainWindow && !mainWindow.isDestroyed()) {
       // Check if window should snap to edges
       const snapPosition = windowMagnetizer.calculateSnapPosition(mainWindow);
-      
+
       if (snapPosition) {
-        // Apply snap position
+        isSnapping = true;
         mainWindow.setPosition(snapPosition.x, snapPosition.y);
         settingsManager.saveWindowPosition(snapPosition.x, snapPosition.y);
+        isSnapping = false;
       } else {
         // Save current position without snapping
         const [x, y] = mainWindow.getPosition();
@@ -211,57 +214,14 @@ function registerHotkeys() {
   const timerKey = settings.hotkeys?.toggleTimer || 'Shift+F4';
   try {
     globalShortcut.register(timerKey, () => {
-      toggleTimer();
+      const state = timerManager.toggle();
       if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('timer-state', timerState);
+        mainWindow.webContents.send('timer-state', state);
       }
     });
   } catch (err) {
     console.warn(`Failed to register hotkey "${timerKey}":`, err.message);
   }
-}
-
-// Timer logic
-
-function toggleTimer() {
-  if (timerState.running) {
-    // Pause
-    timerState.elapsed += Date.now() - timerState.startTime;
-    timerState.startTime = null;
-    timerState.running = false;
-    if (timerInterval) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    }
-  } else {
-    // Start / resume
-    timerState.startTime = Date.now();
-    timerState.running = true;
-    timerInterval = setInterval(() => {
-      if (mainWindow && !mainWindow.isDestroyed()) {
-        mainWindow.webContents.send('timer-tick', getTimerElapsed());
-      }
-    }, 1000);
-  }
-}
-
-function getTimerElapsed() {
-  if (timerState.running && timerState.startTime) {
-    return timerState.elapsed + (Date.now() - timerState.startTime);
-  }
-  return timerState.elapsed;
-}
-
-function resetTimer() {
-  timerState = { running: false, elapsed: 0, startTime: null, splits: [] };
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-}
-
-function addTimerSplit(label) {
-  timerState.splits.push({ label, time: getTimerElapsed() });
 }
 
 // App lifecycle
@@ -272,19 +232,28 @@ app.whenReady().then(() => {
     platformInfo,
     settingsManager.getSettings().opacity || 0.95
   );
-  
+
   // Initialize window magnetizer with settings
   const settings = settingsManager.getSettings();
   windowMagnetizer = new WindowMagnetizer(settings.magnetization || {});
 
+  // Initialize timer (lives in main process so it persists across renderer reloads)
+  timerManager = new TimerManager();
+  timerManager.onTick = (elapsed) => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('timer-tick', elapsed);
+    }
+  };
+
   createMainWindow();
   registerHotkeys();
 
-  // Initialize log parser if Client.txt path is configured
+  // Initialize log parser if Client.txt path is configured and autoDetect is enabled
+  const autoDetect = settings.autoDetect !== false;
   const clientTxtPath = settingsManager.getClientTxtPath();
-  if (clientTxtPath && fs.existsSync(clientTxtPath)) {
+  if (autoDetect && clientTxtPath && fs.existsSync(clientTxtPath)) {
     initLogParser(clientTxtPath);
-  } else {
+  } else if (!clientTxtPath) {
     // Show settings window on first run
     setTimeout(() => {
       createSettingsWindow();
@@ -297,8 +266,11 @@ app.on('will-quit', () => {
   if (logParser) {
     logParser.stop();
   }
-  if (timerInterval) {
-    clearInterval(timerInterval);
+  if (timerManager) {
+    timerManager.destroy();
+  }
+  if (settingsManager) {
+    settingsManager.destroy();
   }
 });
 
@@ -314,7 +286,7 @@ app.on('activate', () => {
   }
 });
 
-// Window operations
+// Window operations (fire-and-forget)
 
 ipcMain.on('open-settings', () => {
   // Make overlay interactive so the settings modal works
@@ -330,7 +302,7 @@ ipcMain.on('minimize-window', () => {
   if (mainWindow) mainWindow.minimize();
 });
 
-// Overlay control
+// Overlay control (fire-and-forget)
 
 ipcMain.on('overlay-activate', () => {
   if (overlayController) overlayController.activate();
@@ -352,13 +324,13 @@ ipcMain.on('overlay-toggle', () => {
   }
 });
 
-// Settings handlers
+// Settings handlers (async invoke – no longer blocks the renderer)
 
-ipcMain.on('get-settings', (event) => {
-  event.returnValue = settingsManager.getSettings();
+ipcMain.handle('get-settings', async () => {
+  return settingsManager.getSettings();
 });
 
-ipcMain.on('save-settings', (event, settings) => {
+ipcMain.handle('save-settings', async (_event, settings) => {
   // Validate clientTxtPath
   const rawPath = settings && settings.clientTxtPath;
   if (rawPath !== undefined && rawPath !== '') {
@@ -369,8 +341,7 @@ ipcMain.on('save-settings', (event, settings) => {
       rawPath.length > 512
     ) {
       console.error('save-settings: rejected invalid clientTxtPath:', rawPath);
-      event.returnValue = false;
-      return;
+      return false;
     }
   }
 
@@ -398,7 +369,7 @@ ipcMain.on('save-settings', (event, settings) => {
     initLogParser(rawPath);
   }
 
-  event.returnValue = true;
+  return true;
 });
 
 // Load guide data
@@ -475,23 +446,21 @@ ipcMain.handle('browse-client-txt', async (event) => {
 
 // Progress handlers
 
-ipcMain.on('get-progress', (event) => {
-  event.returnValue = settingsManager.getProgress();
+ipcMain.handle('get-progress', async () => {
+  return settingsManager.getProgress();
 });
 
-ipcMain.on('save-progress', (event, progress) => {
+ipcMain.on('save-progress', (_event, progress) => {
   settingsManager.saveProgress(progress);
-  event.returnValue = true;
 });
 
-ipcMain.on('reset-progress', (event) => {
+ipcMain.on('reset-progress', () => {
   settingsManager.resetProgress();
-  resetTimer();
+  timerManager.reset();
   if (mainWindow) mainWindow.webContents.send('progress-reset');
-  event.returnValue = true;
 });
 
-ipcMain.on('toggle-objective', (event, objectiveId) => {
+ipcMain.on('toggle-objective', (_event, objectiveId) => {
   const progress = settingsManager.getProgress();
   const completed = progress.completedObjectives || [];
 
@@ -504,28 +473,24 @@ ipcMain.on('toggle-objective', (event, objectiveId) => {
 
   progress.completedObjectives = completed;
   settingsManager.saveProgress(progress);
-  event.returnValue = true;
 });
 
-// Timer IPC
+// Timer IPC (async invoke)
 
-ipcMain.on('timer-toggle', (event) => {
-  toggleTimer();
-  event.returnValue = timerState;
+ipcMain.handle('timer-toggle', async () => {
+  return timerManager.toggle();
 });
 
-ipcMain.on('timer-reset', (event) => {
-  resetTimer();
-  event.returnValue = timerState;
+ipcMain.handle('timer-reset', async () => {
+  return timerManager.reset();
 });
 
-ipcMain.on('timer-split', (event, label) => {
-  addTimerSplit(label);
-  event.returnValue = timerState;
+ipcMain.handle('timer-split', async (_event, label) => {
+  return timerManager.addSplit(label);
 });
 
-ipcMain.on('timer-get', (event) => {
-  event.returnValue = { ...timerState, elapsed: getTimerElapsed() };
+ipcMain.handle('timer-get', async () => {
+  return timerManager.getState();
 });
 
 // Init log parser
@@ -539,8 +504,8 @@ function initLogParser(clientTxtPath) {
       mainWindow.webContents.send('zone-changed', zoneName);
     }
     // Auto-split timer on zone change
-    if (timerState.running) {
-      addTimerSplit(zoneName);
+    if (timerManager.state.running) {
+      timerManager.addSplit(zoneName);
     }
   });
 

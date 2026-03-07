@@ -182,6 +182,13 @@ class SettingsManager {
     };
     this.saveSettingsToFile();
   }
+
+  destroy() {
+    if (this.saveTimeout) {
+      clearTimeout(this.saveTimeout);
+      this.saveTimeout = null;
+    }
+  }
 }
 
 module.exports = SettingsManager;

@@ -1,4 +1,4 @@
-// Renderer script 
+// Renderer script
 
 // State variables
 let currentGuideData = null;
@@ -15,37 +15,87 @@ let overlayInteractive = true;
 // Load data
 
 async function loadGuideData() {
-  currentGuideData = await window.api.invoke('load-guide-data');
-  if (currentGuideData) console.log('Guide data loaded');
+  try {
+    currentGuideData = await window.api.invoke('load-guide-data');
+    if (currentGuideData) console.log('Guide data loaded');
+  } catch (err) {
+    console.error('Failed to load guide data:', err);
+    showLoadError('guide');
+  }
 }
 
 async function loadGemData() {
-  gemData = await window.api.invoke('load-gem-data');
-  if (gemData) console.log('Gem data loaded');
+  try {
+    gemData = await window.api.invoke('load-gem-data');
+    if (gemData) console.log('Gem data loaded');
+  } catch (err) {
+    console.error('Failed to load gem data:', err);
+  }
 }
 
 async function loadCheatsheetData() {
-  cheatsheetData = await window.api.invoke('load-cheatsheet-data');
-  if (cheatsheetData) console.log('Cheatsheet data loaded');
+  try {
+    cheatsheetData = await window.api.invoke('load-cheatsheet-data');
+    if (cheatsheetData) console.log('Cheatsheet data loaded');
+  } catch (err) {
+    console.error('Failed to load cheatsheet data:', err);
+  }
+}
+
+// Show error UI when data fails to load
+
+function showLoadError(type) {
+  const targets = {
+    guide: 'objectives-list',
+  };
+  const elId = targets[type];
+  if (!elId) return;
+
+  const container = document.getElementById(elId);
+  if (!container) return;
+
+  container.innerHTML = '';
+  const errorDiv = document.createElement('div');
+  errorDiv.className = 'load-error';
+
+  const text = document.createElement('span');
+  text.className = 'error-text';
+  text.textContent = 'Failed to load guide data. ';
+  errorDiv.appendChild(text);
+
+  const retryBtn = document.createElement('button');
+  retryBtn.className = 'retry-btn';
+  retryBtn.textContent = 'Retry';
+  retryBtn.addEventListener('click', async () => {
+    text.textContent = 'Retrying...';
+    retryBtn.disabled = true;
+    await loadGuideData();
+    if (currentGuideData) {
+      updateUI();
+    }
+  });
+  errorDiv.appendChild(retryBtn);
+
+  container.appendChild(errorDiv);
 }
 
 // Init
 
 async function init() {
   await Promise.all([loadGuideData(), loadGemData(), loadCheatsheetData()]);
-  loadProgress();
+  await loadProgress();
   updateUI();
   updateGemUI();
   initCheatsheets();
-  initTimer();
+  await initTimer();
   attachEventListeners();
   attachIPCListeners();
 }
 
 // Progress management
 
-function loadProgress() {
-  const progress = window.api.sendSync('get-progress');
+async function loadProgress() {
+  const progress = await window.api.invoke('get-progress');
   if (progress) {
     currentAct = progress.act || 1;
     currentLevel = progress.currentLevel || 1;
@@ -450,8 +500,8 @@ function selectCheatsheet(id) {
 
 // Timer UI
 
-function initTimer() {
-  const state = window.api.sendSync('timer-get');
+async function initTimer() {
+  const state = await window.api.invoke('timer-get');
   if (state) {
     updateTimerDisplay(state.elapsed);
     updateSplitsList(state.splits || []);
@@ -612,25 +662,25 @@ function attachEventListeners() {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
 
-  // Timer controls
-  document.getElementById('timer-toggle-btn').addEventListener('click', () => {
-    const state = window.api.sendSync('timer-toggle');
+  // Timer controls (async invoke – no longer blocks the renderer)
+  document.getElementById('timer-toggle-btn').addEventListener('click', async () => {
+    const state = await window.api.invoke('timer-toggle');
     document.getElementById('timer-toggle-btn').textContent = state.running
       ? 'Pause'
       : 'Start';
   });
 
-  document.getElementById('timer-split-btn').addEventListener('click', () => {
+  document.getElementById('timer-split-btn').addEventListener('click', async () => {
     const zones = getAllZones();
     const currentZone = zones[currentZoneIndex];
     const label = currentZone ? currentZone.name : `Split ${Date.now()}`;
-    const state = window.api.sendSync('timer-split', label);
+    const state = await window.api.invoke('timer-split', label);
     updateSplitsList(state.splits);
   });
 
-  document.getElementById('timer-reset-btn').addEventListener('click', () => {
+  document.getElementById('timer-reset-btn').addEventListener('click', async () => {
     if (confirm('Reset the timer?')) {
-      const state = window.api.sendSync('timer-reset');
+      await window.api.invoke('timer-reset');
       updateTimerDisplay(0);
       updateSplitsList([]);
       document.getElementById('timer-toggle-btn').textContent = 'Start';
