@@ -22,6 +22,10 @@ class SettingsManager {
         prevZone: 'Shift+F3',
         toggleTimer: 'Shift+F4',
       },
+      magnetization: {
+        enabled: true,
+        snapDistance: 20,
+      },
       activeTab: 'guide',
       currentProgress: {
         act: 1,
@@ -62,6 +66,7 @@ class SettingsManager {
           ...this.defaultSettings,
           ...parsed,
           hotkeys: { ...this.defaultSettings.hotkeys, ...(parsed.hotkeys || {}) },
+          magnetization: { ...this.defaultSettings.magnetization, ...(parsed.magnetization || {}) },
           currentProgress: {
             ...this.defaultSettings.currentProgress,
             ...(parsed.currentProgress || {}),
@@ -121,6 +126,10 @@ class SettingsManager {
       hotkeys: {
         ...this.settings.hotkeys,
         ...(newSettings.hotkeys || {}),
+      },
+      magnetization: {
+        ...this.settings.magnetization,
+        ...(newSettings.magnetization || {}),
       },
       currentProgress: {
         ...this.settings.currentProgress,
