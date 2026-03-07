@@ -1,6 +1,6 @@
 {
   "name": "clippy-poe",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Path of Exile Campaign Guide Overlay",
   "main": "src/main/index.js",
   "scripts": {
