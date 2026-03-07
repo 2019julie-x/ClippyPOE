@@ -45,6 +45,8 @@ async function loadSettings() {
   document.getElementById('hk-prev-zone').value = hk.prevZone || 'Shift+F3';
   document.getElementById('hk-toggle-timer').value =
     hk.toggleTimer || 'Shift+F4';
+  document.getElementById('hk-collapse-overlay').value =
+    hk.collapseOverlay || 'Shift+F5';
 }
 
 async function loadPlatformInfo() {
@@ -100,6 +102,7 @@ async function saveSettings() {
     nextZone: document.getElementById('hk-next-zone').value,
     prevZone: document.getElementById('hk-prev-zone').value,
     toggleTimer: document.getElementById('hk-toggle-timer').value,
+    collapseOverlay: document.getElementById('hk-collapse-overlay').value,
   };
 
   if (!clientTxtPath) {

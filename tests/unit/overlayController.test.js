@@ -6,6 +6,9 @@ function makeMockWindow(destroyed = false) {
     setIgnoreMouseEvents: jest.fn(),
     setAlwaysOnTop: jest.fn(),
     focus: jest.fn(),
+    getSize: jest.fn(() => [400, 600]),
+    setSize: jest.fn(),
+    setMinimumSize: jest.fn(),
     webContents: {
       send: jest.fn(),
     },
@@ -219,5 +222,120 @@ describe('OverlayController – setBaseOpacity()', () => {
     win.webContents.send.mockClear();
     ctrl.setBaseOpacity(0.75);
     expect(win.webContents.send).toHaveBeenCalledWith('overlay-opacity', 0.75);
+  });
+});
+// collapse / expand
+describe('OverlayController – collapse()', () => {
+  test('sets collapsed to true', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(ctrl.collapsed).toBe(true);
+  });
+  test('stores the previous height before collapsing', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([400, 500]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(ctrl._expandedHeight).toBe(500);
+  });
+  test('resizes window to collapsed height (36px)', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([400, 600]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(win.setSize).toHaveBeenCalledWith(400, 36);
+  });
+  test('sends overlay-collapsed true to renderer', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(win.webContents.send).toHaveBeenCalledWith('overlay-collapsed', true);
+  });
+  test('is a no-op when already collapsed', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    win.setSize.mockClear();
+    ctrl.collapse();
+    expect(win.setSize).not.toHaveBeenCalled();
+  });
+  test('is a no-op when no window bound', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    expect(() => ctrl.collapse()).not.toThrow();
+    expect(ctrl.collapsed).toBe(false);
+  });
+});
+describe('OverlayController – expand()', () => {
+  test('sets collapsed to false', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    ctrl.expand();
+    expect(ctrl.collapsed).toBe(false);
+  });
+  test('restores the previous height', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([400, 500]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    win.getSize.mockReturnValue([400, 36]);
+    ctrl.expand();
+    expect(win.setSize).toHaveBeenLastCalledWith(400, 500);
+  });
+  test('sends overlay-collapsed false to renderer', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    win.webContents.send.mockClear();
+    ctrl.expand();
+    expect(win.webContents.send).toHaveBeenCalledWith('overlay-collapsed', false);
+  });
+  test('defaults to 600 when no previous height stored', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    // Force collapsed state without going through collapse()
+    ctrl.collapsed = true;
+    ctrl._expandedHeight = null;
+    ctrl.expand();
+    expect(win.setSize).toHaveBeenCalledWith(400, 600);
+  });
+  test('is a no-op when not collapsed', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.expand();
+    expect(win.setSize).not.toHaveBeenCalled();
+  });
+});
+describe('OverlayController – toggleCollapse()', () => {
+  test('collapses when expanded', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    ctrl.setWindow(makeMockWindow());
+    ctrl.toggleCollapse();
+    expect(ctrl.collapsed).toBe(true);
+  });
+  test('expands when collapsed', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    ctrl.setWindow(makeMockWindow());
+    ctrl.collapse();
+    ctrl.toggleCollapse();
+    expect(ctrl.collapsed).toBe(false);
+  });
+  test('double toggle returns to original state', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    ctrl.setWindow(makeMockWindow());
+    ctrl.toggleCollapse();
+    ctrl.toggleCollapse();
+    expect(ctrl.collapsed).toBe(false);
   });
 });
