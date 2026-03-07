@@ -11,6 +11,7 @@ let completedObjectives = [];
 let activeTab = 'guide';
 let activeCheatsheet = null;
 let overlayInteractive = true;
+let isCollapsed = false;
 
 // Load data
 
@@ -652,6 +653,11 @@ function attachEventListeners() {
     window.api.send('overlay-toggle');
   });
 
+  // Collapse/expand overlay
+  document.getElementById('collapse-btn').addEventListener('click', () => {
+    window.api.send('overlay-collapse-toggle');
+  });
+
   // Navigation
   document.getElementById('next-zone-btn').addEventListener('click', nextZone);
   document.getElementById('prev-zone-btn').addEventListener('click', prevZone);
@@ -763,6 +769,23 @@ function attachIPCListeners() {
   // Hotkey zone navigation
   window.api.receive('hotkey-next-zone', () => nextZone());
   window.api.receive('hotkey-prev-zone', () => prevZone());
+
+  // Overlay collapse state
+  window.api.receive('overlay-collapsed', (collapsed) => {
+    isCollapsed = collapsed;
+    const container = document.getElementById('overlay-container');
+    const collapseBtn = document.getElementById('collapse-btn');
+
+    if (collapsed) {
+      container.classList.add('collapsed');
+      collapseBtn.innerHTML = '&#9660;'; // down arrow — click to expand
+      collapseBtn.classList.add('collapse-active');
+    } else {
+      container.classList.remove('collapsed');
+      collapseBtn.innerHTML = '&#9650;'; // up arrow — click to collapse
+      collapseBtn.classList.remove('collapse-active');
+    }
+  });
 }
 
 // Start

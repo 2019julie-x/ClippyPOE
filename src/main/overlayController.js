@@ -19,6 +19,10 @@ class OverlayController {
     this.win = null;
     /** @type {boolean} */
     this.interactive = false; // start in clickthrough until the window activates
+    /** @type {boolean} */
+    this.collapsed = false;
+    /** @type {number|null} Height to restore when expanding */
+    this._expandedHeight = null;
   }
 
   /**
@@ -81,11 +85,51 @@ class OverlayController {
   }
 
   /**
-   * In clickthrough mode the overlay dims to 70% of base so it's visually obvious.
+   * In clickthrough mode the overlay dims to 35% of base so it doesn't
+   * obscure the game UI (stash tabs, inventory, etc.).
    * @returns {number}
    */
   getEffectiveOpacity() {
-    return this.interactive ? this.baseOpacity : this.baseOpacity * 0.7;
+    return this.interactive ? this.baseOpacity : this.baseOpacity * 0.35;
+  }
+
+  /** Toggle between collapsed (header-only) and expanded. */
+  toggleCollapse() {
+    if (this.collapsed) {
+      this.expand();
+    } else {
+      this.collapse();
+    }
+  }
+
+  /** Collapse the overlay to header-only height. */
+  collapse() {
+    if (!this.win || this.win.isDestroyed() || this.collapsed) return;
+
+    const [, height] = this.win.getSize();
+    this._expandedHeight = height;
+    this.collapsed = true;
+
+    // Resize window to collapsed height — header(~30px) + border(2px)
+    const [width] = this.win.getSize();
+    this.win.setMinimumSize(width >= 320 ? 320 : width, 36);
+    this.win.setSize(width, 36);
+
+    this.win.webContents.send('overlay-collapsed', true);
+  }
+
+  /** Expand the overlay back to its previous height. */
+  expand() {
+    if (!this.win || this.win.isDestroyed() || !this.collapsed) return;
+
+    this.collapsed = false;
+
+    const [width] = this.win.getSize();
+    const restoreHeight = this._expandedHeight || 600;
+    this.win.setMinimumSize(width >= 320 ? 320 : width, 200);
+    this.win.setSize(width, restoreHeight);
+
+    this.win.webContents.send('overlay-collapsed', false);
   }
 
   /** Push the current opacity to the renderer. */

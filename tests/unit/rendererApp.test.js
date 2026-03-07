@@ -34,6 +34,7 @@ function buildDOM() {
     <button id="close-btn"></button>
     <button id="minimize-btn"></button>
     <button id="settings-btn"></button>
+    <button id="collapse-btn">&#9650;</button>
     <button id="lock-btn">&#128274;</button>
     <button id="prev-zone-btn"></button>
     <button id="next-zone-btn"></button>

@@ -262,6 +262,18 @@ function registerHotkeys() {
   } catch (err) {
     console.warn(`Failed to register hotkey "${timerKey}":`, err.message);
   }
+
+  // Collapse/expand overlay
+  const collapseKey = settings.hotkeys?.collapseOverlay || 'Shift+F5';
+  try {
+    globalShortcut.register(collapseKey, () => {
+      if (overlayController) {
+        overlayController.toggleCollapse();
+      }
+    });
+  } catch (err) {
+    console.warn(`Failed to register hotkey "${collapseKey}":`, err.message);
+  }
 }
 
 // App lifecycle
@@ -366,6 +378,12 @@ ipcMain.on('overlay-toggle', () => {
         overlayController.interactive
       );
     }
+  }
+});
+
+ipcMain.on('overlay-collapse-toggle', () => {
+  if (overlayController) {
+    overlayController.toggleCollapse();
   }
 });
 

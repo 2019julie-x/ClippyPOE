@@ -17,6 +17,7 @@ contextBridge.exposeInMainWorld('api', {
       'overlay-activate',
       'overlay-deactivate',
       'overlay-toggle',
+      'overlay-collapse-toggle',
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
@@ -54,6 +55,7 @@ contextBridge.exposeInMainWorld('api', {
       // Overlay events
       'overlay-opacity',
       'overlay-mode-changed',
+      'overlay-collapsed',
       // Timer events
       'timer-tick',
       'timer-state',
@@ -86,6 +88,7 @@ contextBridge.exposeInMainWorld('api', {
       'progress-reset',
       'overlay-opacity',
       'overlay-mode-changed',
+      'overlay-collapsed',
       'timer-tick',
       'timer-state',
       'hotkey-next-zone',

@@ -16,7 +16,8 @@
     "hideOverlay": "Shift+F1",
     "nextZone": "Shift+F2",
     "prevZone": "Shift+F3",
-    "toggleTimer": "Shift+F4"
+    "toggleTimer": "Shift+F4",
+    "collapseOverlay": "Shift+F5"
   },
   "magnetization": {
     "enabled": true,

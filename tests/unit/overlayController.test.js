@@ -139,12 +139,12 @@ describe('OverlayController – deactivate()', () => {
     ctrl.deactivate();
     expect(win.setAlwaysOnTop).toHaveBeenCalledWith(true, 'screen-saver');
   });
-  test('sends reduced opacity (70% of base) to renderer', () => {
+  test('sends reduced opacity (35% of base) to renderer', () => {
     const ctrl = new OverlayController(windowsPlatform, 1.0);
     const win = makeMockWindow();
     ctrl.setWindow(win);
     ctrl.deactivate();
-    expect(win.webContents.send).toHaveBeenCalledWith('overlay-opacity', 0.7);
+    expect(win.webContents.send).toHaveBeenCalledWith('overlay-opacity', 0.35);
   });
   test('is a no-op when no window bound', () => {
     const ctrl = new OverlayController(windowsPlatform);
@@ -184,9 +184,9 @@ describe('OverlayController – getEffectiveOpacity()', () => {
     ctrl.activate();
     expect(ctrl.getEffectiveOpacity()).toBeCloseTo(0.9);
   });
-  test('returns 70% of baseOpacity in clickthrough mode', () => {
+  test('returns 35% of baseOpacity in clickthrough mode', () => {
     const ctrl = new OverlayController(windowsPlatform, 1.0);
-    expect(ctrl.getEffectiveOpacity()).toBeCloseTo(0.7);
+    expect(ctrl.getEffectiveOpacity()).toBeCloseTo(0.35);
   });
   test('clickthrough opacity is always less than interactive opacity', () => {
     const ctrl = new OverlayController(windowsPlatform, 0.8);
@@ -197,10 +197,10 @@ describe('OverlayController – getEffectiveOpacity()', () => {
     const clickthroughOpacity = ctrl.getEffectiveOpacity();
     expect(clickthroughOpacity).toBeLessThan(interactiveOpacity);
   });
-  test('opacity ratio is exactly 0.7', () => {
+  test('opacity ratio is exactly 0.35', () => {
     const base = 0.6;
     const ctrl = new OverlayController(windowsPlatform, base);
-    expect(ctrl.getEffectiveOpacity()).toBeCloseTo(base * 0.7);
+    expect(ctrl.getEffectiveOpacity()).toBeCloseTo(base * 0.35);
   });
 });
 // setBaseOpacity()

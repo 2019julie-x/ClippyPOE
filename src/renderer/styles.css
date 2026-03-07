@@ -414,6 +414,22 @@ body {
   vertical-align: middle;
 }
 
+/* Collapsed overlay state — header-only strip */
+.overlay-container.collapsed .tab-bar,
+.overlay-container.collapsed .tab-content,
+.overlay-container.collapsed .mode-indicator {
+  display: none !important;
+}
+
+.overlay-container.collapsed {
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.collapse-active {
+  color: #80d0ff !important;
+}
+
 /* Styling the popup for interactive or clickthrough */
 .mode-indicator {
   position: absolute;
