@@ -1,7 +1,24 @@
+// @ts-check
+'use strict';
+
 const os = require('os');
 const path = require('path');
 
-// I need to figure out what OS and display server we're running on to handle things correctly
+/**
+ * @typedef {Object} PlatformInfo
+ * @property {string} platform - Node.js process.platform value
+ * @property {boolean} isWindows
+ * @property {boolean} isLinux
+ * @property {boolean} isMac
+ * @property {boolean} isWayland - true when running under a Wayland session
+ * @property {boolean} isX11 - true when running under X11
+ * @property {string | null} compositor - XDG_CURRENT_DESKTOP value (Linux only)
+ */
+
+/**
+ * Detect the current platform, display server, and compositor.
+ * @returns {PlatformInfo}
+ */
 function getPlatformInfo() {
   const platform = process.platform;
   const isWindows = platform === 'win32';
@@ -26,7 +43,11 @@ function getPlatformInfo() {
   return { platform, isWindows, isLinux, isMac, isWayland, isX11, compositor };
 }
 
-// Let's grab a list of default Client.txt paths for this OS
+/**
+ * Return an array of likely default Client.txt paths for the current OS.
+ * @param {PlatformInfo} [platformInfo]
+ * @returns {string[]}
+ */
 function getDefaultClientTxtPaths(platformInfo) {
   const info = platformInfo || getPlatformInfo();
   const home = os.homedir();
@@ -54,7 +75,12 @@ function getDefaultClientTxtPaths(platformInfo) {
   return [];
 }
 
-// Applying Chromium switches early to fix Linux transparency and force XWayland
+/**
+ * Apply Chromium command-line switches early to fix Linux transparency and
+ * force XWayland when running under Wayland.
+ * @param {Electron.App} app
+ * @param {PlatformInfo} [platformInfo]
+ */
 function configureAppForPlatform(app, platformInfo) {
   const info = platformInfo || getPlatformInfo();
 
@@ -68,7 +94,11 @@ function configureAppForPlatform(app, platformInfo) {
   }
 }
 
-// Setting up the base transparent window options based on the platform
+/**
+ * Build base BrowserWindow options for a transparent overlay.
+ * @param {PlatformInfo} [platformInfo]
+ * @returns {Partial<Electron.BrowserWindowConstructorOptions>}
+ */
 function getOverlayWindowOptions(platformInfo) {
   const info = platformInfo || getPlatformInfo();
 
@@ -87,7 +117,11 @@ function getOverlayWindowOptions(platformInfo) {
   return options;
 }
 
-// Applying overlay behaviors like always-on-top and clickthrough to the window
+/**
+ * Apply overlay behaviours like always-on-top and click-through to a window.
+ * @param {Electron.BrowserWindow} win
+ * @param {PlatformInfo} [platformInfo]
+ */
 function applyOverlayBehavior(win, platformInfo) {
   const info = platformInfo || getPlatformInfo();
 

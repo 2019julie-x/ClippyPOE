@@ -3,14 +3,9 @@ const fs = require('fs');
 // Mock electron module
 let ipcListeners = {};
 let sentMessages = [];
-let sentSyncMessages = [];
 let invokedMessages = [];
 const mockIpcRenderer = {
   send: jest.fn((channel, data) => sentMessages.push({ channel, data })),
-  sendSync: jest.fn((channel, data) => {
-    sentSyncMessages.push({ channel, data });
-    return `sync-result-${channel}`;
-  }),
   invoke: jest.fn(async (channel, data) => {
     invokedMessages.push({ channel, data });
     return `invoke-result-${channel}`;
@@ -44,7 +39,6 @@ const api = exposedApis.api;
 // Reset mocks between tests
 beforeEach(() => {
   sentMessages = [];
-  sentSyncMessages = [];
   invokedMessages = [];
   jest.clearAllMocks();
 });
@@ -56,7 +50,6 @@ describe('preload – api.send()', () => {
     'minimize-window',
     'save-progress',
     'toggle-objective',
-    'save-settings',
     'reset-progress',
     'overlay-activate',
     'overlay-deactivate',
@@ -81,35 +74,12 @@ describe('preload – api.send()', () => {
     api.send('__proto__', {});
     expect(mockIpcRenderer.send).not.toHaveBeenCalled();
   });
-});
-// api.sendSync() – synchronous channels
-describe('preload – api.sendSync()', () => {
-  const validChannels = [
-    'get-settings',
-    'save-settings',
-    'get-progress',
-    'save-progress',
-    'reset-progress',
-    'toggle-objective',
-    'timer-toggle',
-    'timer-reset',
-    'timer-split',
-    'timer-get',
-  ];
-  validChannels.forEach((channel) => {
-    test(`allows valid channel: ${channel}`, () => {
-      const result = api.sendSync(channel);
-      expect(mockIpcRenderer.sendSync).toHaveBeenCalledWith(channel, undefined);
-      expect(result).toBe(`sync-result-${channel}`);
-    });
-  });
-  test('returns undefined for unlisted channels (no IPC call)', () => {
-    const result = api.sendSync('evil-sync-channel');
-    expect(mockIpcRenderer.sendSync).not.toHaveBeenCalled();
-    expect(result).toBeUndefined();
+  test('save-settings and save-progress are no longer in send allowlist', () => {
+    api.send('save-settings', {});
+    expect(mockIpcRenderer.send).not.toHaveBeenCalled();
   });
 });
-// api.invoke() – async request-reply channels
+// api.invoke() – async request-reply channels (now includes former sendSync channels)
 describe('preload – api.invoke()', () => {
   const validChannels = [
     'browse-client-txt',
@@ -117,6 +87,14 @@ describe('preload – api.invoke()', () => {
     'load-gem-data',
     'load-cheatsheet-data',
     'get-platform-info',
+    // Migrated from sendSync
+    'get-settings',
+    'save-settings',
+    'get-progress',
+    'timer-toggle',
+    'timer-reset',
+    'timer-split',
+    'timer-get',
   ];
   validChannels.forEach((channel) => {
     test(`allows valid channel: ${channel}`, async () => {
@@ -176,5 +154,30 @@ describe('preload – api.receive()', () => {
     // Second call: cb now has _ipcWrapper, so removeListener IS called
     api.receive('zone-changed', cb);
     expect(mockIpcRenderer.removeListener).toHaveBeenCalledWith('zone-changed', expect.any(Function));
+  });
+});
+// api.removeReceive() – unsubscribe from IPC events
+describe('preload – api.removeReceive()', () => {
+  test('removes a previously registered listener', () => {
+    const cb = jest.fn();
+    api.receive('timer-tick', cb);
+    api.removeReceive('timer-tick', cb);
+    expect(mockIpcRenderer.removeListener).toHaveBeenCalledWith('timer-tick', expect.any(Function));
+  });
+  test('does nothing for unlisted channels', () => {
+    const cb = jest.fn();
+    api.removeReceive('evil-channel', cb);
+    expect(mockIpcRenderer.removeListener).not.toHaveBeenCalled();
+  });
+  test('does nothing if func was never registered', () => {
+    const cb = jest.fn();
+    api.removeReceive('zone-changed', cb);
+    expect(mockIpcRenderer.removeListener).not.toHaveBeenCalled();
+  });
+});
+// sendSync no longer exists
+describe('preload – sendSync removed', () => {
+  test('api.sendSync is not exposed', () => {
+    expect(api.sendSync).toBeUndefined();
   });
 });

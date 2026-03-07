@@ -18,6 +18,10 @@
     "prevZone": "Shift+F3",
     "toggleTimer": "Shift+F4"
   },
+  "magnetization": {
+    "enabled": true,
+    "snapDistance": 20
+  },
   "activeTab": "guide",
   "currentProgress": {
     "act": 1,
