@@ -8,6 +8,7 @@ function makeMockWindow(destroyed = false) {
     focus: jest.fn(),
     getSize: jest.fn(() => [400, 600]),
     setSize: jest.fn(),
+    setShape: jest.fn(),
     webContents: {
       send: jest.fn(),
     },

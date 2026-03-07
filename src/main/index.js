@@ -130,6 +130,15 @@ function createMainWindow() {
     if (mainWindow.isMinimized()) return;
 
     const [width, height] = mainWindow.getSize();
+
+    if (overlayController && overlayController.collapsed) {
+      if (platformInfo.isWindows || platformInfo.isLinux) {
+        mainWindow.setShape([{ x: 0, y: 0, width: width, height: 36 }]);
+      }
+      // Don't save the collapsed size to settings
+      return;
+    }
+
     settingsManager.saveWindowSize(width, height);
   });
 

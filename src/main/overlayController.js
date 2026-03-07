@@ -114,6 +114,11 @@ class OverlayController {
     const [width] = this.win.getSize();
     this.win.setSize(width, 36);
 
+    // Explicitly set the interactable shape to fix click-through bugs on some platforms
+    if (this.platform.isWindows || this.platform.isLinux) {
+      this.win.setShape([{ x: 0, y: 0, width: width, height: 36 }]);
+    }
+
     this.win.webContents.send('overlay-collapsed', true);
   }
 
@@ -126,6 +131,11 @@ class OverlayController {
     const [width] = this.win.getSize();
     const restoreHeight = this._expandedHeight || 600;
     this.win.setSize(width, restoreHeight);
+
+    // Clear the custom shape so the whole window is interactable again
+    if (this.platform.isWindows || this.platform.isLinux) {
+      this.win.setShape([]);
+    }
 
     this.win.webContents.send('overlay-collapsed', false);
   }
