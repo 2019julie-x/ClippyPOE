@@ -85,10 +85,14 @@ function configureAppForPlatform(app, platformInfo) {
   const info = platformInfo || getPlatformInfo();
 
   if (info.isLinux) {
-    app.disableHardwareAcceleration();
-    app.commandLine.appendSwitch('disable-gpu-compositing');
+    // Hardware acceleration breaks transparent windows on native Wayland,
+    // but is often needed to prevent flickering/crashes on X11.
+    if (!info.isWayland) {
+      app.disableHardwareAcceleration();
+      app.commandLine.appendSwitch('disable-gpu-compositing');
+    }
 
-    // Suppress VA-API probe errors (harmless — hw accel is already disabled)
+    // Suppress VA-API probe errors (harmless)
     app.commandLine.appendSwitch('disable-features', 'VaapiVideoDecoder,VaapiVideoEncoder');
 
     if (info.isWayland) {
@@ -113,10 +117,11 @@ function getOverlayWindowOptions(platformInfo) {
     transparent: true,
     skipTaskbar: true,
     backgroundColor: '#00000000',
+    hasShadow: false, // Crucial for Wayland to prevent compositor shadow artifacts
     show: false, // shown explicitly after ready-to-show to avoid transparent flash
   };
 
-  if (info.isLinux) {
+  if (info.isLinux && !info.isWayland) {
     options.type = 'toolbar'; // X11 window type hint so compositors treat it as a panel
   }
 
