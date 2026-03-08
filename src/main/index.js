@@ -53,6 +53,7 @@ function createMainWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      sandbox: true,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
@@ -181,6 +182,7 @@ function createSettingsWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      sandbox: true,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
@@ -407,6 +409,16 @@ ipcMain.handle('save-settings', async (_event, settings) => {
       console.error('save-settings: rejected invalid clientTxtPath:', rawPath);
       return false;
     }
+    // Resolve symlinks and re-validate the canonical path
+    try {
+      const resolved = fs.realpathSync(rawPath);
+      if (path.extname(resolved).toLowerCase() !== '.txt') {
+        console.error('save-settings: symlink target is not a .txt file:', resolved);
+        return false;
+      }
+    } catch {
+      // File doesn't exist yet — skip realpath check (user may be pre-configuring)
+    }
   }
 
   settingsManager.saveSettings(settings);
@@ -423,6 +435,14 @@ ipcMain.handle('save-settings', async (_event, settings) => {
 
   // Re-register hotkeys if changed
   if (settings.hotkeys) {
+    const hotkeyPattern = /^((Shift|Ctrl|Alt|Super)\+)+(F\d+|Space|[A-Z0-9]|Tab|Enter|Backspace|Delete|Insert|Home|End|PageUp|PageDown|ArrowUp|ArrowDown|ArrowLeft|ArrowRight)$/;
+    const validHotkeys = Object.values(settings.hotkeys).every(
+      (v) => typeof v === 'string' && hotkeyPattern.test(v)
+    );
+    if (!validHotkeys) {
+      console.error('save-settings: rejected malformed hotkey strings');
+      return false;
+    }
     registerHotkeys();
   }
 

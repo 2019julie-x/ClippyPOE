@@ -61,8 +61,15 @@ class LogParser extends EventEmitter {
 
     // Get file size
     try {
+      const lstat = fs.lstatSync(this.clientTxtPath);
+
+      // Reject symlinks to prevent traversal to unintended files
+      if (lstat.isSymbolicLink()) {
+        throw new Error('Client.txt path must not be a symbolic link');
+      }
+
       const stats = fs.statSync(this.clientTxtPath);
-      
+
       // Read tail only
       if (!stats.isFile()) {
         throw new Error('Provided path is not a file');

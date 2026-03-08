@@ -66,16 +66,24 @@ async function loadPlatformInfo() {
 
       // Update path hints
       const hintsEl = document.getElementById('path-hints');
-      if (info.isLinux) {
-        hintsEl.innerHTML =
-          'Typical locations:<br>' +
-          '<code>~/.local/share/Steam/steamapps/common/Path of Exile/logs/Client.txt</code><br>' +
-          '<code>~/.steam/steam/steamapps/common/Path of Exile/logs/Client.txt</code>';
-      } else {
-        hintsEl.innerHTML =
-          'Typical locations:<br>' +
-          '<code>C:\\\\Program Files (x86)\\\\Grinding Gear Games\\\\Path of Exile\\\\logs\\\\Client.txt</code><br>' +
-          '<code>Steam\\\\steamapps\\\\common\\\\Path of Exile\\\\logs\\\\Client.txt</code>';
+      const paths = info.isLinux
+        ? [
+            '~/.local/share/Steam/steamapps/common/Path of Exile/logs/Client.txt',
+            '~/.steam/steam/steamapps/common/Path of Exile/logs/Client.txt',
+          ]
+        : [
+            'C:\\Program Files (x86)\\Grinding Gear Games\\Path of Exile\\logs\\Client.txt',
+            'Steam\\steamapps\\common\\Path of Exile\\logs\\Client.txt',
+          ];
+
+      hintsEl.textContent = '';
+      const label = document.createTextNode('Typical locations:');
+      hintsEl.appendChild(label);
+      for (const p of paths) {
+        hintsEl.appendChild(document.createElement('br'));
+        const code = document.createElement('code');
+        code.textContent = p;
+        hintsEl.appendChild(code);
       }
     }
   } catch (err) {
