@@ -26,6 +26,7 @@
           "<rootDir>/tests/unit/settingsManager.test.js",
           "<rootDir>/tests/unit/windowMagnetizer.test.js",
           "<rootDir>/tests/unit/timer.test.js",
+          "<rootDir>/tests/unit/hotkeyManager.test.js",
           "<rootDir>/tests/integration/ipcChannels.test.js"
         ]
       },

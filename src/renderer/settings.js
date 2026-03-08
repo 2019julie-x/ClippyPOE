@@ -59,10 +59,34 @@ async function loadPlatformInfo() {
 
       const parts = [`Platform: ${info.platform}`];
       if (info.isLinux) {
-        parts.push(info.isWayland ? 'Display: Wayland (XWayland mode)' : 'Display: X11');
+        if (info.isNativeWayland) parts.push('Display: Wayland (native)');
+        else if (info.isWayland) parts.push('Display: Wayland (XWayland)');
+        else parts.push('Display: X11');
         if (info.compositor) parts.push(`Compositor: ${info.compositor}`);
       }
       text.textContent = parts.join(' | ');
+
+      // Warn when running on native Wayland — uiohook-napi cannot capture global hotkeys
+      if (info.isNativeWayland) {
+        const warning = document.getElementById('wayland-hotkey-warning');
+        warning.style.display = 'block';
+        warning.textContent = '';
+        const strong = document.createElement('strong');
+        strong.textContent = 'Hotkeys unavailable on native Wayland. ';
+        warning.appendChild(strong);
+        warning.appendChild(document.createTextNode(
+          'The hotkey library (uiohook-napi) only supports X11. ' +
+          'Relaunch via '
+        ));
+        const c1 = document.createElement('code');
+        c1.textContent = 'npm run start:x11';
+        warning.appendChild(c1);
+        warning.appendChild(document.createTextNode(' or set '));
+        const c2 = document.createElement('code');
+        c2.textContent = 'ELECTRON_OZONE_PLATFORM_HINT=x11';
+        warning.appendChild(c2);
+        warning.appendChild(document.createTextNode(' to enable hotkeys via XWayland.'));
+      }
 
       // Update path hints
       const hintsEl = document.getElementById('path-hints');

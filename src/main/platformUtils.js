@@ -40,7 +40,16 @@ function getPlatformInfo() {
     compositor = currentDesktop;
   }
 
-  return { platform, isWindows, isLinux, isMac, isWayland, isX11, compositor };
+  // isNativeWayland: Wayland session AND the user hasn't forced XWayland via --ozone-platform=x11.
+  // When true, uiohook-napi cannot capture global hotkeys (X11-only library).
+  const argv = process.argv;
+  const xPlatformIdx = argv.indexOf('--ozone-platform');
+  const isX11Forced =
+    argv.some((a) => a === '--ozone-platform=x11') ||
+    (xPlatformIdx >= 0 && argv[xPlatformIdx + 1] === 'x11');
+  const isNativeWayland = isWayland && !isX11Forced;
+
+  return { platform, isWindows, isLinux, isMac, isWayland, isX11, isNativeWayland, compositor };
 }
 
 /**

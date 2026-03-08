@@ -339,3 +339,72 @@ describe('OverlayController – toggleCollapse()', () => {
     expect(ctrl.collapsed).toBe(false);
   });
 });
+// setShape() platform behavior on collapse
+describe('OverlayController – setShape() on collapse', () => {
+  test('calls setShape on Windows when collapsing', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([400, 600]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(win.setShape).toHaveBeenCalledWith([
+      { x: 0, y: 0, width: 400, height: 36 },
+    ]);
+  });
+  test('calls setShape on Linux when collapsing', () => {
+    const ctrl = new OverlayController(linuxPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([350, 500]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(win.setShape).toHaveBeenCalledWith([
+      { x: 0, y: 0, width: 350, height: 36 },
+    ]);
+  });
+  test('does NOT call setShape on macOS when collapsing', () => {
+    const ctrl = new OverlayController(macPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(win.setShape).not.toHaveBeenCalled();
+  });
+  test('clears shape with setShape([]) on expand (Windows)', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([400, 600]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    win.setShape.mockClear();
+    ctrl.expand();
+    expect(win.setShape).toHaveBeenCalledWith([]);
+  });
+  test('clears shape with setShape([]) on expand (Linux)', () => {
+    const ctrl = new OverlayController(linuxPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([400, 600]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    win.setShape.mockClear();
+    ctrl.expand();
+    expect(win.setShape).toHaveBeenCalledWith([]);
+  });
+  test('does NOT call setShape on expand (macOS)', () => {
+    const ctrl = new OverlayController(macPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    win.setShape.mockClear();
+    ctrl.expand();
+    expect(win.setShape).not.toHaveBeenCalled();
+  });
+  test('uses current width for shape on collapse', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    win.getSize.mockReturnValue([800, 600]);
+    ctrl.setWindow(win);
+    ctrl.collapse();
+    expect(win.setShape).toHaveBeenCalledWith([
+      { x: 0, y: 0, width: 800, height: 36 },
+    ]);
+  });
+});
