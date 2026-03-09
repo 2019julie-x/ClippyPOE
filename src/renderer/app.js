@@ -145,7 +145,7 @@ function findZoneByName(zoneName, areaLevel) {
   if (!zones.length) return -1;
 
   // Phase 1: Area level match (highest confidence, when available)
-  if (areaLevel != null) {
+  if (areaLevel !== null) {
     const idx = zones.findIndex(
       (z) => z.name === zoneName && z.areaLevel === areaLevel
     );
@@ -741,7 +741,7 @@ function attachEventListeners() {
 function attachIPCListeners() {
   // Zone change from log parser
   window.api.receive('zone-changed', (zoneName, areaLevel) => {
-    console.log('Zone changed to:', zoneName, areaLevel != null ? `(level ${areaLevel})` : '');
+    console.log('Zone changed to:', zoneName, areaLevel !== null ? `(level ${areaLevel})` : '');
     const zoneIndex = findZoneByName(zoneName, areaLevel);
     if (zoneIndex !== -1) {
       currentZoneIndex = zoneIndex;

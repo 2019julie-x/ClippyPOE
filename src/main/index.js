@@ -582,7 +582,7 @@ function initLogParser(clientTxtPath) {
   logParser = new LogParser(clientTxtPath);
 
   logParser.on('zone-entered', (zoneName, areaLevel) => {
-    console.log('Zone entered:', zoneName, areaLevel != null ? `(level ${areaLevel})` : '');
+    console.log('Zone entered:', zoneName, areaLevel !== null ? `(level ${areaLevel})` : '');
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('zone-changed', zoneName, areaLevel);
     }
