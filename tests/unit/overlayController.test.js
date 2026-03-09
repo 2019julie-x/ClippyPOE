@@ -368,25 +368,36 @@ describe('OverlayController – setShape() on collapse', () => {
     ctrl.collapse();
     expect(win.setShape).not.toHaveBeenCalled();
   });
-  test('clears shape with setShape([]) on expand (Windows)', () => {
+  test('sets shape to full window rect on expand (Windows)', () => {
     const ctrl = new OverlayController(windowsPlatform);
     const win = makeMockWindow();
     win.getSize.mockReturnValue([400, 600]);
     ctrl.setWindow(win);
     ctrl.collapse();
     win.setShape.mockClear();
+    win.getSize.mockReturnValue([400, 36]); // collapsed size
     ctrl.expand();
-    expect(win.setShape).toHaveBeenCalledWith([]);
+    expect(win.setShape).toHaveBeenCalledWith([{ x: 0, y: 0, width: 400, height: 600 }]);
   });
-  test('clears shape with setShape([]) on expand (Linux)', () => {
+  test('sets shape to full window rect on expand (Linux)', () => {
     const ctrl = new OverlayController(linuxPlatform);
     const win = makeMockWindow();
     win.getSize.mockReturnValue([400, 600]);
     ctrl.setWindow(win);
     ctrl.collapse();
     win.setShape.mockClear();
+    win.getSize.mockReturnValue([400, 36]); // collapsed size
     ctrl.expand();
-    expect(win.setShape).toHaveBeenCalledWith([]);
+    expect(win.setShape).toHaveBeenCalledWith([{ x: 0, y: 0, width: 400, height: 600 }]);
+  });
+  test('sets shape to full window rect with default height when no previous height stored', () => {
+    const ctrl = new OverlayController(windowsPlatform);
+    const win = makeMockWindow();
+    ctrl.setWindow(win);
+    ctrl.collapsed = true;
+    ctrl._expandedHeight = null;
+    ctrl.expand();
+    expect(win.setShape).toHaveBeenCalledWith([{ x: 0, y: 0, width: 400, height: 600 }]);
   });
   test('does NOT call setShape on expand (macOS)', () => {
     const ctrl = new OverlayController(macPlatform);

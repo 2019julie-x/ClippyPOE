@@ -104,7 +104,13 @@ async function loadProgress() {
 
     if (progress.zone && currentGuideData) {
       const zones = getAllZones();
-      const index = zones.findIndex((z) => z.name === progress.zone);
+      // Prefer matching zone in the saved act
+      let index = zones.findIndex(
+        (z) => z.name === progress.zone && z.act === currentAct
+      );
+      if (index === -1) {
+        index = zones.findIndex((z) => z.name === progress.zone);
+      }
       if (index !== -1) currentZoneIndex = index;
     }
   }
@@ -134,11 +140,47 @@ function getAllZones() {
   return zones;
 }
 
-function findZoneByName(zoneName) {
+function findZoneByName(zoneName, areaLevel) {
   const zones = getAllZones();
-  // Prefer exact match, then partial
-  let idx = zones.findIndex((z) => z.name === zoneName);
+  if (!zones.length) return -1;
+
+  // Phase 1: Area level match (highest confidence, when available)
+  if (areaLevel !== null) {
+    const idx = zones.findIndex(
+      (z) => z.name === zoneName && z.areaLevel === areaLevel
+    );
+    if (idx !== -1) return idx;
+  }
+
+  // Phase 2: Exact match in current act
+  let idx = zones.findIndex((z) => z.act === currentAct && z.name === zoneName);
   if (idx !== -1) return idx;
+
+  // Phase 3: Exact match anywhere — pick closest to current position
+  // (handles backward waypoint travel better than adjacency bias)
+  const exactMatches = [];
+  zones.forEach((z, i) => {
+    if (z.name === zoneName) exactMatches.push(i);
+  });
+  if (exactMatches.length === 1) return exactMatches[0];
+  if (exactMatches.length > 1) {
+    return exactMatches.reduce((best, candidate) =>
+      Math.abs(candidate - currentZoneIndex) < Math.abs(best - currentZoneIndex)
+        ? candidate
+        : best
+    );
+  }
+
+  // Phase 4: Partial match, preferring current act
+  idx = zones.findIndex(
+    (z) =>
+      z.act === currentAct &&
+      (z.name.toLowerCase().includes(zoneName.toLowerCase()) ||
+        zoneName.toLowerCase().includes(z.name.toLowerCase()))
+  );
+  if (idx !== -1) return idx;
+
+  // Phase 5: Partial match anywhere
   idx = zones.findIndex(
     (z) =>
       z.name.toLowerCase().includes(zoneName.toLowerCase()) ||
@@ -668,7 +710,7 @@ function attachEventListeners() {
     btn.addEventListener('click', () => switchTab(btn.dataset.tab));
   });
 
-  // Timer controls (async invoke – no longer blocks the renderer)
+  // Timer controls (async invoke - no longer blocks the renderer)
   document.getElementById('timer-toggle-btn').addEventListener('click', async () => {
     const state = await window.api.invoke('timer-toggle');
     document.getElementById('timer-toggle-btn').textContent = state.running
@@ -698,9 +740,9 @@ function attachEventListeners() {
 
 function attachIPCListeners() {
   // Zone change from log parser
-  window.api.receive('zone-changed', (zoneName) => {
-    console.log('Zone changed to:', zoneName);
-    const zoneIndex = findZoneByName(zoneName);
+  window.api.receive('zone-changed', (zoneName, areaLevel) => {
+    console.log('Zone changed to:', zoneName, areaLevel !== null ? `(level ${areaLevel})` : '');
+    const zoneIndex = findZoneByName(zoneName, areaLevel);
     if (zoneIndex !== -1) {
       currentZoneIndex = zoneIndex;
       const zones = getAllZones();
@@ -778,11 +820,11 @@ function attachIPCListeners() {
 
     if (collapsed) {
       container.classList.add('collapsed');
-      collapseBtn.innerHTML = '&#9660;'; // down arrow — click to expand
+      collapseBtn.innerHTML = '&#9660;'; // down arrow - click to expand
       collapseBtn.classList.add('collapse-active');
     } else {
       container.classList.remove('collapsed');
-      collapseBtn.innerHTML = '&#9650;'; // up arrow — click to collapse
+      collapseBtn.innerHTML = '&#9650;'; // up arrow - click to collapse
       collapseBtn.classList.remove('collapse-active');
     }
   });

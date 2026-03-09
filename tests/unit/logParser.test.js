@@ -20,17 +20,19 @@ describe('LogParser – parseLine()', () => {
     parser = new LogParser('/fake/Client.txt');
   });
 
-  test('emits zone-entered for zoneGenerated pattern', (done) => {
-    parser.once('zone-entered', (name) => {
+  test('emits zone-entered with area level for zoneGenerated pattern', (done) => {
+    parser.once('zone-entered', (name, areaLevel) => {
       expect(name).toBe('Lioneye\'s Watch');
+      expect(areaLevel).toBe(1);
       done();
     });
     parser.parseLine('2024/01/01 00:00:00 Generating level 1 area "Lioneye\'s Watch" with seed 12345');
   });
 
-  test('emits zone-entered for zoneEntered fallback pattern', (done) => {
-    parser.once('zone-entered', (name) => {
+  test('emits zone-entered with null area level for zoneEntered pattern', (done) => {
+    parser.once('zone-entered', (name, areaLevel) => {
       expect(name).toBe('The Twilight Strand');
+      expect(areaLevel).toBeNull();
       done();
     });
     parser.parseLine('2024/01/01 00:00:00 : You have entered The Twilight Strand.');
@@ -38,11 +40,12 @@ describe('LogParser – parseLine()', () => {
 
   test('prefers zoneGenerated over zoneEntered when both match', (done) => {
     const events = [];
-    parser.on('zone-entered', (name) => events.push(name));
+    parser.on('zone-entered', (name, areaLevel) => events.push({ name, areaLevel }));
     parser.parseLine('2024/01/01 Generating level 5 area "The Ledge" with seed 99');
     setImmediate(() => {
       expect(events).toHaveLength(1);
-      expect(events[0]).toBe('The Ledge');
+      expect(events[0].name).toBe('The Ledge');
+      expect(events[0].areaLevel).toBe(5);
       done();
     });
   });
@@ -91,6 +94,15 @@ describe('LogParser – parseLine()', () => {
     parser.parseLine('');
     parser.parseLine('   \t  ');
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  test('parses area level correctly for high-level zones', (done) => {
+    parser.once('zone-entered', (name, areaLevel) => {
+      expect(name).toBe('The Sarn Encampment');
+      expect(areaLevel).toBe(55);
+      done();
+    });
+    parser.parseLine('2024/01/01 Generating level 55 area "The Sarn Encampment" with seed 999');
   });
 
   test('zone name can contain spaces and apostrophes', (done) => {

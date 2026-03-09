@@ -6,6 +6,7 @@
       "zones": [
         {
           "name": "The Twilight Strand",
+          "areaLevel": 1,
           "order": 1,
           "objectives": [
             "Pick up your starting skill gem",
@@ -17,6 +18,7 @@
         },
         {
           "name": "Lioneye's Watch",
+          "areaLevel": 1,
           "order": 2,
           "objectives": [
             "Talk to Nessa for support gem",
@@ -28,6 +30,7 @@
         },
         {
           "name": "The Coast",
+          "areaLevel": 2,
           "order": 3,
           "objectives": [
             "Find waypoint (usually top-left area)",
@@ -38,6 +41,7 @@
         },
         {
           "name": "Tidal Island",
+          "areaLevel": 3,
           "order": 4,
           "objectives": [
             "Kill Hailrake",
@@ -49,6 +53,7 @@
         },
         {
           "name": "The Mud Flats",
+          "areaLevel": 4,
           "order": 5,
           "objectives": [
             "Collect 3 Glyphs from Rhoa nests",
@@ -60,6 +65,7 @@
         },
         {
           "name": "The Submerged Passage",
+          "areaLevel": 5,
           "order": 6,
           "objectives": [
             "Find waypoint",
@@ -71,6 +77,7 @@
         },
         {
           "name": "The Flooded Depths",
+          "areaLevel": 6,
           "order": 7,
           "objectives": [
             "Kill The Dweller of the Deep",
@@ -81,6 +88,7 @@
         },
         {
           "name": "The Ledge",
+          "areaLevel": 7,
           "order": 8,
           "objectives": [
             "Run through to The Climb",
@@ -91,6 +99,7 @@
         },
         {
           "name": "The Climb",
+          "areaLevel": 8,
           "order": 9,
           "objectives": [
             "Navigate to Lower Prison",
@@ -101,6 +110,7 @@
         },
         {
           "name": "Lower Prison",
+          "areaLevel": 9,
           "order": 10,
           "objectives": [
             "Find stairs to Upper Prison",
@@ -111,6 +121,7 @@
         },
         {
           "name": "Upper Prison",
+          "areaLevel": 10,
           "order": 11,
           "objectives": [
             "Kill Brutus",
@@ -121,6 +132,7 @@
         },
         {
           "name": "Prisoner's Gate",
+          "areaLevel": 11,
           "order": 12,
           "objectives": [
             "Find waypoint",
@@ -131,6 +143,7 @@
         },
         {
           "name": "The Ship Graveyard",
+          "areaLevel": 11,
           "order": 13,
           "objectives": [
             "Find Fairgraves for The Marooned Mariner quest (passive point)",
@@ -141,6 +154,7 @@
         },
         {
           "name": "The Ship Graveyard Cave",
+          "areaLevel": 12,
           "order": 14,
           "objectives": [
             "Navigate to Cavern of Wrath"
@@ -150,6 +164,7 @@
         },
         {
           "name": "The Cavern of Wrath",
+          "areaLevel": 12,
           "order": 15,
           "objectives": [
             "Kill Merveil",
@@ -238,6 +253,7 @@
       "zones": [
         {
           "name": "The Southern Forest",
+          "areaLevel": 13,
           "order": 1,
           "objectives": [
             "Find waypoint",
@@ -248,6 +264,7 @@
         },
         {
           "name": "The Forest Encampment",
+          "areaLevel": 15,
           "order": 2,
           "objectives": [
             "Talk to Bestel for quest",
@@ -258,6 +275,7 @@
         },
         {
           "name": "The Riverways",
+          "areaLevel": 16,
           "order": 3,
           "objectives": [
             "Find waypoint",
@@ -268,6 +286,7 @@
         },
         {
           "name": "The Western Forest",
+          "areaLevel": 17,
           "order": 4,
           "objectives": [
             "Find waypoint",
@@ -279,6 +298,7 @@
         },
         {
           "name": "The Weaver's Chambers",
+          "areaLevel": 18,
           "order": 5,
           "objectives": [
             "Navigate through webs",
@@ -290,6 +310,7 @@
         },
         {
           "name": "The Wetlands",
+          "areaLevel": 17,
           "order": 6,
           "objectives": [
             "Find waypoint",
@@ -300,6 +321,7 @@
         },
         {
           "name": "The Vaal Ruins",
+          "areaLevel": 19,
           "order": 7,
           "objectives": [
             "Navigate to Northern Forest"
@@ -309,6 +331,7 @@
         },
         {
           "name": "The Northern Forest",
+          "areaLevel": 20,
           "order": 8,
           "objectives": [
             "Find waypoint",
@@ -319,6 +342,7 @@
         },
         {
           "name": "The Caverns",
+          "areaLevel": 20,
           "order": 9,
           "objectives": [
             "Navigate to Ancient Pyramid"
@@ -328,6 +352,7 @@
         },
         {
           "name": "The Ancient Pyramid",
+          "areaLevel": 21,
           "order": 10,
           "objectives": [
             "Kill Vaal Oversoul",
@@ -387,6 +412,7 @@
       "zones": [
         {
           "name": "The City of Sarn",
+          "areaLevel": 23,
           "order": 1,
           "objectives": [
             "Enter Sarn Encampment",
@@ -397,6 +423,7 @@
         },
         {
           "name": "The Sarn Encampment",
+          "areaLevel": 23,
           "order": 2,
           "objectives": [
             "Get quest from Clarissa",
@@ -407,6 +434,7 @@
         },
         {
           "name": "The Slums",
+          "areaLevel": 24,
           "order": 3,
           "objectives": [
             "Find waypoint",
@@ -418,6 +446,7 @@
         },
         {
           "name": "The Crematorium",
+          "areaLevel": 25,
           "order": 4,
           "objectives": [
             "Complete Trial of Ascendancy",
@@ -428,6 +457,7 @@
         },
         {
           "name": "The Sewers",
+          "areaLevel": 24,
           "order": 5,
           "objectives": [
             "Navigate through sewers",
@@ -438,6 +468,7 @@
         },
         {
           "name": "The Marketplace",
+          "areaLevel": 25,
           "order": 6,
           "objectives": [
             "Find waypoint",
@@ -449,6 +480,7 @@
         },
         {
           "name": "The Catacombs",
+          "areaLevel": 26,
           "order": 7,
           "objectives": [
             "Complete Trial of Ascendancy",
@@ -459,6 +491,7 @@
         },
         {
           "name": "The Battlefront",
+          "areaLevel": 26,
           "order": 8,
           "objectives": [
             "Find waypoint",
@@ -469,6 +502,7 @@
         },
         {
           "name": "The Docks",
+          "areaLevel": 27,
           "order": 9,
           "objectives": [
             "Find waypoint",
@@ -479,6 +513,7 @@
         },
         {
           "name": "The Solaris Temple Level 1",
+          "areaLevel": 27,
           "order": 10,
           "objectives": [
             "Navigate to Solaris Temple Level 2"
@@ -488,6 +523,7 @@
         },
         {
           "name": "The Solaris Temple Level 2",
+          "areaLevel": 28,
           "order": 11,
           "objectives": [
             "Navigate to The Ebony Barracks",
@@ -498,6 +534,7 @@
         },
         {
           "name": "The Ebony Barracks",
+          "areaLevel": 29,
           "order": 12,
           "objectives": [
             "Find waypoint",
@@ -508,6 +545,7 @@
         },
         {
           "name": "The Lunaris Temple Level 1",
+          "areaLevel": 27,
           "order": 13,
           "objectives": [
             "Navigate to Lunaris Temple Level 2"
@@ -517,6 +555,7 @@
         },
         {
           "name": "The Lunaris Temple Level 2",
+          "areaLevel": 28,
           "order": 14,
           "objectives": [
             "Find waypoint",
@@ -528,6 +567,7 @@
         },
         {
           "name": "The Imperial Gardens",
+          "areaLevel": 30,
           "order": 15,
           "objectives": [
             "Find waypoint",
@@ -539,6 +579,7 @@
         },
         {
           "name": "The Library",
+          "areaLevel": 30,
           "order": 16,
           "objectives": [
             "Complete quest for Siosa",
@@ -550,6 +591,7 @@
         },
         {
           "name": "The Sceptre of God",
+          "areaLevel": 32,
           "order": 17,
           "objectives": [
             "Navigate upward through floors",
@@ -621,6 +663,7 @@
       "zones": [
         {
           "name": "Highgate",
+          "areaLevel": 33,
           "order": 1,
           "objectives": [
             "Talk to Petarus and Vanja",
@@ -631,6 +674,7 @@
         },
         {
           "name": "The Dried Lake",
+          "areaLevel": 34,
           "order": 2,
           "objectives": [
             "Find waypoint",
@@ -642,6 +686,7 @@
         },
         {
           "name": "The Mines Level 1",
+          "areaLevel": 34,
           "order": 3,
           "objectives": [
             "Find Deshret's Spirit (Optional)",
@@ -652,6 +697,7 @@
         },
         {
           "name": "The Mines Level 2",
+          "areaLevel": 35,
           "order": 4,
           "objectives": [
             "Find Deshret's Spirit if not found yet",
@@ -662,6 +708,7 @@
         },
         {
           "name": "The Crystal Veins",
+          "areaLevel": 36,
           "order": 5,
           "objectives": [
             "Find Waypoint",
@@ -672,6 +719,7 @@
         },
         {
           "name": "Kaom's Dream",
+          "areaLevel": 36,
           "order": 6,
           "objectives": [
             "Navigate to Kaom's Stronghold"
@@ -681,6 +729,7 @@
         },
         {
           "name": "Kaom's Stronghold",
+          "areaLevel": 37,
           "order": 7,
           "objectives": [
             "Find Waypoint",
@@ -692,6 +741,7 @@
         },
         {
           "name": "Daresso's Dream",
+          "areaLevel": 36,
           "order": 8,
           "objectives": [
             "Kill arena bosses",
@@ -702,6 +752,7 @@
         },
         {
           "name": "The Grand Arena",
+          "areaLevel": 37,
           "order": 9,
           "objectives": [
             "Find Waypoint",
@@ -713,6 +764,7 @@
         },
         {
           "name": "The Belly of the Beast Level 1",
+          "areaLevel": 37,
           "order": 10,
           "objectives": [
             "Enter from Crystal Veins",
@@ -723,6 +775,7 @@
         },
         {
           "name": "The Belly of the Beast Level 2",
+          "areaLevel": 38,
           "order": 11,
           "objectives": [
             "Kill Piety",
@@ -733,6 +786,7 @@
         },
         {
           "name": "The Harvest",
+          "areaLevel": 38,
           "order": 12,
           "objectives": [
             "Find Waypoint",
@@ -744,6 +798,7 @@
         },
         {
           "name": "The Ascent",
+          "areaLevel": 34,
           "order": 13,
           "objectives": [
             "Navigate to The Slave Pens (Act 5)"
@@ -789,6 +844,7 @@
       "zones": [
         {
           "name": "The Slave Pens",
+          "areaLevel": 29,
           "order": 1,
           "objectives": [
             "Kill Overseer Krow",
@@ -799,6 +855,7 @@
         },
         {
           "name": "Overseer's Tower",
+          "areaLevel": 39,
           "order": 2,
           "objectives": [
             "Talk to Lani",
@@ -809,6 +866,7 @@
         },
         {
           "name": "The Control Blocks",
+          "areaLevel": 40,
           "order": 3,
           "objectives": [
             "Find Miasmeter (Optional)",
@@ -820,6 +878,7 @@
         },
         {
           "name": "Oriath Square",
+          "areaLevel": 41,
           "order": 4,
           "objectives": [
             "Find Waypoint",
@@ -830,6 +889,7 @@
         },
         {
           "name": "The Templar Courts",
+          "areaLevel": 41,
           "order": 5,
           "objectives": [
             "Navigate to The Chamber of Innocence"
@@ -839,6 +899,7 @@
         },
         {
           "name": "The Chamber of Innocence",
+          "areaLevel": 42,
           "order": 6,
           "objectives": [
             "Find Waypoint",
@@ -850,6 +911,7 @@
         },
         {
           "name": "The Torched Courts",
+          "areaLevel": 42,
           "order": 7,
           "objectives": [
             "Navigate to The Ruined Square"
@@ -859,6 +921,7 @@
         },
         {
           "name": "The Ruined Square",
+          "areaLevel": 43,
           "order": 8,
           "objectives": [
             "Find Waypoint",
@@ -871,6 +934,7 @@
         },
         {
           "name": "The Ossuary",
+          "areaLevel": 44,
           "order": 9,
           "objectives": [
             "Find Sign of Purity",
@@ -881,6 +945,7 @@
         },
         {
           "name": "The Reliquary",
+          "areaLevel": 44,
           "order": 10,
           "objectives": [
             "Find Waypoint",
@@ -892,6 +957,7 @@
         },
         {
           "name": "The Cathedral Rooftop",
+          "areaLevel": 45,
           "order": 11,
           "objectives": [
             "Enter The Cathedral Apex",
@@ -944,6 +1010,7 @@
       "zones": [
         {
           "name": "Lioneye's Watch",
+          "areaLevel": 44,
           "order": 1,
           "objectives": [
             "Talk to Lilly Roth",
@@ -954,6 +1021,7 @@
         },
         {
           "name": "The Coast",
+          "areaLevel": 44,
           "order": 2,
           "objectives": [
             "Find Waypoint",
@@ -964,6 +1032,7 @@
         },
         {
           "name": "The Mud Flats",
+          "areaLevel": 45,
           "order": 3,
           "objectives": [
             "Kill The Dishonoured Queen",
@@ -975,6 +1044,7 @@
         },
         {
           "name": "The Karui Fortress",
+          "areaLevel": 46,
           "order": 4,
           "objectives": [
             "Kill Tukohama",
@@ -985,6 +1055,7 @@
         },
         {
           "name": "The Ridge",
+          "areaLevel": 46,
           "order": 5,
           "objectives": [
             "Find Waypoint",
@@ -995,6 +1066,7 @@
         },
         {
           "name": "The Lower Prison",
+          "areaLevel": 46,
           "order": 6,
           "objectives": [
             "Find Waypoint",
@@ -1007,6 +1079,7 @@
         },
         {
           "name": "Prisoner's Gate",
+          "areaLevel": 47,
           "order": 7,
           "objectives": [
             "Find Waypoint",
@@ -1018,6 +1091,7 @@
         },
         {
           "name": "The Western Forest",
+          "areaLevel": 48,
           "order": 8,
           "objectives": [
             "Find Waypoint",
@@ -1028,6 +1102,7 @@
         },
         {
           "name": "The Riverways",
+          "areaLevel": 48,
           "order": 9,
           "objectives": [
             "Find Waypoint",
@@ -1038,6 +1113,7 @@
         },
         {
           "name": "The Wetlands",
+          "areaLevel": 48,
           "order": 10,
           "objectives": [
             "Enter Spawning Ground",
@@ -1049,6 +1125,7 @@
         },
         {
           "name": "The Southern Forest",
+          "areaLevel": 49,
           "order": 11,
           "objectives": [
             "Find Waypoint",
@@ -1059,6 +1136,7 @@
         },
         {
           "name": "The Beacon",
+          "areaLevel": 50,
           "order": 12,
           "objectives": [
             "Find Waypoint",
@@ -1071,6 +1149,7 @@
         },
         {
           "name": "The Brine King's Reef",
+          "areaLevel": 50,
           "order": 13,
           "objectives": [
             "Find Waypoint",
@@ -1129,6 +1208,7 @@
       "zones": [
         {
           "name": "The Bridge Encampment",
+          "areaLevel": 50,
           "order": 1,
           "objectives": [
             "Go to The Broken Bridge"
@@ -1138,6 +1218,7 @@
         },
         {
           "name": "The Broken Bridge",
+          "areaLevel": 51,
           "order": 2,
           "objectives": [
             "Find Silver Locket",
@@ -1148,6 +1229,7 @@
         },
         {
           "name": "The Crossroads",
+          "areaLevel": 51,
           "order": 3,
           "objectives": [
             "Find Waypoint",
@@ -1158,6 +1240,7 @@
         },
         {
           "name": "The Fellshrine Ruins",
+          "areaLevel": 51,
           "order": 4,
           "objectives": [
             "Go to The Crypt"
@@ -1167,6 +1250,7 @@
         },
         {
           "name": "The Crypt",
+          "areaLevel": 52,
           "order": 5,
           "objectives": [
             "Find Waypoint",
@@ -1179,6 +1263,7 @@
         },
         {
           "name": "The Chamber of Sins Level 1",
+          "areaLevel": 52,
           "order": 6,
           "objectives": [
             "Enter from Crossroads (North)",
@@ -1190,6 +1275,7 @@
         },
         {
           "name": "Maligaro's Sanctum",
+          "areaLevel": 53,
           "order": 7,
           "objectives": [
             "Kill Maligaro",
@@ -1201,6 +1287,7 @@
         },
         {
           "name": "The Chamber of Sins Level 2",
+          "areaLevel": 53,
           "order": 8,
           "objectives": [
             "Complete Trial of Ascendancy",
@@ -1212,6 +1299,7 @@
         },
         {
           "name": "The Ashen Fields",
+          "areaLevel": 53,
           "order": 9,
           "objectives": [
             "Find Waypoint",
@@ -1223,6 +1311,7 @@
         },
         {
           "name": "The Northern Forest",
+          "areaLevel": 54,
           "order": 10,
           "objectives": [
             "Find Waypoint",
@@ -1234,6 +1323,7 @@
         },
         {
           "name": "The Dread Thicket",
+          "areaLevel": 54,
           "order": 11,
           "objectives": [
             "Collect 7 Fireflies",
@@ -1245,6 +1335,7 @@
         },
         {
           "name": "The Causeway",
+          "areaLevel": 55,
           "order": 12,
           "objectives": [
             "Find Waypoint",
@@ -1256,6 +1347,7 @@
         },
         {
           "name": "The Vaal City",
+          "areaLevel": 55,
           "order": 13,
           "objectives": [
             "Find Waypoint",
@@ -1267,6 +1359,7 @@
         },
         {
           "name": "The Temple of Decay Level 1",
+          "areaLevel": 55,
           "order": 14,
           "objectives": [
             "Go to Level 2"
@@ -1276,6 +1369,7 @@
         },
         {
           "name": "The Temple of Decay Level 2",
+          "areaLevel": 56,
           "order": 15,
           "objectives": [
             "Kill Arakaali"
@@ -1326,6 +1420,7 @@
       "zones": [
         {
           "name": "The Sarn Ramparts",
+          "areaLevel": 50,
           "order": 1,
           "objectives": [
             "Enter Sarn Encampment"
@@ -1335,6 +1430,7 @@
         },
         {
           "name": "The Sarn Encampment",
+          "areaLevel": 55,
           "order": 2,
           "objectives": [
             "Talk to NPCs",
@@ -1345,6 +1441,7 @@
         },
         {
           "name": "The Toxic Conduits",
+          "areaLevel": 55,
           "order": 3,
           "objectives": [
             "Enter Doedre's Cesspool"
@@ -1354,6 +1451,7 @@
         },
         {
           "name": "Doedre's Cesspool",
+          "areaLevel": 56,
           "order": 4,
           "objectives": [
             "Find Waypoint",
@@ -1365,6 +1463,7 @@
         },
         {
           "name": "The Quay",
+          "areaLevel": 54,
           "order": 5,
           "objectives": [
             "Find Waypoint",
@@ -1377,6 +1476,7 @@
         },
         {
           "name": "The Grain Gate",
+          "areaLevel": 55,
           "order": 6,
           "objectives": [
             "Find Waypoint",
@@ -1388,6 +1488,7 @@
         },
         {
           "name": "The Imperial Fields",
+          "areaLevel": 56,
           "order": 7,
           "objectives": [
             "Find Waypoint",
@@ -1398,6 +1499,7 @@
         },
         {
           "name": "The Solaris Temple Level 1",
+          "areaLevel": 58,
           "order": 8,
           "objectives": [
             "Find Waypoint",
@@ -1408,6 +1510,7 @@
         },
         {
           "name": "The Solaris Temple Level 2",
+          "areaLevel": 59,
           "order": 9,
           "objectives": [
             "Kill Dawn",
@@ -1419,6 +1522,7 @@
         },
         {
           "name": "The Solaris Concourse",
+          "areaLevel": 58,
           "order": 10,
           "objectives": [
             "Find Waypoint",
@@ -1429,6 +1533,7 @@
         },
         {
           "name": "The Harbour Bridge",
+          "areaLevel": 60,
           "order": 11,
           "objectives": [
             "Cross bridge to Lunaris Concourse"
@@ -1438,6 +1543,7 @@
         },
         {
           "name": "The Lunaris Concourse",
+          "areaLevel": 57,
           "order": 12,
           "objectives": [
             "Find Waypoint",
@@ -1448,6 +1554,7 @@
         },
         {
           "name": "The Bath House",
+          "areaLevel": 57,
           "order": 13,
           "objectives": [
             "Find Waypoint",
@@ -1460,6 +1567,7 @@
         },
         {
           "name": "The High Gardens",
+          "areaLevel": 57,
           "order": 14,
           "objectives": [
             "Kill Yugul",
@@ -1470,6 +1578,7 @@
         },
         {
           "name": "The Lunaris Temple Level 1",
+          "areaLevel": 58,
           "order": 15,
           "objectives": [
             "Enter from Lunaris Concourse",
@@ -1481,6 +1590,7 @@
         },
         {
           "name": "The Lunaris Temple Level 2",
+          "areaLevel": 58,
           "order": 16,
           "objectives": [
             "Kill Dusk",
@@ -1492,6 +1602,7 @@
         },
         {
           "name": "The Harbour Bridge (Boss)",
+          "areaLevel": 66,
           "order": 17,
           "objectives": [
             "Kill Solaris and Lunaris"
@@ -1542,6 +1653,7 @@
       "zones": [
         {
           "name": "The Blood Aqueduct",
+          "areaLevel": 61,
           "order": 1,
           "objectives": [
             "Go to Highgate",
@@ -1552,6 +1664,7 @@
         },
         {
           "name": "Highgate",
+          "areaLevel": 61,
           "order": 2,
           "objectives": [
             "Talk to Sin",
@@ -1562,6 +1675,7 @@
         },
         {
           "name": "The Descent",
+          "areaLevel": 62,
           "order": 3,
           "objectives": [
             "Go to Vastiri Desert"
@@ -1571,6 +1685,7 @@
         },
         {
           "name": "The Vastiri Desert",
+          "areaLevel": 62,
           "order": 4,
           "objectives": [
             "Find Waypoint",
@@ -1583,6 +1698,7 @@
         },
         {
           "name": "The Oasis",
+          "areaLevel": 63,
           "order": 5,
           "objectives": [
             "Kill Shakari",
@@ -1593,6 +1709,7 @@
         },
         {
           "name": "The Foothills",
+          "areaLevel": 62,
           "order": 6,
           "objectives": [
             "Find Waypoint",
@@ -1604,6 +1721,7 @@
         },
         {
           "name": "The Boiling Lake",
+          "areaLevel": 63,
           "order": 7,
           "objectives": [
             "Kill The Basilisk",
@@ -1615,6 +1733,7 @@
         },
         {
           "name": "The Tunnel",
+          "areaLevel": 63,
           "order": 8,
           "objectives": [
             "Find Waypoint",
@@ -1626,6 +1745,7 @@
         },
         {
           "name": "The Quarry",
+          "areaLevel": 63,
           "order": 9,
           "objectives": [
             "Find Waypoint",
@@ -1638,6 +1758,7 @@
         },
         {
           "name": "The Refinery",
+          "areaLevel": 64,
           "order": 10,
           "objectives": [
             "Kill General Adus",
@@ -1649,6 +1770,7 @@
         },
         {
           "name": "The Belly of the Beast",
+          "areaLevel": 64,
           "order": 11,
           "objectives": [
             "Talk to Sin",
@@ -1659,6 +1781,7 @@
         },
         {
           "name": "The Rotting Core",
+          "areaLevel": 65,
           "order": 12,
           "objectives": [
             "Enter Black Heart",
@@ -1705,6 +1828,7 @@
       "zones": [
         {
           "name": "Oriath Docks",
+          "areaLevel": 64,
           "order": 1,
           "objectives": [
             "Enter Cathedral Rooftop"
@@ -1714,6 +1838,7 @@
         },
         {
           "name": "The Cathedral Rooftop",
+          "areaLevel": 67,
           "order": 2,
           "objectives": [
             "Save Bannon",
@@ -1724,6 +1849,7 @@
         },
         {
           "name": "The Ravaged Square",
+          "areaLevel": 65,
           "order": 3,
           "objectives": [
             "Find Waypoint",
@@ -1737,6 +1863,7 @@
         },
         {
           "name": "The Control Blocks",
+          "areaLevel": 67,
           "order": 4,
           "objectives": [
             "Kill Vilenta",
@@ -1747,6 +1874,7 @@
         },
         {
           "name": "The Reliquary",
+          "areaLevel": 66,
           "order": 5,
           "objectives": [
             "Find Waypoint",
@@ -1758,6 +1886,7 @@
         },
         {
           "name": "The Ossuary",
+          "areaLevel": 66,
           "order": 6,
           "objectives": [
             "Complete Trial of Ascendancy",
@@ -1768,6 +1897,7 @@
         },
         {
           "name": "The Torched Courts",
+          "areaLevel": 65,
           "order": 7,
           "objectives": [
             "Enter The Desecrated Chambers"
@@ -1777,6 +1907,7 @@
         },
         {
           "name": "The Desecrated Chambers",
+          "areaLevel": 67,
           "order": 8,
           "objectives": [
             "Find Waypoint",
@@ -1789,6 +1920,7 @@
         },
         {
           "name": "The Canals",
+          "areaLevel": 66,
           "order": 9,
           "objectives": [
             "Run to The Feeding Trough"
@@ -1798,6 +1930,7 @@
         },
         {
           "name": "The Feeding Trough",
+          "areaLevel": 67,
           "order": 10,
           "objectives": [
             "Run to Altar of Hunger",
@@ -1808,6 +1941,7 @@
         },
         {
           "name": "Karui Shores",
+          "areaLevel": 74,
           "order": 11,
           "objectives": [
             "Talk to NPCs",

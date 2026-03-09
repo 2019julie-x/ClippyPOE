@@ -132,9 +132,10 @@ class OverlayController {
     const restoreHeight = this._expandedHeight || 600;
     this.win.setSize(width, restoreHeight);
 
-    // Clear the custom shape so the whole window is interactable again
+    // Set shape to full window rect — setShape([]) creates a zero-size region
+    // on Windows instead of clearing it, making the window non-interactive
     if (this.platform.isWindows || this.platform.isLinux) {
-      this.win.setShape([]);
+      this.win.setShape([{ x: 0, y: 0, width, height: restoreHeight }]);
     }
 
     this.win.webContents.send('overlay-collapsed', false);
