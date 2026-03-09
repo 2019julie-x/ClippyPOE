@@ -36,8 +36,8 @@ class LogParser extends EventEmitter {
 
     // Regex patterns
     this.patterns = {
-      // Area generation
-      zoneGenerated: /Generating level \d+ area "([^"]+)" with seed/,
+      // Area generation (capture level and zone name)
+      zoneGenerated: /Generating level (\d+) area "([^"]+)" with seed/,
       // Zone entry
       zoneEntered: /: You have entered (.+)\./,
       // Level up
@@ -175,24 +175,25 @@ class LogParser extends EventEmitter {
       return;
     }
 
-    // Zone generation
+    // Zone generation (includes area level)
     let match = line.match(this.patterns.zoneGenerated);
     if (match) {
-      const zoneName = match[1];
+      const areaLevel = parseInt(match[1], 10);
+      const zoneName = match[2];
       if (zoneName !== this._lastZoneEmitted) {
         this._lastZoneEmitted = zoneName;
-        this.emit('zone-entered', zoneName);
+        this.emit('zone-entered', zoneName, areaLevel);
       }
       return;
     }
 
-    // Zone entry
+    // Zone entry (no area level available)
     match = line.match(this.patterns.zoneEntered);
     if (match) {
       const zoneName = match[1];
       if (zoneName !== this._lastZoneEmitted) {
         this._lastZoneEmitted = zoneName;
-        this.emit('zone-entered', zoneName);
+        this.emit('zone-entered', zoneName, null);
       }
       return;
     }

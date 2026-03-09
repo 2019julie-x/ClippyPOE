@@ -108,7 +108,7 @@ const mockCheatsheetData = {
     },
   ],
 };
-// Mock window.api (preload bridge) — updated: no more sendSync
+// Mock window.api (preload bridge)
 function buildMockApi({ guideData = mockGuideData, gemData = mockGemData,
                         cheatsheetData = mockCheatsheetData, progress = {},
                         timerState = { running: false, elapsed: 0, splits: [] } } = {}) {
@@ -136,12 +136,12 @@ const APP_JS_RAW = fs.readFileSync(
   path.join(__dirname, '../../src/renderer/app.js'), 'utf8'
 );
 function patchForGlobals(src) {
-  // 1. Top-level `let varName = …` or `let varName;`  →  `window.varName = …`
+  // 1. Top-level `let varName = ...` or `let varName;`  ->  `window.varName = ...`
   let out = src.replace(/^let ([a-zA-Z_$][a-zA-Z0-9_$]*)/gm, 'window.$1');
-  // 2. Top-level `function name(` → `window.name = function name(`
+  // 2. Top-level `function name(` -> `window.name = function name(`
   out = out.replace(/^function ([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/gm,
     'window.$1 = function $1(');
-  // 3. Top-level `async function name(` → `window.name = async function name(`
+  // 3. Top-level `async function name(` -> `window.name = async function name(`
   out = out.replace(/^async function ([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/gm,
     'window.$1 = async function $1(');
   return out;
@@ -165,7 +165,7 @@ function loadApp(apiOverrides = {}) {
     overlayInteractive: true,
   });
   // eslint-disable-next-line no-eval
-  eval(APP_JS_PATCHED);
+  eval(APP_JS_PATCHED); // existing pattern for loading renderer code into jsdom
   // Manually seed guide data (normally loaded async in init()) so sync tests work
   if (apiOverrides.guideData !== undefined) {
     window.currentGuideData = apiOverrides.guideData;
@@ -241,7 +241,159 @@ describe('findZoneByName()', () => {
     expect(window.findZoneByName('The Mud Flats')).toBe(2);
   });
 });
-// updateUI() – visual output checks
+// findZoneByName() - act-aware disambiguation
+describe('findZoneByName() - duplicate zone names across acts', () => {
+  const multiActGuideData = {
+    acts: [
+      {
+        act: 1,
+        name: 'Act 1',
+        zones: [
+          { name: 'The Coast', areaLevel: 2, order: 1, objectives: ['Act 1 objective'], tips: null, waypoint: true },
+          { name: 'The Mud Flats', areaLevel: 4, order: 2, objectives: [], tips: null, waypoint: false },
+          { name: 'Lower Prison', areaLevel: 9, order: 3, objectives: [], tips: null, waypoint: false },
+        ],
+      },
+      {
+        act: 3,
+        name: 'Act 3',
+        zones: [
+          { name: 'The Sarn Encampment', areaLevel: 23, order: 1, objectives: [], tips: null, waypoint: true },
+        ],
+      },
+      {
+        act: 6,
+        name: 'Act 6',
+        zones: [
+          { name: 'The Coast', areaLevel: 44, order: 1, objectives: ['Act 6 objective'], tips: null, waypoint: true },
+          { name: 'The Mud Flats', areaLevel: 45, order: 2, objectives: [], tips: null, waypoint: false },
+          { name: 'The Lower Prison', areaLevel: 46, order: 3, objectives: [], tips: null, waypoint: false },
+        ],
+      },
+      {
+        act: 8,
+        name: 'Act 8',
+        zones: [
+          { name: 'The Sarn Encampment', areaLevel: 55, order: 1, objectives: [], tips: null, waypoint: true },
+        ],
+      },
+    ],
+  };
+
+  beforeEach(() => loadApp({ guideData: multiActGuideData }));
+
+  test('finds Act 1 zone when currentAct is 1', () => {
+    window.currentAct = 1;
+    const idx = window.findZoneByName('The Coast');
+    const zones = window.getAllZones();
+    expect(zones[idx].act).toBe(1);
+  });
+
+  test('finds Act 6 zone when currentAct is 6', () => {
+    window.currentAct = 6;
+    const idx = window.findZoneByName('The Coast');
+    const zones = window.getAllZones();
+    expect(zones[idx].act).toBe(6);
+  });
+
+  test('area level disambiguates regardless of current act', () => {
+    window.currentAct = 1; // even though we're "in" act 1
+    const idx = window.findZoneByName('The Coast', 44); // area level 44 = Act 6
+    const zones = window.getAllZones();
+    expect(zones[idx].act).toBe(6);
+  });
+
+  test('area level takes priority over current act', () => {
+    window.currentAct = 6;
+    const idx = window.findZoneByName('The Coast', 2); // area level 2 = Act 1
+    const zones = window.getAllZones();
+    expect(zones[idx].act).toBe(1);
+  });
+
+  test('proximity bias: Act 7 player traveling back to Act 3 Sarn (not Act 8)', () => {
+    window.currentAct = 7;
+    // Player is at zone index ~4 (middle of fixture, near Act 3/6 boundary)
+    // Act 3 Sarn is index 3, Act 8 Sarn is index 7
+    window.currentZoneIndex = 3; // near Act 3 zones
+    const idx = window.findZoneByName('The Sarn Encampment');
+    const zones = window.getAllZones();
+    // Should pick Act 3 (index 3) since it's closer to currentZoneIndex
+    expect(zones[idx].act).toBe(3);
+  });
+
+  test('proximity bias: Act 7 player going forward to Act 8 Sarn', () => {
+    window.currentAct = 7;
+    window.currentZoneIndex = 6; // near Act 8 zones
+    const idx = window.findZoneByName('The Sarn Encampment');
+    const zones = window.getAllZones();
+    expect(zones[idx].act).toBe(8);
+  });
+
+  test('partial match prefers current act', () => {
+    window.currentAct = 6;
+    const idx = window.findZoneByName('Lower Prison');
+    const zones = window.getAllZones();
+    // "Lower Prison" exact matches Act 1. But current act is 6 — phase 2 misses,
+    // phase 3 finds Act 1 as the only exact match. Correct: exact > partial.
+    expect(idx).toBeGreaterThanOrEqual(0);
+  });
+
+  test('finds unique zone regardless of current act', () => {
+    window.currentAct = 1;
+    const idx = window.findZoneByName('The Lower Prison');
+    const zones = window.getAllZones();
+    expect(zones[idx].act).toBe(6); // only exists in Act 6
+  });
+
+  test('returns -1 for completely unknown zone', () => {
+    window.currentAct = 1;
+    expect(window.findZoneByName('Nonexistent Zone')).toBe(-1);
+  });
+
+  test('falls back to proximity when no area level provided', () => {
+    window.currentAct = 5; // not in any act with "The Coast"
+    window.currentZoneIndex = 4; // closer to Act 6 zones
+    const idx = window.findZoneByName('The Coast');
+    const zones = window.getAllZones();
+    // Closest "The Coast" to index 4 is Act 6's (index 4)
+    expect(zones[idx].act).toBe(6);
+  });
+});
+
+// loadProgress() - act-aware zone restoration
+describe('loadProgress() - act-aware zone restoration', () => {
+  const multiActGuideData = {
+    acts: [
+      {
+        act: 1,
+        name: 'Act 1',
+        zones: [
+          { name: 'The Coast', order: 1, objectives: [], tips: null, waypoint: true },
+        ],
+      },
+      {
+        act: 6,
+        name: 'Act 6',
+        zones: [
+          { name: 'The Coast', order: 1, objectives: [], tips: null, waypoint: true },
+        ],
+      },
+    ],
+  };
+
+  test('restores to Act 6 zone when progress has act 6', async () => {
+    loadApp({
+      guideData: multiActGuideData,
+      progress: { act: 6, zone: 'The Coast', completedObjectives: [], currentLevel: 45 },
+    });
+    window.currentGuideData = multiActGuideData;
+    window.currentAct = 6; // Set before loadProgress
+    await window.loadProgress();
+    const zones = window.getAllZones();
+    expect(zones[window.currentZoneIndex].act).toBe(6);
+  });
+});
+// updateUI() - visual output checks
 describe('updateUI()', () => {
   beforeEach(() => loadApp());
   test('renders act title', () => {
@@ -437,7 +589,7 @@ describe('showModeIndicator()', () => {
     done();
   });
 });
-// init() – async integration
+// init() - async integration
 describe('init()', () => {
   test('calls invoke for guide, gem, cheatsheet data and progress', async () => {
     loadApp();

@@ -581,10 +581,10 @@ ipcMain.handle('timer-get', async () => {
 function initLogParser(clientTxtPath) {
   logParser = new LogParser(clientTxtPath);
 
-  logParser.on('zone-entered', (zoneName) => {
-    console.log('Zone entered:', zoneName);
+  logParser.on('zone-entered', (zoneName, areaLevel) => {
+    console.log('Zone entered:', zoneName, areaLevel != null ? `(level ${areaLevel})` : '');
     if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('zone-changed', zoneName);
+      mainWindow.webContents.send('zone-changed', zoneName, areaLevel);
     }
     // Auto-split timer on zone change
     if (timerManager.state.running) {
